@@ -7,17 +7,25 @@
 
 import Foundation
 
-protocol ViewCodeProtocol{
+protocol ViewSetupProtocol {
+    
     func addSubViews()
     func setupConstraints()
+    func setupAdditionalConfiguration()
     func setup()
-    func asubhdsdad()
+    
 }
 
-extension ViewCodeProtocol{
-    func setup(){
+extension ViewSetupProtocol {
+    
+    func setup() {
+        
         addSubViews()
         setupConstraints()
+        setupAdditionalConfiguration()
         
     }
+    
+    func setupAdditionalConfiguration() {}
+    
 }
