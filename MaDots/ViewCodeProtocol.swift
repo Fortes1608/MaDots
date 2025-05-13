@@ -11,11 +11,13 @@ protocol ViewCodeProtocol{
     func addSubViews()
     func setupConstraints()
     func setup()
+    func asubhdsdad()
 }
 
 extension ViewCodeProtocol{
     func setup(){
         addSubViews()
         setupConstraints()
+        
     }
 }
