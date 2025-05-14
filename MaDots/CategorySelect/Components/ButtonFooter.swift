@@ -19,10 +19,19 @@ class ButtonFooterView: UIView {
         button.backgroundColor = .black
         button.titleLabel?.textColor = .white
         button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         return button
         
     }()
+    
+    var onTap: (() -> Void)?
+
+    @objc func buttonTapped() {
+        
+        onTap?()
+        
+    }
     
     var buttonTitle: String {
         

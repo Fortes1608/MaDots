@@ -14,7 +14,7 @@ class CategorySelectViewController: UIViewController {
         var label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Slecione até três categorias"
+        label.text = "Selecione até três categorias"
         label.font = .systemFont(ofSize: 28, weight: .bold)
         label.textColor = .black
         label.textAlignment = .center
@@ -178,6 +178,7 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
+    //MARK: FOOTER BUTTON
     lazy var buttonFooter: ButtonFooterView = {
         
        var button = ButtonFooterView()
@@ -189,12 +190,43 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
+//    lazy var colletcionView: UICollectionView = {
+//        
+//        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewLayout.init())
+//        
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        collectionView.backgroundColor = .none
+//        collectionView.register(<#T##cellClass: AnyClass?##AnyClass?#>, forCellWithReuseIdentifier: <#T##String#>)
+//        
+//        return collectionView
+//        
+//    }()
+        
+    var howManySelected: Int  = 0 {
+        
+        didSet {
+            
+            if howManySelected < 1 {
+                
+                
+                
+            } else if howManySelected > 3 {
+                
+                
+            }
+        }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         
+        
+        
     }
+    
     
 }
 
@@ -204,6 +236,10 @@ extension CategorySelectViewController:ViewSetupProtocol {
         
         view.addSubview(mainTitle)
         view.addSubview(buttonFooter)
+        view.addSubview(buttonWork)
+        view.addSubview(buttonArt)
+        view.addSubview(buttonCode)
+        view.addSubview(buttonStudy)
         
     }
     
@@ -224,6 +260,19 @@ extension CategorySelectViewController:ViewSetupProtocol {
             buttonFooter.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             buttonFooter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             
+            buttonWork.topAnchor.constraint(equalTo: mainTitle.bottomAnchor, constant: 20),
+            buttonWork.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            buttonArt.topAnchor.constraint(equalTo: mainTitle.bottomAnchor, constant: 80),
+            buttonArt.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            buttonCode.topAnchor.constraint(equalTo: mainTitle.bottomAnchor, constant: 140),
+            buttonCode.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            
+            buttonStudy.topAnchor.constraint(equalTo: mainTitle.bottomAnchor, constant: 200),
+            buttonStudy.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            
         ])
         
     }
@@ -232,8 +281,12 @@ extension CategorySelectViewController:ViewSetupProtocol {
         
         view.backgroundColor = .background
         
+        
+
     }
     
     
 }
+
+
 
