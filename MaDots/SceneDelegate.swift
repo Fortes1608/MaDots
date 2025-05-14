@@ -19,10 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let pickColorVC = ColorPickerViewController()
-        window?.rootViewController = pickColorVC
         
-        window?.makeKeyAndVisible()
+        window?.rootViewController = CategorySelectViewController()
+        window?.makeKeyAndVisible() 
+        
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
