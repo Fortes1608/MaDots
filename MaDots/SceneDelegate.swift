@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = CategorySelectViewController()
-        window?.makeKeyAndVisible() 
+        window?.rootViewController = TimerViewController()
+        window?.makeKeyAndVisible()
 
     }
 

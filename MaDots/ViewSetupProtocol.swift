@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 //
 //  ViewSetupProtocol.swift
 //  MaDots
@@ -7,7 +6,6 @@
 //  Created by Gustavo Ferreira bassani on 13/05/25.
 //
 
->>>>>>> gustavo-inicialView
 import Foundation
 
 protocol ViewSetupProtocol {

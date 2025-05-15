@@ -16,7 +16,6 @@ class ButtonFooterView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
         button.titleLabel?.textColor = .white
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
