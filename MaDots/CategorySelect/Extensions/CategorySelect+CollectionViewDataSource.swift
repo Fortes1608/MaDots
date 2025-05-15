@@ -15,8 +15,15 @@ extension CategorySelectViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        titles.count + 1
-        
+        if titles.count < 16  {
+            
+            return titles.count + 1
+            
+        } else {
+            
+            return 16
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -33,14 +40,19 @@ extension CategorySelectViewController: UICollectionViewDataSource {
             
             buttonCell.configureButton(title: title, isSelected: false)
             
+            
             return buttonCell
             
         } else {
             
             guard let textFieldCell = collectionView.dequeueReusableCell(withReuseIdentifier: TextFieldCollectionViewCell.identifier, for: indexPath) as? TextFieldCollectionViewCell else { fatalError("erro") }
             
+            textFieldCell.delegate = self
+
             return textFieldCell
             
         }
+        
     }
 }
+

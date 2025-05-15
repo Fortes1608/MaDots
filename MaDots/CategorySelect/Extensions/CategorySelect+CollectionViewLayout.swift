@@ -9,38 +9,67 @@ import UIKit
 
 extension CategorySelectViewController {
     
-
     func createAllLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(100),
-            heightDimension: .absolute(42)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let layout = CenteredFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.estimatedItemSize = CGSize(width: 100, height: 42)
+        layout.minimumInteritemSpacing = 16
+        layout.minimumLineSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
 
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(42)
-        )
-
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: groupSize,
-            subitems: [item]
-        )
-        group.interItemSpacing = .fixed(16)
-        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(
-            leading: .flexible(0),
-            top: nil,
-            trailing: .flexible(0),
-            bottom: nil
-        )
-
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 20, trailing: 16)
-
-        let layout = UICollectionViewCompositionalLayout(section: section)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         return layout
     }
+}
 
+//feat chatgpt
+class CenteredFlowLayout: UICollectionViewFlowLayout {
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        guard let attributes = super.layoutAttributesForElements(in: rect) else { return nil }
 
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        var rowAttributes: [UICollectionViewLayoutAttributes] = []
+
+        for attr in attributes {
+            if attr.representedElementCategory != .cell { continue }
+
+            // Check if we're on a new row
+            if attr.frame.origin.y >= maxY {
+                centerRow(rowAttributes, totalWidth: collectionViewContentSize.width)
+                rowAttributes.removeAll()
+                leftMargin = sectionInset.left
+                maxY = attr.frame.origin.y + attr.frame.height
+            }
+
+            attr.frame.origin.x = leftMargin
+            leftMargin += attr.frame.width + minimumInteritemSpacing
+            rowAttributes.append(attr)
+        }
+
+        // Center the last row
+        centerRow(rowAttributes, totalWidth: collectionViewContentSize.width)
+
+        return attributes
+    }
+
+    private func centerRow(_ row: [UICollectionViewLayoutAttributes], totalWidth: CGFloat) {
+        guard row.first != nil else { return }
+
+        let totalRowWidth = row.reduce(0) { $0 + $1.frame.width } +
+            CGFloat(row.count - 1) * minimumInteritemSpacing
+
+        let inset = max(0, (totalWidth - totalRowWidth) / 2)
+        var left = inset
+
+        for attr in row {
+            
+            attr.frame.origin.x = left
+            left += attr.frame.width + minimumInteritemSpacing
+            
+        }
+    }
 }

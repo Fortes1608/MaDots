@@ -13,13 +13,15 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     static var howManySelected: Int = 0
     
+    
     private lazy var categoryButton: UIButton = {
         
         var button = UIButton(configuration: .borderless(), primaryAction: nil)
         
+        
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setContentHuggingPriority(.required, for: .horizontal)
-           button.setContentCompressionResistancePriority(.required, for: .horizontal)
+//        button.setContentHuggingPriority(.required, for: .horizontal)
+//        button.setContentCompressionResistancePriority(.required, for: .horizontal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 16
         button.titleLabel?.textColor = .black
@@ -98,6 +100,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
         super.init(frame: frame)
         
+        
         setup()
         
     }
@@ -115,7 +118,7 @@ extension ButtonsCollectionViewCell: ViewSetupProtocol {
     func addSubViews() {
         
         addSubview(categoryButton)
-        
+
     }
     
     func setupConstraints() {
@@ -126,6 +129,7 @@ extension ButtonsCollectionViewCell: ViewSetupProtocol {
             categoryButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             categoryButton.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             categoryButton.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
             
         ])
     }

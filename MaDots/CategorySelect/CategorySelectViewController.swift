@@ -26,20 +26,6 @@ class CategorySelectViewController: UIViewController {
     
     var titles: [String] = ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
     
-    lazy var otherTextField: UITextField = {
-       
-        var textField = UITextField()
-
-        
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
-        textField.placeholder = "write here your category"
-        textField.attributedPlaceholder = NSAttributedString(string: "Write here your category", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-        )
-        
-        return textField
-        
-    }()
     
     var howManySelected: Int  = 0 {
         
@@ -89,8 +75,12 @@ class CategorySelectViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
-        
+        view.endEditing(true)
+
     }
+    
+
+
 }
 
 

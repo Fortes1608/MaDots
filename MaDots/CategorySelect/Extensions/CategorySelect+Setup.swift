@@ -41,5 +41,18 @@ extension CategorySelectViewController:ViewSetupProtocol {
         
         view.backgroundColor = .background
         
+        setupHideKeyboardOnTap()
+        
     }
+    
+    //MARK: KEYBOARD DISMISS CONFIG
+    func setupHideKeyboardOnTap() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
 }
