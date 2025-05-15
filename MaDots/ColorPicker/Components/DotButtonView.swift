@@ -8,8 +8,9 @@ import UIKit
 
 class DotButtonView: UIButton {
     
-    var originalColor: UIColor = .gray  //Restaura cor
+    var originalColor: UIColor = UIColor.labelSecondary  //Restaura cor
     var groupID: Int = 0 //"Linha" do botao
+    var isDisabled: Bool = false 
     
     var dotColor: UIColor {
         get { backgroundColor ?? .clear }
@@ -34,6 +35,7 @@ class DotButtonView: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: 37).isActive = true
         heightAnchor.constraint(equalTo: widthAnchor).isActive = true
+        //backgroundColor = UIColor.labelSecondary
     }
 
     override func layoutSubviews() {

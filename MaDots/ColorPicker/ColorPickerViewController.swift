@@ -19,73 +19,122 @@ class ColorPickerViewController: UIViewController {
     }()
     
     let threeDotsStack = ThreeDotsStack()
+    //let singleDot = DotButtonView()
     
-    var dotGroups: [[DotButtonView]] = []
-    var usedColors: [UIColor: Int] = [:]
+    var dotGroups: [ThreeDotsStack] = [] //Array vazia de dots
+    var selectedColors: [Int: UIColor] = [:] //Par linha-cor
+    var usedColors: Set<UIColor> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .background
         view.addSubview(pickLabel)
-        setupStackView3Button()
-        threeDotsStack.dot1.addTarget(self, action: #selector(dot1Tapped), for: .touchUpInside)
-        threeDotsStack.dot2.addTarget(self, action: #selector(dot2Tapped), for: .touchUpInside)
-        threeDotsStack.dot3.addTarget(self, action: #selector(dot3Tapped), for: .touchUpInside)
-    }
-    
-    @objc func dot1Tapped() {
-        print("dot1Tapped")
+        //view.addSubview(singleDot)
         
-        //Caso já seja cinza
-        if threeDotsStack.dot1.backgroundColor == .gray {
-            threeDotsStack.dot1.backgroundColor = .color2
-            threeDotsStack.dot2.backgroundColor = .gray
-            threeDotsStack.dot3.backgroundColor = .gray
-        }
-        threeDotsStack.dot2.backgroundColor = .gray
-        threeDotsStack.dot3.backgroundColor = .gray
-    }
-    
-    @objc func dot2Tapped() {
-        print("dot2Tapped")
-        //Caso clique e já seja cinza, colore de novo
-        if threeDotsStack.dot2.backgroundColor == .gray {
-            threeDotsStack.dot2.backgroundColor = .color1
-            threeDotsStack.dot1.backgroundColor = .gray
-            threeDotsStack.dot3.backgroundColor = .gray
-        }
-        threeDotsStack.dot1.backgroundColor = .gray
-        threeDotsStack.dot3.backgroundColor = .gray
-    }
-    
-    @objc func dot3Tapped() {
-        print("dot3Tapped")
-        if threeDotsStack.dot3.backgroundColor == .gray {
-            threeDotsStack.dot3.backgroundColor = .color3
-            threeDotsStack.dot1.backgroundColor = .gray
-            threeDotsStack.dot2.backgroundColor = .gray
-        }
-        threeDotsStack.dot1.backgroundColor = .gray
-        threeDotsStack.dot2.backgroundColor = .gray
-    }
-    
-    
-    private func setupStackView3Button() {
-        view.addSubview(threeDotsStack)
-        threeDotsStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        
+        //        singleDot.translatesAutoresizingMaskIntoConstraints = false
+        //
         NSLayoutConstraint.activate([
-            
             pickLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 112),
             pickLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             pickLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            threeDotsStack.topAnchor.constraint(equalTo: pickLabel.bottomAnchor, constant: 32),
-            threeDotsStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            threeDotsStack.heightAnchor.constraint(equalToConstant: 37),
-            threeDotsStack.widthAnchor.constraint(equalToConstant: 150)
         ])
+        setupDotLines(numberOfLines: 3)
+    }//Fim do viewdidload
+        
+        func setupDotLines(numberOfLines: Int){
+            for i in 0..<numberOfLines{
+                let stack = ThreeDotsStack()
+                stack.assignColors([.color1, .color2, .color3], groupID: i, target: self, action: #selector(dotTapped(_:)))
+                stack.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(stack)
+                
+                NSLayoutConstraint.activate([
+                    stack.topAnchor.constraint(equalTo: view.topAnchor, constant: CGFloat(150 + (i * 60))),
+                    stack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+                ])
+                
+                dotGroups.append(stack)
+            }
+        }
+        
+        
+    @objc func dotTapped(_ sender: DotButtonView) {
+        let selectedColor = sender.dotColor
+        let groupID = sender.groupID
+
+        print("TOCOU UM DOT — Linha \(groupID), Cor \(selectedColor.accessibilityName)")
+
+        if sender.backgroundColor == UIColor.gray {
+            print("Botão cinza clicado — ignorando")
+            return
+        }
+
+        
+        if let (otherGroupID, _) = selectedColors.first(where: { $0.value == selectedColor && $0.key != groupID }) {
+                print("Cor estava na linha \(otherGroupID), removendo de lá")
+                selectedColors[otherGroupID] = nil
+            }
+        // Armazena a cor antiga dessa linha, se houver
+        let previousColor = selectedColors[groupID]
+
+        // Temporariamente remove a cor antiga
+        selectedColors[groupID] = nil
+
+        // Verifica se a nova cor está sendo usada em outro grupo
+        if selectedColors.contains(where: { $0.value == selectedColor }) {
+            print("Cor já usada em outro grupo — bloqueando")
+            // Restaura a cor anterior
+            selectedColors[groupID] = previousColor
+            return
+        }
+
+        // Tudo certo, atualiza com a nova cor
+        selectedColors[groupID] = selectedColor
+
+        // Atualiza as cores usadas
+        usedColors = Set(selectedColors.values)
+
+        // Atualiza os estados visuais
+        blink(dot: sender)
+        updateDotStates()
     }
+        
+        func blink(dot: DotButtonView) {
+            UIView.animate(withDuration: 0.1, animations: {
+                dot.alpha = 0.2
+            }) { _ in
+                UIView.animate(withDuration: 0.2) {
+                    dot.alpha = 1.0
+                }
+            }
+        }
+        
+    func updateDotStates() {
+        for group in dotGroups {
+            // Verifica se este grupo já tem uma cor selecionada
+            if let selectedColor = selectedColors[group.groupID] {
+                // Mostrar essa cor, cinza para as outras na mesma linha
+                for dot in [group.dot1, group.dot2, group.dot3] {
+                    if dot.dotColor == selectedColor {
+                        dot.backgroundColor = dot.dotColor
+                    } else {
+                        dot.backgroundColor = .gray
+                    }
+                }
+            } else {
+                // Nenhuma cor selecionada ainda para este grupo
+                for dot in [group.dot1, group.dot2, group.dot3] {
+                    if usedColors.contains(dot.dotColor) {
+                        // Cor já usada em outro grupo — bloquear visualmente
+                        dot.backgroundColor = .gray
+                    } else {
+                        // Cor disponível — mostrar normalmente
+                        dot.backgroundColor = dot.dotColor
+                    }
+                }
+            }
+        }
+    }
+        
+    
 }//Fim da classe
