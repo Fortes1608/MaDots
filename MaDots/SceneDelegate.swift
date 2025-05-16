@@ -21,8 +21,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ColorPickerViewController()
-        window?.makeKeyAndVisible() 
+        let navigationController = UINavigationController(rootViewController: YearViewController())
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        
+    }
+    
+    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
+        guard let window = self.window else {
+            return
+        }
+        
+        window.rootViewController = vc
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

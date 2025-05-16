@@ -22,12 +22,15 @@ class TimerViewController: UIViewController {
         return label
     }()
     
-    private let buttonDescanso: ButtonFooterView = {
+    private lazy var buttonDescanso: ButtonFooterView = {
         var button = ButtonFooterView()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.buttonTitle = "Descanso"
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor.labelSecondary
+        button.onTap = { [weak self] in
+            self?.buttonSairTapped()
+        }
         return button
     }()
     
@@ -38,6 +41,7 @@ class TimerViewController: UIViewController {
         button.backgroundColor = .clear
         button.setTitleColor(UIColor.systemRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.addTarget(self, action: #selector(buttonSairTapped), for: .touchUpInside)
         return button
     }()
     
@@ -48,6 +52,12 @@ class TimerViewController: UIViewController {
         addSubViews()
         setupConstraints()
         }
+    
+    @objc func buttonSairTapped() {
+        let  flowVC = UINavigationController(rootViewController: FlowViewController())
+            (UIApplication.shared.connectedScenes.first?.delegate as?
+             SceneDelegate)? .changeRootViewController(flowVC)
+    }
 
 }
 
@@ -77,3 +87,4 @@ extension TimerViewController: ViewSetupProtocol {
     }
     
 }
+

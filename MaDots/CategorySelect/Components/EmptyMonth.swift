@@ -16,7 +16,6 @@ class EmptyMonth: UIView {
         label.font = .systemFont(ofSize: 17, weight: .regular)
         return label
     }()
-    
-    lazy var 
+
 
 }
