@@ -2,30 +2,19 @@
 //  ViewCodeProtocol.swift
 //  MaDots
 //
-//  Created by Leonel Ferraz Hernandez on 13/05/25.
+//  Created by Leonel Ferraz Hernandez on 16/05/25.
 //
 
 import Foundation
 
-protocol ViewSetupProtocol {
-    
-    func addSubViews()
-    func setupConstraints()
-    func setupAdditionalConfiguration()
-    func setup()
-    
+protocol ViewCodeProtocol {
+    func addSubviews()
+    func makeConstraints()
 }
 
-extension ViewSetupProtocol {
-    
+extension ViewCodeProtocol {
     func setup() {
-        
-        addSubViews()
-        setupConstraints()
-        setupAdditionalConfiguration()
-        
+        addSubviews()
+        makeConstraints()
     }
-    
-    func setupAdditionalConfiguration() {}
-    
 }

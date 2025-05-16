@@ -50,6 +50,10 @@ class ButtonFooterView: UIView {
 }
 
 extension ButtonFooterView: ViewSetupProtocol {
+    func makeConstraints() {
+        
+    }
+    
     func addSubViews() {
         addSubview(buttonFooterComponent)
     }

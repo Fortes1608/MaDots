@@ -48,6 +48,10 @@ class ThreeDotsStack: UIStackView {
 }//Fim da classe
    
 extension ThreeDotsStack: ViewSetupProtocol{
+    func makeConstraints() {
+        
+    }
+    
     func setupConstraints() {
         NSLayoutConstraint.activate([
          

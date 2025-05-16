@@ -199,6 +199,10 @@ class CategorySelectViewController: UIViewController {
 }
 
 extension CategorySelectViewController:ViewSetupProtocol {
+    func makeConstraints() {
+        
+    }
+    
     
     func addSubViews() {
         

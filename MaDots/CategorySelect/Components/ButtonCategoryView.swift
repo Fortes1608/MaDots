@@ -50,6 +50,10 @@ class ButtonCategoryView: UIView {
 }
 
 extension ButtonCategoryView: ViewSetupProtocol {
+    func makeConstraints() {
+        
+    }
+    
     func addSubViews() {
         
         addSubview(buttonCategoryComponent)
