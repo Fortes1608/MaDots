@@ -8,15 +8,14 @@ import UIKit
 
 class DotButtonView: UIButton {
     
-    var originalColor: UIColor = UIColor.labelSecondary  //Restaura cor
+    var originalColor: UIColor = UIColor.labelSecondary  //Cor padrão do botao (cinza)
     var groupID: Int = 0 //"Linha" do botao
-    var isDisabled: Bool = false 
+    var isSelectable: Bool = true //Teste?
     
     var dotColor: UIColor {
         get { backgroundColor ?? .clear }
         set {
             backgroundColor = newValue
-            originalColor = newValue
         }
     }
 

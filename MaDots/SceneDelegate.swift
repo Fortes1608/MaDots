@@ -20,8 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = ColorPickerViewController()
-        window?.makeKeyAndVisible() 
+        window?.rootViewController = SimplifiedColorPickerViewController()
+        window?.makeKeyAndVisible()
         
 
     }

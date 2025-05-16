@@ -11,14 +11,11 @@ class ThreeDotsStack: UIStackView {
     let dot1 = DotButtonView()
     let dot2 = DotButtonView()
     let dot3 = DotButtonView()
-    var groupID: Int = 0
+    var groupID: Int = 0 //Id para relacionar com a linha
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupStack()
-//        dot1.dotColor = UIColor.color2
-//        dot2.dotColor = UIColor.color1
-//        dot3.dotColor = UIColor.color3
    }
    
    required init(coder: NSCoder) {
@@ -34,15 +31,15 @@ class ThreeDotsStack: UIStackView {
         translatesAutoresizingMaskIntoConstraints = false
         
         
-        addArrangedSubview(dot1)
-        addArrangedSubview(dot2)
-        addArrangedSubview(dot3)
+        addArrangedSubview(dot1) //Primeiro dot da linha
+        addArrangedSubview(dot2) //Segundo dot da linha
+        addArrangedSubview(dot3) //Terceiro dot da linha
     }
     
     func assignColors(_ colors: [UIColor], groupID: Int, target: Any, action: Selector) {
         self.groupID = groupID
         [dot1, dot2, dot3].enumerated().forEach { (index, dot) in
-            dot.groupID = groupID
+            dot.groupID = groupID     
             dot.tag = index
             dot.dotColor = colors[index]
             dot.addTarget(target, action: action, for: .touchUpInside)

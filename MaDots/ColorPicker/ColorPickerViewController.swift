@@ -59,42 +59,25 @@ class ColorPickerViewController: UIViewController {
         
         
     @objc func dotTapped(_ sender: DotButtonView) {
+        // ⚠️ Se estiver em cinza e não for a cor real do botão, ignorar
+        if sender.backgroundColor == .gray{
+            print("Tentou tocar em cinza de outro grupo — ignorado")
+            return
+        }
+
+        guard sender.isSelectable else {
+            print("Dot bloqueado — ignorando toque")
+            return
+        }
+
         let selectedColor = sender.dotColor
         let groupID = sender.groupID
 
         print("TOCOU UM DOT — Linha \(groupID), Cor \(selectedColor.accessibilityName)")
 
-        if sender.backgroundColor == UIColor.gray {
-            print("Botão cinza clicado — ignorando")
-            return
-        }
-
-        
-        if let (otherGroupID, _) = selectedColors.first(where: { $0.value == selectedColor && $0.key != groupID }) {
-                print("Cor estava na linha \(otherGroupID), removendo de lá")
-                selectedColors[otherGroupID] = nil
-            }
-        // Armazena a cor antiga dessa linha, se houver
-        let previousColor = selectedColors[groupID]
-
-        // Temporariamente remove a cor antiga
-        selectedColors[groupID] = nil
-
-        // Verifica se a nova cor está sendo usada em outro grupo
-        if selectedColors.contains(where: { $0.value == selectedColor }) {
-            print("Cor já usada em outro grupo — bloqueando")
-            // Restaura a cor anterior
-            selectedColors[groupID] = previousColor
-            return
-        }
-
-        // Tudo certo, atualiza com a nova cor
         selectedColors[groupID] = selectedColor
-
-        // Atualiza as cores usadas
         usedColors = Set(selectedColors.values)
 
-        // Atualiza os estados visuais
         blink(dot: sender)
         updateDotStates()
     }
@@ -111,25 +94,24 @@ class ColorPickerViewController: UIViewController {
         
     func updateDotStates() {
         for group in dotGroups {
-            // Verifica se este grupo já tem uma cor selecionada
             if let selectedColor = selectedColors[group.groupID] {
-                // Mostrar essa cor, cinza para as outras na mesma linha
                 for dot in [group.dot1, group.dot2, group.dot3] {
                     if dot.dotColor == selectedColor {
                         dot.backgroundColor = dot.dotColor
+                        dot.isSelectable = true
                     } else {
                         dot.backgroundColor = .gray
+                        dot.isSelectable = true // Ainda pode clicar para trocar
                     }
                 }
             } else {
-                // Nenhuma cor selecionada ainda para este grupo
                 for dot in [group.dot1, group.dot2, group.dot3] {
                     if usedColors.contains(dot.dotColor) {
-                        // Cor já usada em outro grupo — bloquear visualmente
                         dot.backgroundColor = .gray
+                        dot.isSelectable = false // Bloqueado, pertence a outro grupo
                     } else {
-                        // Cor disponível — mostrar normalmente
                         dot.backgroundColor = dot.dotColor
+                        dot.isSelectable = true
                     }
                 }
             }
