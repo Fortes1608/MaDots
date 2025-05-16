@@ -15,13 +15,13 @@ extension CategorySelectViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        if titles.count < 16  {
+        if titles.count < 16 {
             
             return titles.count + 1
             
         } else {
             
-            return 16
+            return titles.count
             
         }
     }
@@ -30,8 +30,9 @@ extension CategorySelectViewController: UICollectionViewDataSource {
         
         print("cellForItemAt:", indexPath.row)
         
+        //0,...,12
         let index = indexPath.row
-        
+        //de zero até 13, entre aqui
         if index < titles.count {
             
             guard let buttonCell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonsCollectionViewCell.identifier, for: indexPath) as? ButtonsCollectionViewCell else {fatalError("erro")}
@@ -40,11 +41,10 @@ extension CategorySelectViewController: UICollectionViewDataSource {
             
             buttonCell.configureButton(title: title, isSelected: false)
             
-            
             return buttonCell
             
         } else {
-            
+            //restante (14 entra aqui)
             guard let textFieldCell = collectionView.dequeueReusableCell(withReuseIdentifier: TextFieldCollectionViewCell.identifier, for: indexPath) as? TextFieldCollectionViewCell else { fatalError("erro") }
             
             textFieldCell.delegate = self
@@ -52,7 +52,7 @@ extension CategorySelectViewController: UICollectionViewDataSource {
             return textFieldCell
             
         }
-        
     }
+    
 }
 

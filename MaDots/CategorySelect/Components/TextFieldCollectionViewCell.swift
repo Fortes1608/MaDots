@@ -14,22 +14,22 @@ class TextFieldCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
     weak var delegate: UITextFieldDelegate?
         
     lazy var otherTextField: UITextField = {
+        
         let textField = UITextField()
+        
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 16
         textField.delegate = self
         textField.backgroundColor = .white
-        textField.textAlignment = .center // se quiser o texto centralizado como os botões
-        textField.font = UIFont.systemFont(ofSize: 16, weight: .medium) // mesma fonte que os outros
+        textField.textAlignment = .center
         textField.attributedPlaceholder = NSAttributedString(
             string: "Write here your category",
             attributes: [
                 .foregroundColor: UIColor.secondaryLabel,
                 .font: UIFont.systemFont(ofSize: 16, weight: .medium)
-            ]
-        )
+            ])
 
-        // Padding com uma view à esquerda e à direita
+        // Padding with a view to the left and the right
         let padding = UIView(frame: CGRect(x: 0, y: 0, width: 12, height: 0))
         textField.leftView = padding
         textField.leftViewMode = .always

@@ -26,7 +26,6 @@ class CategorySelectViewController: UIViewController {
     
     var titles: [String] = ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
     
-    
     var howManySelected: Int  = 0 {
         
         didSet {

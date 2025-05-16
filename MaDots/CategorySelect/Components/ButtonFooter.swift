@@ -25,6 +25,7 @@ class ButtonFooterView: UIView {
         
     }()
     
+    // Add any actions for the button in the view controller where the object is created.
     var onTap: (() -> Void)?
 
     @objc func buttonTapped() {
@@ -55,12 +56,13 @@ class ButtonFooterView: UIView {
         fatalError("init(coder:) has not been implemented")
         
     }
-    
 }
 
 extension ButtonFooterView: ViewSetupProtocol {
     func addSubViews() {
+        
         addSubview(buttonFooterComponent)
+        
     }
     
     func setupConstraints() {

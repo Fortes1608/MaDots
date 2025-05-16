@@ -13,15 +13,11 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     static var howManySelected: Int = 0
     
-    
     private lazy var categoryButton: UIButton = {
         
         var button = UIButton(configuration: .borderless(), primaryAction: nil)
         
-        
         button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setContentHuggingPriority(.required, for: .horizontal)
-//        button.setContentCompressionResistancePriority(.required, for: .horizontal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 16
         button.titleLabel?.textColor = .black
@@ -30,22 +26,6 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         button.addTarget(self, action: #selector(buttonSelectedAction), for: .touchUpInside)
         
         return button
-        
-    }()
-    
-    lazy var otherTextField: UITextField = {
-       
-        var textField = UITextField()
-
-        
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.layer.cornerRadius = 16
-        textField.backgroundColor = .white
-        textField.placeholder = "write here your category"
-        textField.attributedPlaceholder = NSAttributedString(string: "Write here your category", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel]
-        )
-        
-        return textField
         
     }()
     
@@ -67,7 +47,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
     }
     
-    
+    // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
         
         if !isSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
@@ -91,18 +71,15 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
             print(ButtonsCollectionViewCell.howManySelected)
             
         }
-        
     }
-    
     
     //MARK: INITS
     override init(frame: CGRect) {
         
         super.init(frame: frame)
         
-        
         setup()
-        
+    
     }
     
     required init?(coder: NSCoder) {
@@ -110,8 +87,6 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
         
     }
-    
-    
 }
 
 extension ButtonsCollectionViewCell: ViewSetupProtocol {

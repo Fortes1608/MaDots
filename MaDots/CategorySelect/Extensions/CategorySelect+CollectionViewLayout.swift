@@ -73,3 +73,23 @@ class CenteredFlowLayout: UICollectionViewFlowLayout {
         }
     }
 }
+
+extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
+    //func que configura o tamanho de cada item
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.row < titles.count {
+            
+            let category = titles[indexPath.row]
+            let font = UIFont.systemFont(ofSize: 17, weight: .regular)
+            let width = category.size(withAttributes: [NSAttributedString.Key.font: font]).width + 32
+            let height: CGFloat = 42
+            
+            return CGSize(width: width, height: height)
+        }
+        
+        // the value is defined at TextFieldCell, thats why the value defineded overhere doenst matter.
+        return CGSize(width: 0, height: 0)
+
+    }
+}

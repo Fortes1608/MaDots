@@ -41,18 +41,45 @@ extension CategorySelectViewController:ViewSetupProtocol {
         
         view.backgroundColor = .background
         
-        setupHideKeyboardOnTap()
-        
-    }
-    
-    //MARK: KEYBOARD DISMISS CONFIG
-    func setupHideKeyboardOnTap() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        // add gesture recognizer in view...
         view.addGestureRecognizer(tap)
+        
+        // add gesture recognizer in collection...
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        collection.addGestureRecognizer(longPress)
+        
     }
 
     @objc func dismissKeyboard() {
+        
         view.endEditing(true)
+        
     }
     
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .began {
+            //this point have the exactly location where the user pressed
+            let point = gesture.location(in: collection)
+            // finding the indexPath by the location
+            if let indexPath = collection.indexPathForItem(at: point), indexPath.row < titles.count {
+                
+                let alert = UIAlertController(title: "Delete", message: "Do you want to delete this category?", preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+                    
+                    // in case of deleting a selected item
+                    ButtonsCollectionViewCell.howManySelected = 0
+                    
+                    self.titles.remove(at: indexPath.row)
+                    self.collection.reloadData()
+
+                })
+
+                present(alert, animated: true)
+                
+            }
+        }
+    }
 }
