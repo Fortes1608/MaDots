@@ -20,10 +20,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
+<<<<<<< HEAD:MaDots/app/SceneDelegate.swift
 //        window?.rootViewController = CategorySelectViewController()
         window?.rootViewController = MonthDetailsViewController()
+=======
+        window?.rootViewController = MatrixViewController()
+>>>>>>> leonel-pickcolorview:MaDots/SceneDelegate.swift
         window?.makeKeyAndVisible()
         
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

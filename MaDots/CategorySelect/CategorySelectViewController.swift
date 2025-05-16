@@ -76,6 +76,41 @@ class CategorySelectViewController: UIViewController {
         setup()
         view.endEditing(true)
 
+<<<<<<< HEAD
+=======
+extension CategorySelectViewController:ViewSetupProtocol {
+    func makeConstraints() {
+        
+    }
+    
+    
+    func addSubViews() {
+        
+        view.addSubview(mainTitle)
+        view.addSubview(buttonFooter)
+        
+    }
+    
+    func setupConstraints() {
+        
+        
+        NSLayoutConstraint.activate([
+        
+            mainTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 87),
+            mainTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -78),
+            mainTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 78),
+            
+            buttonMeditation.widthAnchor.constraint(equalToConstant: 101),
+            buttonWork.widthAnchor.constraint(equalToConstant: 87),
+            buttonStudy.widthAnchor.constraint(equalToConstant: 74),
+            
+            buttonFooter.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -46),
+            buttonFooter.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            buttonFooter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            
+        ])
+        
+>>>>>>> leonel-pickcolorview
     }
 }
 
