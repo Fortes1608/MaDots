@@ -28,7 +28,6 @@ extension CategorySelectViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        print("cellForItemAt:", indexPath.row)
         
         //0,...,12
         let index = indexPath.row

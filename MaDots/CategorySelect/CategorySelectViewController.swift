@@ -60,8 +60,6 @@ class CategorySelectViewController: UIViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .none
-        collectionView.register(TextFieldCollectionViewCell.self, forCellWithReuseIdentifier: TextFieldCollectionViewCell.identifier)
-        collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         
@@ -77,9 +75,6 @@ class CategorySelectViewController: UIViewController {
         view.endEditing(true)
 
     }
-    
-
-
 }
 
 

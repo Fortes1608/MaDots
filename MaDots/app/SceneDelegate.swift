@@ -20,8 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        window?.rootViewController = CategorySelectViewController()
-        window?.makeKeyAndVisible() 
+//        window?.rootViewController = CategorySelectViewController()
+        window?.rootViewController = MonthDetailsViewController()
+        window?.makeKeyAndVisible()
         
     }
 
