@@ -21,19 +21,19 @@ class FlowViewController: UIViewController {
     }()
     
     
-    lazy var detailsFlowButtonItem: UIBarButtonItem = {
+    lazy var monthlyViewButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName: "chart.line.text.clipboard"),
                                style: .plain,
                                target: self,
-                               action: #selector(detailsButtonTapped))
+                               action: #selector(monthlyViewButtonTapped))
     }()
     
-    lazy var monthlyViewButtonItem: UIBarButtonItem = {
+    lazy var detailsFlowButtonItem: UIBarButtonItem = {
         return UIBarButtonItem(image: UIImage(systemName:
         "rectangle.and.pencil.and.ellipsis"),
                                style: .plain,
                                target: self,
-                               action: #selector(monthlyViewButtonTapped))
+                               action: #selector(detailsButtonTapped))
     }()
 
 //    lazy var tableView: UITableView = {
@@ -75,7 +75,7 @@ class FlowViewController: UIViewController {
         title = "May"
         view.backgroundColor = .systemGray6
         navigationItem.leftBarButtonItem = yearFlowButtonItem
-        navigationItem.rightBarButtonItems = [detailsFlowButtonItem, monthlyViewButtonItem]
+        navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
         navigationController?.navigationBar.prefersLargeTitles = true
         detailsFlowButtonItem.tintColor = .black
         monthlyViewButtonItem.tintColor = .black
@@ -89,9 +89,13 @@ class FlowViewController: UIViewController {
     }
     
     @objc func detailsButtonTapped() {
+        
+        
     }
     
     @objc func monthlyViewButtonTapped() {
+        let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
     }
     
     @objc func flow1ToolBarTapped() {

@@ -8,6 +8,9 @@
 import UIKit
 
 class EmptyState: UIView {
+    
+    var eightDotsStack = EightDotsStack()
+    
     private func date() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM'.'dd "
@@ -15,7 +18,7 @@ class EmptyState: UIView {
         return formatter.string(from: Date())
     }
 
-    private lazy var dateLabel: UILabel = {
+    lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
@@ -31,7 +34,7 @@ class EmptyState: UIView {
         return view
     }()
     
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
         label.numberOfLines = 2
@@ -57,7 +60,7 @@ class EmptyState: UIView {
         label.textColor = .black
         return label
     }()
-    private lazy var descriptiontack: UIStackView = {
+    lazy var descriptiontack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [descriptionLabel1, descriptionLabel2])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -66,8 +69,8 @@ class EmptyState: UIView {
         return stack
     }()
     
-    private lazy var bigstack: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [dateLabel, separatorView, titleLabel, descriptiontack])
+    lazy var bigstack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [dateLabel, separatorView, titleLabel, eightDotsStack, descriptiontack])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 16
@@ -103,7 +106,7 @@ extension EmptyState: ViewSetupProtocol {
             bigstack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             bigstack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             bigstack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            
+
             
         ])
     }
