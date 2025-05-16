@@ -9,37 +9,30 @@ import Foundation
 
 struct Persistence {
     
-    private static let userKey = "user"
+    private static let userKey = "user_flows"
     
-    var days : [Flow] = []
-    
-    static func getFlowList() -> Day? {
-        
-        if let data = UserDefaults.standard.value(forKey: userKey) as? Data{
-            do{
-                let flowList = try JSONDecoder().decode(Day.self, from: data)
-                return flowList
-            }
-            catch{
-                print(error.localizedDescription)
-            }
+    static func getFlowList() -> [Flow] {
+        guard let data = UserDefaults.standard.data(forKey: userKey),
+              let flows = try? JSONDecoder().decode([Flow].self, from: data) else {
+            return []
         }
-        return nil
+        return flows
+    }
+    
+    static func setFlow(_ flow: Flow) {
+        var flowList = getFlowList()
+        flowList.append(flow)
+        
+        do{
+            let data = try JSONEncoder().encode(flowList)
+            UserDefaults.standard.set(data, forKey: userKey)
+        } catch {
+            print("Error saving data")
+        }
+        
     }
     
     
-   static func setFlow(_ flow: Flow) {
-        
-       var flowList = getFlowList()?.days ?? []
-       flowList.append(flow)
-       do{
-           let data = try JSONEncoder().encode(flowList)
-           UserDefaults.standard.set(try? JSONEncoder().encode(flow), forKey: userKey)
-       }
-       catch{
-           print(error.localizedDescription)
-       }
-   }
     
 }
 

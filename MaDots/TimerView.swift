@@ -1,9 +1,9 @@
 import UIKit
 
 class TimerView: UIView {
-
-    private var timer : Timer?
-    private var timeLeft: Int = 900
+    
+    private var timerManager: TimerManager!
+    private var newFlow: Flow = .init(category: .Work, color: .color1, date: Date())
     
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
@@ -19,47 +19,55 @@ class TimerView: UIView {
         addSubViews()
         setupConstraints()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         addSubViews()
         setupConstraints()
     }
-
+    
     
     func startCountDown() {
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timerManager = TimerManager()
+        timerManager.delegate = self
+        timerManager.start()
     }
     
-    @objc private func updateTimer() {
-            timeLeft -= 1
-            updateLabel()
-
-            if timeLeft <= 0 {
-                timer?.invalidate()
-                timer = nil
-                timeLabel.text = "00:00"
-            }
-        }
     
-  private func updateLabel() {
-           let minutes = timeLeft / 60
-           let seconds = timeLeft % 60
+    private func updateLabel(with time: Int) {
+           let minutes = time / 60
+           let seconds = time % 60
            timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
        }
 }
 
-extension TimerView: ViewSetupProtocol{
+extension TimerView: TimerManagerDelegate {
+    
+    func timerDidUpdate(timeLeft: Int) {
+        DispatchQueue.main.async {
+            self.updateLabel(with: timeLeft)
+        }
+    }
+    
+    func timerDidFinish() {
+        DispatchQueue.main.async {
+            self.timeLabel.text = "00:00"
+        }
+        
+        Persistence.setFlow(newFlow)
+        let flowList = Persistence.getFlowList()
+        print(flowList)
+    }
+}
+
+extension TimerView: ViewSetupProtocol {
     func addSubViews() {
-        addSubview(timeLabel)
-    }
-    
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            timeLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-    }
-    
-    
+            addSubview(timeLabel)
+        }
+        
+        func setupConstraints() {
+            NSLayoutConstraint.activate([
+                timeLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            ])
+        }
 }

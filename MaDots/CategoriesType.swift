@@ -5,7 +5,7 @@
 //  Created by Gustavo Ferreira bassani on 13/05/25.
 //
 
-enum CategoriesType: String {
+enum CategoriesType: String, Codable{
     
     case Meditation = "Meditação"
     case Work = "Trabalho"
@@ -21,10 +21,6 @@ enum CategoriesType: String {
     case Design = "Design"
     case Code = "Code"
     case other = "Outro"
-    
-    init(rawValue: String) {
-        self = CategoriesType(rawValue: rawValue)
-    }
     
 }
 
