@@ -111,10 +111,10 @@ extension MonthDetailsCollectionViewCell: ViewSetupProtocol {
             upperLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             upperLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
         
-            stackWithImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
             stackWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             stackWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-        
+            stackWithImage.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 8),
+            
             separatorLine.topAnchor.constraint(equalTo: upperLabel.bottomAnchor, constant: 8),
             separatorLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             separatorLine.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),

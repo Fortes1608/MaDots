@@ -59,6 +59,8 @@ class CategorySelectViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createAllLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
+        collectionView.register(TextFieldCollectionViewCell.self, forCellWithReuseIdentifier: TextFieldCollectionViewCell.identifier)
         collectionView.backgroundColor = .none
         collectionView.dataSource = self
         collectionView.delegate = self

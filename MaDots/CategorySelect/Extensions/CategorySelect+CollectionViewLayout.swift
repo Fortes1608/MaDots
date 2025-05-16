@@ -24,7 +24,7 @@ extension CategorySelectViewController {
     }
 }
 
-//feat chatgpt
+//feat chatgpt ->>> ajusta centralizado
 class CenteredFlowLayout: UICollectionViewFlowLayout {
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -74,6 +74,7 @@ class CenteredFlowLayout: UICollectionViewFlowLayout {
     }
 }
 
+//configura o tamanho de cada item para quando entra outro item
 extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
     //func que configura o tamanho de cada item
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

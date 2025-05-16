@@ -14,6 +14,7 @@ extension CategorySelectViewController: UITextFieldDelegate {
         if let newCategory = textField.text, !newCategory.isEmpty {
             titles.append(newCategory)
             collection.reloadData()
+            ButtonsCollectionViewCell.howManySelected = 0
             textField.text = ""
             
         }
