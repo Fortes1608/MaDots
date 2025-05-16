@@ -7,10 +7,8 @@
 import UIKit
 class YearViewController: UIViewController {
     
-    let sections = ["2025","2024", "2023",]
+    let sections = ["2025"]
     let monthsByYear: [String: [String]] = [
-        "2023": ["June", "July"],
-        "2024": ["January", "February", "March"],
         "2025": ["April", "May", "June"]
     ]
     

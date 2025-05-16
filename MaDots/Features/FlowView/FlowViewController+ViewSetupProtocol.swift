@@ -16,15 +16,16 @@ extension FlowViewController: ViewSetupProtocol {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            toolBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolBar.heightAnchor.constraint(equalToConstant: 78),
+
             
             
             emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             emptyView.topAnchor.constraint(equalTo: view.topAnchor, constant: 166),
-            emptyView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -418),
         ])
     }
 }
