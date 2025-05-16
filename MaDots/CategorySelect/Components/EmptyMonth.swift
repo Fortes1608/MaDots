@@ -17,6 +17,5 @@ class EmptyMonth: UIView {
         return label
     }()
     
-    lazy var 
 
 }

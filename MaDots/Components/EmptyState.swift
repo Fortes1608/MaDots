@@ -24,9 +24,10 @@ class EmptyState: UIView {
         return label
     }()
     
-    private lazy var separatorView: UIView = {
+    lazy var separatorView: UIView = {
         var view = UIView()
         view.backgroundColor = .opaqueSeparator
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -98,11 +99,10 @@ extension EmptyState: ViewSetupProtocol {
         NSLayoutConstraint.activate([
             
             separatorView.heightAnchor.constraint(equalToConstant: 1),
-            bigstack.heightAnchor.constraint(equalToConstant: 268),
-            bigstack.widthAnchor.constraint(equalToConstant: 361),
             bigstack.topAnchor.constraint(equalTo: self.topAnchor),
             bigstack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             bigstack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            bigstack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             
             
         ])

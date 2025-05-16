@@ -7,9 +7,6 @@
 import UIKit
 
 class ToolBarComponent: UIView {
-    var onMeditacaoTapped: (() -> Void)?
-    var onTrabalhoTapped: (() -> Void)?
-    var onEstudoTapped: (() -> Void)?
 
     private lazy var toolBar: UIToolbar = {
         let toolBar = UIToolbar()
@@ -34,17 +31,17 @@ class ToolBarComponent: UIView {
     }()
 
     private lazy var bottomPaddingView: UIView = {
-            let view = UIView()
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.backgroundColor = .white
-            return view
-        }()
-    
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setup()
     }
-
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
@@ -52,17 +49,21 @@ class ToolBarComponent: UIView {
 
     // MARK: Actions
     @objc private func meditacaoTapped() {
-        onMeditacaoTapped?()
+        let timeViewController = UINavigationController(rootViewController: TimerViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
     }
 
     @objc private func trabalhoTapped() {
-        onTrabalhoTapped?()
+        let timeViewController = UINavigationController(rootViewController: TimerViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
     }
 
     @objc private func estudoTapped() {
-        onEstudoTapped?()
+        let timeViewController = UINavigationController(rootViewController: TimerViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
     }
 }
+
 
 extension ToolBarComponent: ViewSetupProtocol {
     
@@ -76,9 +77,10 @@ extension ToolBarComponent: ViewSetupProtocol {
             toolBar.topAnchor.constraint(equalTo: self.topAnchor),
             toolBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            toolBar.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: bottomPaddingView.topAnchor),
             
         ])
+
     }
 }
 
