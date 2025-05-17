@@ -19,17 +19,19 @@ class MatrixViewController: UIViewController {
         return label
     }()
     
-    private lazy var continueButton: UIButton = {
-        let button = UIButton()
+    let continueButton: ButtonFooterView = {
+       
+        let button = ButtonFooterView()
+        
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Continuar", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 12
+        button.buttonTitle = "Continue"
+        
         return button
+        
     }()
     
     lazy var categoriesStack: UIStackView = {
+        
         var stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
@@ -51,10 +53,12 @@ class MatrixViewController: UIViewController {
     }()
     
     lazy var mainStack: UIStackView = {
+        
         var stack = UIStackView(arrangedSubviews: [categoriesStack, matrixView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 20
         return stack
+        
     }()
     
     var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
@@ -73,23 +77,11 @@ class MatrixViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        setup()
-        view.addSubview(pickLabel)
-        view.addSubview(continueButton)
         
-        NSLayoutConstraint.activate([
-            pickLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 112),
-            pickLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            pickLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            continueButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            continueButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            continueButton.heightAnchor.constraint(equalToConstant: 50),
-            continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -46)
-        ])
+        view.backgroundColor = .background
+        setup()
+        
     }
-
 }
 
 extension MatrixViewController: MatrixViewDataSource {
@@ -146,18 +138,34 @@ extension MatrixViewController: MatrixViewDelegate {
     }
 }
 
-extension MatrixViewController: ViewCodeProtocol {
-    func addSubviews() {
+extension MatrixViewController: ViewSetupProtocol {
+    func addSubViews() {
+        
+        view.addSubview(pickLabel)
+        view.addSubview(continueButton)
         view.addSubview(mainStack)
+        
+
     }
     
-    func makeConstraints() {
+    func setupConstraints() {
         NSLayoutConstraint.activate([
+            
+            pickLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 112),
+            pickLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            pickLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            continueButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            continueButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            continueButton.heightAnchor.constraint(equalToConstant: 50),
+            continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -46),
+            
             matrixView.widthAnchor.constraint(equalToConstant: 200),
             matrixView.heightAnchor.constraint(equalToConstant: 200),
-            mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
+            
+            mainStack.topAnchor.constraint(equalTo: pickLabel.bottomAnchor, constant: 140),
             mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
 }
+

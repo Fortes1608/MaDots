@@ -13,6 +13,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     static var howManySelected: Int = 0
     
+    private(set) var isButtonSelected: Bool = false
+
     private lazy var categoryButton: UIButton = {
         
         var button = UIButton(configuration: .borderless(), primaryAction: nil)
@@ -29,6 +31,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
     }()
     
+
+
     func configureButton(title: String, isSelected: Bool) {
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -39,7 +43,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         ]
         
         let attributTitle = AttributedString(title, attributes: AttributeContainer(attributes))
-        
+
+        isButtonSelected = isSelected
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
         self.categoryButton.backgroundColor = isSelected ? UIColor.gray : UIColor.white
         self.categoryButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)

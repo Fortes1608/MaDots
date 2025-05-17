@@ -19,15 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        
-<<<<<<< HEAD:MaDots/app/SceneDelegate.swift
-//        window?.rootViewController = CategorySelectViewController()
-        window?.rootViewController = MonthDetailsViewController()
-=======
-        window?.rootViewController = MatrixViewController()
->>>>>>> leonel-pickcolorview:MaDots/SceneDelegate.swift
+        let navController = UINavigationController(rootViewController: CategorySelectViewController())
+        window?.rootViewController = navController
+
         window?.makeKeyAndVisible()
-        
 
     }
 

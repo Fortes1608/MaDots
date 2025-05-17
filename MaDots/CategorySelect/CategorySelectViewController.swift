@@ -26,21 +26,7 @@ class CategorySelectViewController: UIViewController {
     
     var titles: [String] = ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
     
-    var howManySelected: Int  = 0 {
-        
-        didSet {
-            
-            if howManySelected < 1 {
-                
-                //ALGUMA COISA
-                
-            } else if howManySelected > 3 {
-                
-                //OUTRA COISA
-                
-            }
-        }
-    }
+    
     
     //MARK: FOOTER BUTTON
     lazy var buttonFooter: ButtonFooterView = {
@@ -49,6 +35,7 @@ class CategorySelectViewController: UIViewController {
         
         button.translatesAutoresizingMaskIntoConstraints = false
         button.buttonTitle = "Continuar"
+        button.onTap = buttonAction
         
         return button
         
@@ -61,6 +48,7 @@ class CategorySelectViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(ButtonsCollectionViewCell.self, forCellWithReuseIdentifier: ButtonsCollectionViewCell.identifier)
         collectionView.register(TextFieldCollectionViewCell.self, forCellWithReuseIdentifier: TextFieldCollectionViewCell.identifier)
+        collectionView.allowsMultipleSelection = true
         collectionView.backgroundColor = .none
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -75,46 +63,30 @@ class CategorySelectViewController: UIViewController {
         
         setup()
         view.endEditing(true)
+        
+    }
+    
+    var selectedTitles: [String] = []
+    
+    func buttonAction() {
+        
+        if ButtonsCollectionViewCell.howManySelected >= 1 {
+            
+            let colorPickerVC = MatrixViewController()
+            navigationController?.pushViewController(colorPickerVC, animated: true)
+            
 
-<<<<<<< HEAD
-=======
-extension CategorySelectViewController:ViewSetupProtocol {
-    func makeConstraints() {
-        
-    }
-    
-    
-    func addSubViews() {
-        
-        view.addSubview(mainTitle)
-        view.addSubview(buttonFooter)
-        
-    }
-    
-    func setupConstraints() {
-        
-        
-        NSLayoutConstraint.activate([
-        
-            mainTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 87),
-            mainTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -78),
-            mainTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 78),
             
-            buttonMeditation.widthAnchor.constraint(equalToConstant: 101),
-            buttonWork.widthAnchor.constraint(equalToConstant: 87),
-            buttonStudy.widthAnchor.constraint(equalToConstant: 74),
+        } else {
             
-            buttonFooter.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -46),
-            buttonFooter.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            buttonFooter.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            let alertController = UIAlertController(title: "No Categories", message: "Please, select at least one category", preferredStyle: .alert)
             
-        ])
-        
->>>>>>> leonel-pickcolorview
+            let alertAction = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(alertAction)
+            
+            present(alertController, animated: true)
+        }
     }
 }
-
-
-
 
 

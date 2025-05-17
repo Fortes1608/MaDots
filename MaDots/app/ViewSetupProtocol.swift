@@ -13,7 +13,6 @@ protocol ViewSetupProtocol {
     func setupConstraints()
     func setupAdditionalConfiguration()
     func setup()
-    func makeConstraints()
 }
 
 extension ViewSetupProtocol {
@@ -23,7 +22,6 @@ extension ViewSetupProtocol {
         addSubViews()
         setupConstraints()
         setupAdditionalConfiguration()
-        makeConstraints()
         
     }
     
