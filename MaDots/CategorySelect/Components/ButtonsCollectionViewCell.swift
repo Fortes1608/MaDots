@@ -14,6 +14,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     static var howManySelected: Int = 0
     
     private(set) var isButtonSelected: Bool = false
+    
+    private(set) var titleOfItem: String?
 
     private lazy var categoryButton: UIButton = {
         
@@ -31,8 +33,6 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
     }()
     
-
-
     func configureButton(title: String, isSelected: Bool) {
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -44,6 +44,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
         let attributTitle = AttributedString(title, attributes: AttributeContainer(attributes))
 
+        titleOfItem = title
         isButtonSelected = isSelected
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
         self.categoryButton.backgroundColor = isSelected ? UIColor.gray : UIColor.white
@@ -55,20 +56,20 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
         
-        if !isSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
+        if !isButtonSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
             
             return
             
         }
         
-        isSelected.toggle()
+        isButtonSelected.toggle()
         
-        if isSelected {
+        if isButtonSelected {
             
             categoryButton.backgroundColor = .gray
             ButtonsCollectionViewCell.howManySelected += 1
             print(ButtonsCollectionViewCell.howManySelected)
-            
+
         } else {
             
             categoryButton.backgroundColor = .white

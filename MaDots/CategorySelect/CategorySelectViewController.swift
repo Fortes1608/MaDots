@@ -9,6 +9,7 @@ import UIKit
 
 class CategorySelectViewController: UIViewController {
     
+    
     lazy var mainTitle: UILabel = {
         
         var label = UILabel()
@@ -66,27 +67,7 @@ class CategorySelectViewController: UIViewController {
         
     }
     
-    var selectedTitles: [String] = []
-    
-    func buttonAction() {
-        
-        if ButtonsCollectionViewCell.howManySelected >= 1 {
-            
-            let colorPickerVC = MatrixViewController()
-            navigationController?.pushViewController(colorPickerVC, animated: true)
-            
-
-            
-        } else {
-            
-            let alertController = UIAlertController(title: "No Categories", message: "Please, select at least one category", preferredStyle: .alert)
-            
-            let alertAction = UIAlertAction(title: "Ok", style: .default)
-            alertController.addAction(alertAction)
-            
-            present(alertController, animated: true)
-        }
-    }
+ 
 }
 
 

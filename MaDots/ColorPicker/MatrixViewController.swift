@@ -12,12 +12,14 @@ class MatrixViewController: UIViewController {
     private lazy var pickLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Selecione três cores"
+        label.text = "Select the Category Colors"
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.textAlignment = .center
         label.textColor = UIColor.black
         return label
     }()
+    
+    var receivedCategories: [String]?
     
     let continueButton: ButtonFooterView = {
        
@@ -30,17 +32,15 @@ class MatrixViewController: UIViewController {
         
     }()
     
+    var categories: [String] = []
+    
     lazy var categoriesStack: UIStackView = {
         
-        var stack = UIStackView()
+        let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
-        categories.forEach { category in
-            var label = UILabel()
-            label.text = category
-            stack.addArrangedSubview(label)
-        }
         return stack
+        
     }()
     
     lazy var matrixView: MatrixView = {
@@ -63,14 +63,12 @@ class MatrixViewController: UIViewController {
     
     var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
     
-    var categories: [String] = ["Study",
-                                "Work",
-                                "Sports"]
     
     var selection: [UIColor?] = [nil,
                                  nil,
                                  nil] {
         didSet {
+            
             matrixView.reloadData()
         }
     }
@@ -78,8 +76,18 @@ class MatrixViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.categories = receivedCategories ?? []
+
+        for category in categories {
+            let label = UILabel()
+            label.text = category
+            categoriesStack.addArrangedSubview(label)
+        }
+        
         view.backgroundColor = .background
         setup()
+        
+        print(receivedCategories ?? [])
         
     }
 }
@@ -109,7 +117,6 @@ extension MatrixViewController: MatrixViewDataSource {
 
         return item
     }
-    
 }
 
 extension MatrixViewController: MatrixViewDelegate {
