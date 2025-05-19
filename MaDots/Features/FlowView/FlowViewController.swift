@@ -36,15 +36,15 @@ class FlowViewController: UIViewController {
                                action: #selector(detailsButtonTapped))
     }()
 
-//    lazy var tableView: UITableView = {
-//        var table = UITableView()
-//        table.translatesAutoresizingMaskIntoConstraints = false
-//        table.dataSource = self
-//        table.delegate = self
-//        table.register(UITableViewCell.self, forCellReuseIdentifier: "default-cell")
-//        table.register(FlowViewCell.self, forCellReuseIdentifier: FlowViewCell.reuseIdentifier)
-//        return table
-//    }()
+    lazy var tableView: UITableView = {
+        var table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.dataSource = self
+        table.delegate = self
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "default-cell")
+        table.register(FlowCell.self, forCellReuseIdentifier: FlowCell.reuseIdentifier)
+        return table
+    }()
     
     lazy var emptyView: EmptyState = {
         var empty = EmptyState()
@@ -58,27 +58,86 @@ class FlowViewController: UIViewController {
         myToolBar.translatesAutoresizingMaskIntoConstraints = false
         return myToolBar
     }()
-//    // MARK: Properties
-//    var flowList = PersistenceuserFlowList {
+    
+    
+    // MARK: Properties
+//    var flowList = Persistence.getFlowList() {
 //        didSet {
-//            buildContent()
+//            rows = buildContent()
 //            tableView.reloadData()
 //        }
 //    }
     
-//    var rows: [[Flow]] = []
+    var flowList: [Day] = [
+        Day(
+            days: [
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date())
+            ],
+            date: Date()
+        ),
+        Day(
+            days: [
+                Flow(category: .Code, color: .color1, date: Date()),
+                Flow(category: .Exercise, color: .color2, date: Date()),
+                Flow(category: .Meditation, color: .color3, date: Date()),
+                Flow(category: .Code, color: .color1, date: Date())
+            ],
+            date: Date()
+        )
+    ]
+
+
+    var rows: [Day] = []
 
     
     // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "May"
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .white
+        tableView.backgroundColor = .background
         navigationItem.leftBarButtonItem = yearFlowButtonItem
         navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
         navigationController?.navigationBar.prefersLargeTitles = true
         detailsFlowButtonItem.tintColor = .black
         monthlyViewButtonItem.tintColor = .black
+        
+        
+//        self.flowList = Persistence.getFlowList()
+        
+        self.flowList = [Day(
+            days: [
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date()),
+                Flow(category: .Work, color: .color1, date: Date())
+            ],
+            date: Date()
+        ),
+        Day(
+            days: [
+                Flow(category: .Code, color: .color1, date: Date()),
+                Flow(category: .Exercise, color: .color2, date: Date()),
+                Flow(category: .Meditation, color: .color3, date: Date()),
+                Flow(category: .Code, color: .color1, date: Date()),
+                Flow(category: .Code, color: .color1, date: Date()),
+                Flow(category: .Exercise, color: .color2, date: Date()),
+                Flow(category: .Meditation, color: .color3, date: Date()),
+                Flow(category: .Code, color: .color1, date: Date()),
+                Flow(category: .Code, color: .color1, date: Date())
+            ],
+            date: Date()
+        )
+    ]
+        
+        self.rows = buildContent()
+        print("Rows:", rows)
+        self.tableView.reloadData()
+        tableView.allowsSelection = false
+
         
         setup()
     }
@@ -93,19 +152,27 @@ class FlowViewController: UIViewController {
         
     }
     
+    
     @objc func monthlyViewButtonTapped() {
         let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
     }
-    
-    @objc func flow1ToolBarTapped() {
-        
+
+    func buildContent() -> [Day] {
+//        guard let flowList = flowList else { return [] }
+//            return [flowList]
+        return flowList
     }
-//    func buildRows() -> [[Flow]] {
-//        var rows: [[Flow]] = []
-//        
-//        return rows
-//    }
+
     
+    func getFlowList(by indexPath: IndexPath) -> Day{
+        return rows[indexPath.section]
+    }
     
+}
+
+extension FlowViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 136
+    }
 }

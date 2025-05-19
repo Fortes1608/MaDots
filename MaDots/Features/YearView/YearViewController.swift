@@ -30,7 +30,7 @@ class YearViewController: UIViewController {
         title = "Year"
             navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = .background
         addSubViews()
         setupConstraints()
     }

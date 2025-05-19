@@ -5,6 +5,7 @@
 //  Created by Gustavo Ferreira bassani on 13/05/25.
 //
 
+
 enum CategoriesType: String, Codable{
     
     case Meditation = "Meditação"

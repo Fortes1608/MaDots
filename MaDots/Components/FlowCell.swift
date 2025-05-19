@@ -6,11 +6,10 @@
 //
 import UIKit
 
-class FlowCell: UIView {
+class FlowCell: UITableViewCell {
 
-    var toggleAction: () -> Void = {}
-    private var section: Int = 0
-
+    static let reuseIdentifier = "FlowCell-Identifies"
+    
     private lazy var dateLabel: UILabel = {
             let label = UILabel()
             label.font = .systemFont(ofSize: 20, weight: .medium)
@@ -21,43 +20,44 @@ class FlowCell: UIView {
     private lazy var button: UIButton = {
         let button = UIButton()
         button.tintColor = .black
+        button.setImage(UIImage(systemName: "chevron.right")?.withConfiguration(UIImage.SymbolConfiguration(weight: .bold)), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
+
     private lazy var tag1: UIButton = {
         let button = UIButton()
-        button.setTitle("Med", for: .normal)
-        button.setTitleColor(.color1, for: .normal)
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.setTitle("Texto", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.layer.borderColor = UIColor.color1.cgColor
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
         button.isHidden = true
         return button
     }()
     
     private lazy var tag2: UIButton = {
         let button = UIButton()
-        button.setTitle("Edu", for: .normal)
-        button.setTitleColor(.color1, for: .normal)
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.setTitle("Texto", for: .selected)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.layer.borderColor = UIColor.color1.cgColor
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
         button.isHidden = true
         return button
     }()
     
     private lazy var tag3: UIButton = {
         let button = UIButton()
-        button.setTitle("Tra", for: .normal)
-        button.setTitleColor(.color1, for: .normal)
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.setTitle("Texto", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.cornerRadius = 10
-        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .medium)
+        button.layer.borderColor = UIColor.color1.cgColor
+        button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
         button.isHidden = true
         return button
     }()
@@ -72,10 +72,12 @@ class FlowCell: UIView {
     
     private lazy var upStack: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [dateLabel, tagStack, button])
-            stack.axis = .horizontal
-            stack.spacing = 8
-            return stack
-        }()
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.alignment = .center
+        return stack
+    }()
+
     
     private lazy var separatorView: UIView = {
             let view = UIView()
@@ -83,68 +85,136 @@ class FlowCell: UIView {
             return view
         }()
     
+    private lazy var dot1: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot2: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot3: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot4: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot5: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot6: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot7: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    private lazy var dot8: DotButtonView = {
+        var dot = DotButtonView()
+        dot.dotColor = .white
+        return dot
+    }()
+    
     private lazy var circleStackView: UIStackView = {
-            let stack = UIStackView()
+            let stack = UIStackView(arrangedSubviews: [dot1,dot2,dot3,dot4,dot5,dot6,dot7,dot8])
             stack.axis = .horizontal
-            stack.spacing = 12
-            stack.alignment = .center
-            stack.distribution = .equalSpacing
+            stack.spacing = 8
+        stack.distribution = .fillEqually
             return stack
         }()
     
     private lazy var bigStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [upStack, separatorView, circleStackView])
         stack.axis = .vertical
-        stack.spacing = 16
+        stack.spacing = 14
         stack.layer.cornerRadius = 16
-        stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.backgroundColor = .white
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 16, left: 16, bottom: 14, right: 16)
+        
         return stack
     }()
+
+    func config(flows: Day) {
+        let formatter = DateFormatter()
+            formatter.dateFormat = "MM'.'dd"
+            formatter.locale = Locale(identifier: "pt_BR")
+            dateLabel.text = formatter.string(from: flows.date)
+
+        let dots = [dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8]
+       
+
+        let count = min(flows.days.count, 8)
+        for i in 0..<count {
+            let flow = flows.days[i]
+            let dot = dots[i]
+            dot.dotColor = flow.color.uiColor
+        }
+        
+        let buttons = [tag1, tag2, tag3]
+        for button in buttons {
+            button.isHidden = true
+        }
+        var categories: [CategoriesType] = []
+        var color: [UIColor] = []
+        for flow in flows.days {
+            if !categories.contains(flow.category) {
+                categories.append(flow.category)
+                color.append(flow.color.uiColor)
+            }
+        }
+        
+        for i in 0..<categories.count {
+            let button = buttons[i]
+            let tagName = String(categories[i].rawValue.prefix(3))
+            button.setTitle(tagName, for: .normal)
+            button.setTitleColor(color[i], for: .normal)
+            button.layer.borderColor = color[i].cgColor
+            button.isHidden = false
+        }
+    }
     
-    private var circles: [UIView] = []
-
-    init() {
-        super.init(frame: .zero)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        contentView.backgroundColor = .background
         setup()
     }
-
+    
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setup()
+        fatalError("init(coder:) has not been implemented")
     }
-    func configTag(nameTag1: CategoriesType, nameTag2: CategoriesType, nameTag3: CategoriesType){
-        tag1.setTitle(nameTag1.rawValue, for: .normal)
-        tag2.setTitle(nameTag2.rawValue, for: .normal)
-        tag3.setTitle(nameTag3.rawValue, for: .normal)
-    }
-
-    func config(date: String, flows: [Flow], action: @escaping () -> Void) {
-        dateLabel.text = date
-        toggleAction = action
-
-    }
-
-
+    
 
     @objc private func buttonTapped() {
-        toggleAction()
+        
     }
 }
 extension FlowCell: ViewSetupProtocol {
     
     func addSubViews() {
-        addSubview(bigStackView)
+        contentView.addSubview(bigStackView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            
-            bigStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            bigStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            bigStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            bigStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            bigStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            bigStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            bigStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+                bigStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
     }
     
