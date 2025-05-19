@@ -8,10 +8,10 @@ protocol TimerManagerDelegate: AnyObject {
 class TimerManager {
     
     private var timer: Timer?
-    private var timeLeft: Int = 5
+    private var timeLeft: Int = 15
     weak var delegate: TimerManagerDelegate?
     
-    init(duration: Int = 5) {
+    init(duration: Int = 15) {
         self.timeLeft = duration
     }
     
