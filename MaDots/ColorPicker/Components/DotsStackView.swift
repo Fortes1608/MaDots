@@ -33,7 +33,7 @@ class DotsStackView: UIView {
         var stack = UIStackView(arrangedSubviews: [dotsLabel, separatorView, dotButtonsStack])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
-        stack.spacing = 10
+        stack.spacing = 8
         stack.layer.cornerRadius = 16
         stack.alignment = .center
         stack.distribution = .fill
@@ -71,12 +71,12 @@ class DotsStackView: UIView {
             dotButtonsStack.addArrangedSubview(newRow)
             currentRow = newRow
         }
-
+        
         let dot = DotButtonView()
         dot.dotColor = color
         currentRow?.addArrangedSubview(dot)
     }
-
+    
     
 }
 extension DotsStackView: ViewSetupProtocol{
@@ -89,6 +89,9 @@ extension DotsStackView: ViewSetupProtocol{
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            
+            dotButtonsStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16), dotButtonsStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -16), dotButtonsStack.bottomAnchor.constraint(equalTo: stack.bottomAnchor, constant: -16),
+            
             stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16), stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16), stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16), stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             
             separatorView.heightAnchor.constraint(equalToConstant: 1),

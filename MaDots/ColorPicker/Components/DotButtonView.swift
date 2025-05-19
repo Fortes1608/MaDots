@@ -8,8 +8,8 @@ import UIKit
 
 class DotButtonView: UIButton {
     
-    var originalColor: UIColor = .gray  //Restaura cor
-    var groupID: Int = 0 //"Linha" do botao
+    var originalColor: UIColor = .gray
+    var groupID: Int = 0
     
     var dotColor: UIColor {
         get { backgroundColor ?? .clear }

@@ -17,7 +17,7 @@ class TimerViewController: UIViewController {
     private lazy var buttonSair: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("sair", for: .normal)
+        button.setTitle("Sair", for: .normal)
         button.backgroundColor = .clear
         button.setTitleColor(UIColor.systemRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
@@ -28,6 +28,14 @@ class TimerViewController: UIViewController {
     private var dotTimer: Timer?
     private var elapsedTime = 0
     private let interval = 15
+    
+    private lazy var fullStack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [dotStack, dotsStackView ])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 40
+        return stack
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,18 +76,24 @@ extension TimerViewController: ViewSetupProtocol {
         view.addSubview(dotStack)
         view.addSubview(buttonSair)
         view.addSubview(dotsStackView)
+        view.addSubview(fullStack)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            dotStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 176),
+            fullStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 117.74), fullStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), fullStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), fullStack.heightAnchor.constraint(greaterThanOrEqualToConstant: 498.16),
+            
+            dotStack.topAnchor.constraint(equalTo: fullStack.topAnchor),
             dotStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dotStack.heightAnchor.constraint(equalToConstant: 311.16),
-            dotStack.widthAnchor.constraint(equalToConstant: 311.16),
+            dotStack.widthAnchor.constraint(equalToConstant: 312.87),
+            dotStack.leadingAnchor.constraint(equalTo: fullStack.leadingAnchor, constant: 24.07),
+            dotStack.trailingAnchor.constraint(equalTo: fullStack.trailingAnchor, constant: -24.07),
             
             buttonSair.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
             buttonSair.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            buttonSair.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 309),
             
             dotsStackView.topAnchor.constraint(equalTo: dotStack.bottomAnchor, constant: 40), dotsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), dotsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), dotsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 147)
         ])
