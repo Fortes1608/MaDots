@@ -7,13 +7,15 @@
 
 import UIKit
 
-class MonthDetailsViewController: UIViewController {
+class DayDetailsViewController: UIViewController {
+    
     
     lazy var collectionView: UICollectionView = {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .none
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -37,7 +39,7 @@ class MonthDetailsViewController: UIViewController {
     }
 }
 
-extension MonthDetailsViewController: ViewSetupProtocol {
+extension DayDetailsViewController: ViewSetupProtocol {
     func addSubViews() {
         
         view.addSubview(collectionView)
@@ -61,7 +63,6 @@ extension MonthDetailsViewController: ViewSetupProtocol {
         view.backgroundColor = .background
         
     }
-    
 }
 
 

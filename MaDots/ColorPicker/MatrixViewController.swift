@@ -39,6 +39,8 @@ class MatrixViewController: UIViewController {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
+
+        
         return stack
         
     }()
@@ -54,7 +56,7 @@ class MatrixViewController: UIViewController {
     
     lazy var mainStack: UIStackView = {
         
-        var stack = UIStackView(arrangedSubviews: [categoriesStack, matrixView])
+        var stack = UIStackView(arrangedSubviews: [categoriesStack,matrixView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 20
         return stack
@@ -81,6 +83,7 @@ class MatrixViewController: UIViewController {
         for category in categories {
             let label = UILabel()
             label.text = category
+            
             categoriesStack.addArrangedSubview(label)
         }
         
@@ -169,9 +172,8 @@ extension MatrixViewController: ViewSetupProtocol {
             
             matrixView.widthAnchor.constraint(equalToConstant: 200),
             matrixView.heightAnchor.constraint(equalToConstant: 200),
-            
-            mainStack.topAnchor.constraint(equalTo: pickLabel.bottomAnchor, constant: 140),
-            mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            matrixView.topAnchor.constraint(equalTo: pickLabel.bottomAnchor, constant: 140),
+            matrixView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -72.5)
         ])
     }
 }

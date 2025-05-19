@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MonthDetailsCollectionViewCell: UICollectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
     
-    static let monthIdentifier = "monthDetail-identifies"
+    static let collectionCellIdentifier = "collectionViewCell-identifies"
     
     lazy var upperLabel: UILabel = {
         
@@ -78,6 +78,7 @@ class MonthDetailsCollectionViewCell: UICollectionViewCell {
         
     }
     
+    
     //MARK: INITS
     override init(frame: CGRect) {
         
@@ -94,7 +95,7 @@ class MonthDetailsCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension MonthDetailsCollectionViewCell: ViewSetupProtocol {
+extension CollectionViewCell: ViewSetupProtocol {
     func addSubViews() {
         
         addSubview(upperLabel)

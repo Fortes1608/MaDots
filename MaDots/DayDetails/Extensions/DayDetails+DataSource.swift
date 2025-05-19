@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension MonthDetailsViewController: UICollectionViewDataSource {
+extension DayDetailsViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         4
@@ -15,11 +15,8 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        switch section {
-        case 0: return 5
-        case 1: return 3
-        default: return 4
-        }
+    3
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -28,7 +25,7 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
         
         if indexPath.section == 0 {
             
-            let upperLabels = ["Category","Time","Total", "Focus Day","Maximum Sessions"]
+            let upperLabels = ["Time","Sections","Total", "Largest Single Focus"]
             let labelForCell = upperLabels[indexPath.item]
             
             //func recebe dados de tempo, foco etc
@@ -40,7 +37,7 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             
         } else if  indexPath.section == 1 {
             
-            let upperLabels = ["Sections","total Time","active days"]
+            let upperLabels = ["Total Time","Sections","Dots"]
             let labelForCell = upperLabels[indexPath.item]
             
             //func recebe dados de tempo, foco etc
@@ -51,7 +48,7 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             
         } else if indexPath.section == 2 {
             
-            let upperLabels = ["First Section","active Media","sequence of days","Hours per week"]
+            let upperLabels = ["Total Time","Sections","Dots"]
             let labelForCell = upperLabels[indexPath.item]
             
             //func recebe dados de tempo, foco etc
@@ -62,7 +59,7 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             
         } else {
             
-            let upperLabels = ["Best Week","schedule with more focus ","day of week","more continuous focus"]
+            let upperLabels = ["Total Time","Sections","Dots"]
             let labelForCell = upperLabels[indexPath.item]
             
             //func recebe dados de tempo, foco etc
@@ -85,18 +82,21 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
                     withReuseIdentifier: HeaderCollectionView.reuseIdentifier, for: indexPath ) as! HeaderCollectionView
                 
                 switch indexPath.section {
-                case 0: header.configure(with: "Highlights of the month")
+                    
+                case 0: header.configure(with: "08 de Maio de 2025")
                     return header
-                case 1: header.configure(with: "Full Focus")
+                case 1: header.configure(with: "Meditation")
                     return header
-                case 2: header.configure(with: "Consistence and Rhythm")
+                case 2: header.configure(with: "Work")
                     return header
-                default:header.configure(with: "Time Patterns")
+                default:header.configure(with: "Study")
                     return header
+                    
                 }
                 
             }
+            
             fatalError("Unexpected element kind")
+            
         }
-    
 }
