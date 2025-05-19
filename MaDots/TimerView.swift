@@ -2,12 +2,16 @@ import UIKit
 
 class TimerView: UIView {
     
+    weak var delegate: TimerViewDelegate?
+    
+    private var initialTime: Int = 15
     private var timerManager: TimerManager!
     private var newFlow: Flow = .init(category: .Work, color: .color1, date: Date())
+    private var timeLeft: Int = 15
     
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 96, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 48, weight: .bold)
         label.textColor = .color1
         label.text = "15:00"
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -16,29 +20,26 @@ class TimerView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubViews()
-        setupConstraints()
+        setup()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubViews()
-        setupConstraints()
+        setup()
     }
     
-    
     func startCountDown() {
-        timerManager = TimerManager()
+        timeLeft = initialTime
+        timerManager = TimerManager(duration: initialTime)
         timerManager.delegate = self
         timerManager.start()
     }
     
-    
     private func updateLabel(with time: Int) {
-           let minutes = time / 60
-           let seconds = time % 60
-           timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
-       }
+        let minutes = time / 60
+        let seconds = time % 60
+        timeLabel.text = String(format: "%02d:%02d", minutes, seconds)
+    }
 }
 
 extension TimerView: TimerManagerDelegate {
@@ -46,12 +47,15 @@ extension TimerView: TimerManagerDelegate {
     func timerDidUpdate(timeLeft: Int) {
         DispatchQueue.main.async {
             self.updateLabel(with: timeLeft)
+            let minutesPassed = self.initialTime - timeLeft
+            self.delegate?.timerDidUpdateDots(minuteCount: minutesPassed)
         }
     }
     
     func timerDidFinish() {
         DispatchQueue.main.async {
             self.timeLabel.text = "00:00"
+            self.delegate?.timerDidFinish()
         }
         
         Persistence.setFlow(newFlow)
@@ -62,12 +66,14 @@ extension TimerView: TimerManagerDelegate {
 
 extension TimerView: ViewSetupProtocol {
     func addSubViews() {
-            addSubview(timeLabel)
-        }
-        
-        func setupConstraints() {
-            NSLayoutConstraint.activate([
-                timeLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
-            ])
-        }
+        addSubview(timeLabel)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            timeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            timeLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
 }
+

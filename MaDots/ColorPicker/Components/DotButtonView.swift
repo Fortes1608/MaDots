@@ -32,13 +32,13 @@ class DotButtonView: UIButton {
     private func setupButton() {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: 37).isActive = true
+        widthAnchor.constraint(equalToConstant: 31.13).isActive = true
         heightAnchor.constraint(equalTo: widthAnchor).isActive = true
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = 18.5
+        layer.cornerRadius = bounds.width / 2
     }
 }
     

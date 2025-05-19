@@ -123,7 +123,6 @@ class FlowCell: UIView {
     func config(date: String, flows: [Flow], action: @escaping () -> Void) {
         dateLabel.text = date
         toggleAction = action
-
     }
 
 

@@ -1,41 +1,21 @@
-
 import UIKit
 
 class TimerViewController: UIViewController {
-
-    private let timer: TimerView = {
-        var timer = TimerView()
-        timer.translatesAutoresizingMaskIntoConstraints = false
-        timer.tintColor = .color1
-        return timer
+    
+    private lazy var dotStack: DotsStackTimerView = {
+        let view = DotsStackTimerView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-    private let categoryLabel: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.labelPrimary
-        label.font = UIFont.systemFont(ofSize: 17, weight: .medium)
-        label.textAlignment = .center
-        label.text = "Categoria1"
-        label.numberOfLines = 1
-        label.lineBreakMode = .byTruncatingTail
-        return label
+    private lazy var dotsStackView: DotsStackView = {
+        let view = DotsStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-    private lazy var buttonDescanso: ButtonFooterView = {
-        var button = ButtonFooterView()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.buttonTitle = "Descanso"
-        button.layer.cornerRadius = 16
-        button.backgroundColor = UIColor.labelSecondary
-        button.onTap = { [weak self] in
-            self?.buttonSairTapped()
-        }
-        return button
-    }()
-    
-    private let buttonSair: UIButton = {
-        var button = UIButton()
+    private lazy var buttonSair: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("sair", for: .normal)
         button.backgroundColor = .clear
@@ -45,46 +25,74 @@ class TimerViewController: UIViewController {
         return button
     }()
     
+    private var dotTimer: Timer?
+    private var elapsedTime = 0
+    private let interval = 15
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        addSubViews()
-        setupConstraints()
-        }
+        setup()
+        dotStack.timerDelegate = self
+        dotStack.startCountdown()
+        startRepeatingDotTimer()
+    }
     
     @objc func buttonSairTapped() {
-        let  flowVC = UINavigationController(rootViewController: FlowViewController())
-            (UIApplication.shared.connectedScenes.first?.delegate as?
-             SceneDelegate)? .changeRootViewController(flowVC)
+        let flowVC = UINavigationController(rootViewController: FlowViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+            .changeRootViewController(flowVC)
     }
 
+    deinit {
+            dotTimer?.invalidate()
+        }
+    
+    private func startRepeatingDotTimer() {
+         dotTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+             guard let self = self else { return }
+             self.elapsedTime += 1
+             
+             if self.elapsedTime == self.interval {
+                 self.elapsedTime = 0
+                 self.dotsStackView.addDot(color: .color1) 
+             }
+         }
+     }
 }
+
+
 
 extension TimerViewController: ViewSetupProtocol {
     func addSubViews() {
-        view.addSubview(timer)
-        view.addSubview(buttonDescanso)
-        view.addSubview(categoryLabel)
+        view.addSubview(dotStack)
         view.addSubview(buttonSair)
-        timer.startCountDown()
+        view.addSubview(dotsStackView)
     }
     
     func setupConstraints() {
-        NSLayoutConstraint.activate ([
-            timer.topAnchor.constraint(equalTo: view.topAnchor, constant: 334),
-            timer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 64),
-            timer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -64),
-            timer.heightAnchor.constraint(equalToConstant: 95),
+        NSLayoutConstraint.activate([
             
-            buttonDescanso.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30), buttonDescanso.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), buttonDescanso.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            
-            categoryLabel.topAnchor.constraint(equalTo: timer.bottomAnchor, constant: 18), categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), categoryLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            dotStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 176),
+            dotStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dotStack.heightAnchor.constraint(equalToConstant: 311.16),
+            dotStack.widthAnchor.constraint(equalToConstant: 311.16),
             
             buttonSair.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
-            buttonSair.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 309), buttonSair.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15)
+            buttonSair.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            
+            dotsStackView.topAnchor.constraint(equalTo: dotStack.bottomAnchor, constant: 40), dotsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), dotsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), dotsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 147)
         ])
     }
-    
 }
 
+extension TimerViewController: TimerViewDelegate {
+    func timerDidUpdateDots(minuteCount: Int) {
+        dotStack.updateDots(count: minuteCount, activeColor: .color1)
+    }
+    
+    func timerDidFinish() {
+            dotStack.startCountdown()
+            self.elapsedTime = 0
+        }
+}
