@@ -61,7 +61,7 @@ class DotsStackTimerView: UIView {
         let angleIncrement = 2 * CGFloat.pi / CGFloat(totalDots)
         
         for (index, dot) in dots.enumerated() {
-            let angle = angleIncrement * CGFloat(index)
+            let angle = angleIncrement * CGFloat(index) - .pi / 2
             let x = center.x + radius * cos(angle)
             let y = center.y + radius * sin(angle)
             let dotSize: CGFloat = 31.13
