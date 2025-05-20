@@ -55,9 +55,7 @@ class ToolBarComponent: UIView {
         Persistence.setTemporaryFlow(flow)
 
         let timerVC = TimerViewController()
-        let navVC = UINavigationController(rootViewController: timerVC)
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
-               .changeRootViewController(navVC)
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timerVC)
     }
 
     
