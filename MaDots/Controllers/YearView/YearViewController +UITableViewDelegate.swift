@@ -27,16 +27,23 @@ extension YearViewController: UITableViewDelegate {
         let month = monthsByYear[year]?[indexPath.row]
         
         let flowVC = FlowViewController()
+        flowVC.month = month ?? " "
+        flowVC.year = year
         navigationController?.pushViewController(flowVC, animated: true)
         
     }
 
     func toggleSection(_ section: Int) {
+        let year = sections[section]
+
         if expandedSections.contains(section) {
             expandedSections.remove(section)
         } else {
+            if monthsByYear[year] == nil {
+                monthsByYear[year] = Persistence.monthsWithFlow(year: year)
+            }
             expandedSections.insert(section)
         }
+        
         tableView.reloadSections([section], with: .automatic)
-    }
-}
+    }}

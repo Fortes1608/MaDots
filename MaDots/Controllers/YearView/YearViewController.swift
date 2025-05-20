@@ -7,10 +7,8 @@
 import UIKit
 class YearViewController: UIViewController {
     
-    let sections = ["2025"]
-    let monthsByYear: [String: [String]] = [
-        "2025": ["April", "May", "June"]
-    ]
+    let sections = Persistence.yearsWithFlow()
+    var monthsByYear: [String: [String]] = [:]
     
     var expandedSections: Set<Int> = []
     
@@ -30,7 +28,7 @@ class YearViewController: UIViewController {
         title = "Year"
             navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = .background
         addSubViews()
         setupConstraints()
     }
