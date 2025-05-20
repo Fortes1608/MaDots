@@ -11,10 +11,15 @@ extension FlowViewController: ViewSetupProtocol {
     func addSubViews() {
         view.addSubview(emptyView)
         view.addSubview(toolBar)
+        view.addSubview(tableView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: toolBar.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),

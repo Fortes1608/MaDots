@@ -12,16 +12,16 @@ class ToolBarComponent: UIView {
         let toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         
-        let meditacaoButton = UIBarButtonItem(title: "Meditação", style: .done, target: self, action: #selector(meditacaoTapped))
-        let trabalhoButton = UIBarButtonItem(title: "Trabalho", style: .done, target: self, action: #selector(trabalhoTapped))
-        let estudoButton = UIBarButtonItem(title: "Estudo", style: .done, target: self, action: #selector(estudoTapped))
+        let flow1Button = UIBarButtonItem(title: "Meditação", style: .done, target: self, action: #selector(flow1Tapped))
+        let flow2Button = UIBarButtonItem(title: "Trabalho", style: .done, target: self, action: #selector(flow2Tapped))
+        let flow3Button = UIBarButtonItem(title: "Estudo", style: .done, target: self, action: #selector(flow3Tapped))
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
         toolBar.items = [
-            flexibleSpace, meditacaoButton,
-            flexibleSpace, trabalhoButton,
-            flexibleSpace, estudoButton,
+            flexibleSpace, flow1Button,
+            flexibleSpace, flow2Button,
+            flexibleSpace, flow3Button,
             flexibleSpace
         ]
         
@@ -47,21 +47,33 @@ class ToolBarComponent: UIView {
         setup()
     }
     
+    private func openTimerViewController(with category: String) {
+        guard let categorySelector = CategoriesType(from: category) else { return }
+
+        let flow = Flow(category: categorySelector, color: .color2, date: Date())
+        
+        Persistence.setTemporaryFlow(flow)
+
+        let timerVC = TimerViewController()
+        let navVC = UINavigationController(rootViewController: timerVC)
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+               .changeRootViewController(navVC)
+    }
+
+    
     // MARK: Actions
-    @objc private func meditacaoTapped() {
-        let timeViewController = UINavigationController(rootViewController: TimerViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
+    @objc private func flow1Tapped() {
+        openTimerViewController(with: "Meditação")
+    }
+
+    @objc private func flow2Tapped() {
+        openTimerViewController(with: "Trabalho")
+    }
+
+    @objc private func flow3Tapped() {
+        openTimerViewController(with: "Estudo")
     }
     
-    @objc private func trabalhoTapped() {
-        let timeViewController = UINavigationController(rootViewController: TimerViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
-    }
-    
-    @objc private func estudoTapped() {
-        let timeViewController = UINavigationController(rootViewController: TimerViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timeViewController)
-    }
 }
 
 extension ToolBarComponent: ViewSetupProtocol {

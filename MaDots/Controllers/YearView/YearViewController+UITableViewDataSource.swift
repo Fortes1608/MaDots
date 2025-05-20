@@ -12,11 +12,12 @@ extension YearViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let year = sections[section]
         if expandedSections.contains(section) {
-            let year = sections[section]
             return monthsByYear[year]?.count ?? 0
+        } else {
+            return 0
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -24,7 +25,7 @@ extension YearViewController: UITableViewDataSource {
         let month = monthsByYear[year]?[indexPath.row] ?? ""
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = month
-        cell.backgroundColor = .systemGray6
+        cell.backgroundColor = .background
         return cell
     }
 }
