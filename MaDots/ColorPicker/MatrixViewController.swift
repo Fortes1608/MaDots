@@ -61,7 +61,7 @@ class MatrixViewController: UIViewController {
     
     var categories: [String] = ["Study",
                                 "Work",
-                                "Sports"]
+                                "Lunch",]
     
     var selection: [UIColor?] = [nil,
                                  nil,
@@ -88,14 +88,18 @@ class MatrixViewController: UIViewController {
             continueButton.heightAnchor.constraint(equalToConstant: 50),
             continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -46)
         ])
+        
+        
     }
 
 }
 
 extension MatrixViewController: MatrixViewDataSource {
     
+    //Numero de colunas
     func dimension(of matrixView: MatrixView) -> Int {
-        categories.count
+        //Define quantas linhas baseadas em quantas categorias
+        return categories.count
     }
     
     func matrix(_ matrixView: MatrixView, itemFor coordinate: Coordinate) -> MatrixItem {
@@ -153,8 +157,6 @@ extension MatrixViewController: ViewCodeProtocol {
     
     func makeConstraints() {
         NSLayoutConstraint.activate([
-            matrixView.widthAnchor.constraint(equalToConstant: 200),
-            matrixView.heightAnchor.constraint(equalToConstant: 200),
             mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
             mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])

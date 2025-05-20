@@ -14,24 +14,26 @@ protocol MatrixItem: UIView {
 }
 
 protocol MatrixViewDataSource: AnyObject {
+    //Quantas linhas e colunas a matriz tem
     func dimension(of matrixView: MatrixView) -> Int
-    func matrix(_ matrixView: MatrixView, itemFor coordinate: Coordinate) -> MatrixItem
+    func matrix(_ matrixView: MatrixView, itemFor coordinate: Coordinate) -> MatrixItem //Retorna uma coordenada montada EU ACHO
 }
 
-protocol MatrixViewDelegate: AnyObject {
-    func matrix(_ matrixView: MatrixView, didSelectItemAt coordinate: Coordinate)
+protocol MatrixViewDelegate: AnyObject { //Apenas classes podem usar AnyObject
+    func matrix(_ matrixView: MatrixView, didSelectItemAt coordinate: Coordinate) //Avisa qual botao foi clicado baseado na coordenada dele
 }
 
 class MatrixView: UIView {
     
     // MARK: Properties
+    //Sempre que alguem redefine o dataSource, a matriz atualiza a view
     weak var dataSource: MatrixViewDataSource? {
         didSet {
             reloadData()
         }
     }
     
-    weak var delegate: MatrixViewDelegate?
+    weak var delegate: MatrixViewDelegate? //Esse delegate vai notificar o clique no botao
     
     var spacing: CGFloat = 0.0 {
         didSet {
@@ -53,21 +55,55 @@ class MatrixView: UIView {
     private func drawMatrix() {
         guard let dataSource else { return }
 
-        dimension = dataSource.dimension(of: self)
+        dimension = dataSource.dimension(of: self) //Passa a proria matriz atual, o resultado da func dimensio é salvo em dimension
         let matrix = createMatrixStackView()
+        
+        if dimension == 3{
+            for row in 0..<dimension {
+                let rowStack = createRowStackView()
 
-        for row in 0..<dimension {
-            let rowStack = createRowStackView()
-
-            for column in 0..<dimension {
-                let coordinate = Coordinate(row, column)
-                guard let itemView = createItem(for: coordinate) else {
-                    continue
+                for column in 0..<dimension {
+                    let coordinate = Coordinate(row, column)
+                    guard let itemView = createItem(for: coordinate) else {
+                        continue
+                    }
+                    rowStack.addArrangedSubview(itemView)
                 }
-                rowStack.addArrangedSubview(itemView)
-            }
 
-            matrix.addArrangedSubview(rowStack)
+                matrix.addArrangedSubview(rowStack)
+            }
+        }
+        
+        if dimension == 2{
+            for row in 0..<dimension {
+                let rowStack = createRowStackView()
+
+                for column in 0..<dimension+1 {
+                    let coordinate = Coordinate(row, column)
+                    guard let itemView = createItem(for: coordinate) else {
+                        continue
+                    }
+                    rowStack.addArrangedSubview(itemView)
+                }
+
+                matrix.addArrangedSubview(rowStack)
+            }
+        } 
+        
+        if dimension == 1{
+            for row in 0..<dimension {
+                let rowStack = createRowStackView()
+
+                for column in 0..<dimension+2 {
+                    let coordinate = Coordinate(row, column)
+                    guard let itemView = createItem(for: coordinate) else {
+                        continue
+                    }
+                    rowStack.addArrangedSubview(itemView)
+                }
+
+                matrix.addArrangedSubview(rowStack)
+            }
         }
 
         matrixStackView = matrix
@@ -82,6 +118,19 @@ class MatrixView: UIView {
             matrixStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             matrixStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
+        
+        if dimension == 1{
+            matrixStackView.widthAnchor.constraint(equalToConstant: 190).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        }
+        else if dimension == 2{
+            matrixStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 130).isActive = true
+        }
+        else if dimension == 3{
+            matrixStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        }
     }
     
     private func createItem(for coordinate: Coordinate) -> MatrixItem? {
@@ -104,7 +153,7 @@ class MatrixView: UIView {
             let coordinate = view.coordinate
         else { return }
         
-        delegate?.matrix(self, didSelectItemAt: coordinate)
+        delegate?.matrix(self, didSelectItemAt: coordinate) //Avisa o delegate que o botao foi tocado
     }
     
     private func createRowStackView() -> UIStackView {
@@ -134,7 +183,7 @@ class MatrixView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
+} //Fim da classe
 
 extension MatrixView: ViewSetupProtocol {
     func addSubViews() {
