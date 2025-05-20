@@ -19,6 +19,7 @@ class MonthlyDetailsEmptyViewController: UIViewController {
         button.addTarget(self, action: #selector(flowButtonTapped), for: .touchUpInside)
         return UIBarButtonItem(customView: button)
     }()
+    
     var emptyStateView = EmptyState()
     
     lazy var toolBar: ToolBarComponent = {
@@ -29,17 +30,6 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Monthly Details"
-        view.backgroundColor = .background
-        navigationItem.leftBarButtonItem = flowButtonItem
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
         addSubViews()
         setupConstraints()
     }
@@ -74,7 +64,18 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
 
         ])
     }
-    
+    func setupAdditionalConfiguration() {
+        title = "Monthly Details"
+        view.backgroundColor = .background
+        navigationItem.leftBarButtonItem = flowButtonItem
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
     
 }
 

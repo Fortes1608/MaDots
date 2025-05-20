@@ -18,6 +18,7 @@ class FlowViewController: UIViewController {
         button.tintColor = .black
         button.semanticContentAttribute = .forceLeftToRight
         button.addTarget(self, action: #selector(yearButtonTapped), for: .touchUpInside)
+        button.isHidden = Persistence.getFlowList().isEmpty
 
         return UIBarButtonItem(customView: button)
     }()
@@ -78,14 +79,11 @@ class FlowViewController: UIViewController {
         super.viewDidLoad()
         
         setYearAndMonth()
-        setNavaigationBar()
         
         self.flowList =  Persistence.DaysWithFlow(year: year, month: month)
         
-        print(flowList)
         
         self.rows = buildContent()
-        print("Rows:", rows)
         self.tableView.reloadData()
         tableView.allowsSelection = false
 
@@ -104,26 +102,6 @@ class FlowViewController: UIViewController {
         month = dateFormatter.string(from: now)
     }
     
-    func setNavaigationBar() {
-        title = month
-        
-        view.backgroundColor = .background
-
-        tableView.backgroundColor = .background
-        
-        navigationItem.leftBarButtonItem = yearFlowButtonItem
-        navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
-        navigationController?.navigationBar.prefersLargeTitles = true
-        detailsFlowButtonItem.tintColor = .black
-        monthlyViewButtonItem.tintColor = .black
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
-
-        navigationController?.navigationBar.standardAppearance = appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    }
     
     @objc func yearButtonTapped() {
         let yearViewController = UINavigationController(rootViewController: YearViewController())
@@ -131,14 +109,20 @@ class FlowViewController: UIViewController {
     }
     
     @objc func detailsButtonTapped() {
-        
+        let categoryViewController = UINavigationController(rootViewController: CategorySelectViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(categoryViewController)
+        ButtonsCollectionViewCell.howManySelected = 0
         
     }
     
     
     @objc func monthlyViewButtonTapped() {
-        let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
+        if Persistence.DaysWithFlow(year: year, month: month).isEmpty {
+            let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
+        }
+        let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdViewController)
     }
 
     func buildContent() -> [Day] {
