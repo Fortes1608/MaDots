@@ -28,7 +28,7 @@ extension CategorySelectViewController {
             let colorPickerVC = MatrixViewController()
             navigationController?.pushViewController(colorPickerVC, animated: true)
                     
-            colorPickerVC.receivedCategories = takeSelectedItens()
+
             
         } else {
             

@@ -12,37 +12,33 @@ class MatrixViewController: UIViewController {
     private lazy var pickLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Select the Category Colors"
+        label.text = "Selecione três cores"
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.textAlignment = .center
         label.textColor = UIColor.black
         return label
     }()
     
-    var receivedCategories: [String]?
-    
-    let continueButton: ButtonFooterView = {
-       
-        let button = ButtonFooterView()
-        
+    private lazy var continueButton: UIButton = {
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.buttonTitle = "Continue"
-        
+        button.setTitle("Continuar", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .black
+        button.layer.cornerRadius = 12
         return button
-        
     }()
     
-    var categories: [String] = []
-    
     lazy var categoriesStack: UIStackView = {
-        
-        let stack = UIStackView()
+        var stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
-
-        
+        categories.forEach { category in
+            var label = UILabel()
+            label.text = category
+            stack.addArrangedSubview(label)
+        }
         return stack
-        
     }()
     
     lazy var matrixView: MatrixView = {
@@ -55,50 +51,55 @@ class MatrixViewController: UIViewController {
     }()
     
     lazy var mainStack: UIStackView = {
-        
-        var stack = UIStackView(arrangedSubviews: [categoriesStack,matrixView])
+        var stack = UIStackView(arrangedSubviews: [categoriesStack, matrixView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 20
         return stack
-        
     }()
     
     var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
     
+    var categories: [String] = ["Study",
+                                "Work",
+                                "Lunch",]
     
     var selection: [UIColor?] = [nil,
                                  nil,
                                  nil] {
         didSet {
-            
             matrixView.reloadData()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.categories = receivedCategories ?? []
-
-        for category in categories {
-            let label = UILabel()
-            label.text = category
-            
-            categoriesStack.addArrangedSubview(label)
-        }
-        
-        view.backgroundColor = .background
+        view.backgroundColor = .systemBackground
         setup()
+        view.addSubview(pickLabel)
+        view.addSubview(continueButton)
         
-        print(receivedCategories ?? [])
+        NSLayoutConstraint.activate([
+            pickLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 112),
+            pickLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            pickLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            continueButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            continueButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            continueButton.heightAnchor.constraint(equalToConstant: 50),
+            continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -46)
+        ])
+        
         
     }
+
 }
 
 extension MatrixViewController: MatrixViewDataSource {
     
+    //Numero de colunas
     func dimension(of matrixView: MatrixView) -> Int {
-        categories.count
+        //Define quantas linhas baseadas em quantas categorias
+        return categories.count
     }
     
     func matrix(_ matrixView: MatrixView, itemFor coordinate: Coordinate) -> MatrixItem {
@@ -120,6 +121,7 @@ extension MatrixViewController: MatrixViewDataSource {
 
         return item
     }
+    
 }
 
 extension MatrixViewController: MatrixViewDelegate {
@@ -149,32 +151,16 @@ extension MatrixViewController: MatrixViewDelegate {
 }
 
 extension MatrixViewController: ViewSetupProtocol {
-    func addSubViews() {
-        
-        view.addSubview(pickLabel)
-        view.addSubview(continueButton)
-        view.addSubview(mainStack)
-        
 
+    func addSubViews() {
+        view.addSubview(mainStack)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            
-            pickLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 112),
-            pickLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            pickLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
-            continueButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            continueButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-            continueButton.heightAnchor.constraint(equalToConstant: 50),
-            continueButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -46),
-            
-            matrixView.widthAnchor.constraint(equalToConstant: 200),
-            matrixView.heightAnchor.constraint(equalToConstant: 200),
-            matrixView.topAnchor.constraint(equalTo: pickLabel.bottomAnchor, constant: 140),
-            matrixView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -72.5)
+            mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
+            mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+    
 }
-

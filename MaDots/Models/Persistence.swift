@@ -124,7 +124,6 @@ struct Persistence {
         return days
     }
 
-
 }
 
 
