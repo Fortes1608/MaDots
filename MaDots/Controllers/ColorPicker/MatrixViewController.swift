@@ -26,6 +26,7 @@ class MatrixViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 12
+        button.addTarget(self, action: #selector(continueAction), for: .touchUpInside)
         return button
     }()
     
@@ -69,6 +70,10 @@ class MatrixViewController: UIViewController {
         didSet {
             matrixView.reloadData()
         }
+    }
+    @objc func continueAction() {
+        let mdeViewController = UINavigationController(rootViewController: FlowViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
     }
 
     override func viewDidLoad() {

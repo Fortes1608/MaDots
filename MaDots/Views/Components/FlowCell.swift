@@ -205,6 +205,8 @@ class FlowCell: UITableViewCell {
     }
 
     @objc private func buttonTapped() {
+        let dailyViewController = UINavigationController(rootViewController: DayDetailViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(dailyViewController)
         
     }
 }
