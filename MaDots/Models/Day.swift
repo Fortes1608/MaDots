@@ -8,9 +8,13 @@
 import Foundation
 
 struct Day: Codable {
-    var days: [Flow]
+    var flows: [Flow]
     var date: Date
 }
 
-var months: [Day] = []
+struct Month: Codable {
+    var days: [Day]
+    var date: Date
+}
+
 

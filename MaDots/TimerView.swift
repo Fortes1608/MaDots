@@ -9,6 +9,10 @@ class TimerView: UIView {
     private var newFlow: Flow = .init(category: .Work, color: .color1, date: Date())
     private var timeLeft: Int = 15
     
+    
+    func configure(flow: Flow) {
+            self.newFlow = flow
+        }
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 48, weight: .bold)
@@ -57,8 +61,10 @@ extension TimerView: TimerManagerDelegate {
             self.timeLabel.text = "00:00"
             self.delegate?.timerDidFinish()
         }
-        
-        Persistence.setFlow(newFlow)
+        if let finishedFlow = Persistence.getTemporaryFlow() {
+                Persistence.setFlow(finishedFlow)
+            }
+
         let flowList = Persistence.getFlowList()
         print(flowList)
     }

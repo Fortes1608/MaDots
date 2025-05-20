@@ -24,4 +24,9 @@ enum CategoriesType: String, Codable{
     case other = "Outro"
     
 }
+extension CategoriesType {
+    init?(from string: String) {
+        self.init(rawValue: string)
+    }
+}
 

@@ -33,7 +33,10 @@ class FlowCell: UITableViewCell {
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.color1.cgColor
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
+//        button.configuration.?.contentInsets = 
         button.isHidden = true
         return button
     }()
@@ -45,6 +48,8 @@ class FlowCell: UITableViewCell {
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.color1.cgColor
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
         button.isHidden = true
         return button
@@ -57,6 +62,8 @@ class FlowCell: UITableViewCell {
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.color1.cgColor
+        button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
         button.isHidden = true
         return button
@@ -138,11 +145,11 @@ class FlowCell: UITableViewCell {
         let stack = UIStackView(arrangedSubviews: [upStack, separatorView, circleStackView])
         stack.axis = .vertical
         stack.spacing = 14
-        stack.layer.cornerRadius = 16
+        stack.layer.cornerRadius = 13
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.backgroundColor = .white
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = .init(top: 16, left: 16, bottom: 14, right: 16)
+        stack.layoutMargins = .init(top: 12, left: 16, bottom: 12, right: 16)
         
         return stack
     }()
@@ -156,9 +163,9 @@ class FlowCell: UITableViewCell {
         let dots = [dot1, dot2, dot3, dot4, dot5, dot6, dot7, dot8]
        
 
-        let count = min(flows.days.count, 8)
+        let count = min(flows.flows.count, 8)
         for i in 0..<count {
-            let flow = flows.days[i]
+            let flow = flows.flows[i]
             let dot = dots[i]
             dot.dotColor = flow.color.uiColor
         }
@@ -169,7 +176,7 @@ class FlowCell: UITableViewCell {
         }
         var categories: [CategoriesType] = []
         var color: [UIColor] = []
-        for flow in flows.days {
+        for flow in flows.flows {
             if !categories.contains(flow.category) {
                 categories.append(flow.category)
                 color.append(flow.color.uiColor)
@@ -209,6 +216,7 @@ extension FlowCell: ViewSetupProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
+            tagStack.heightAnchor.constraint(equalToConstant: 26),
             separatorView.heightAnchor.constraint(equalToConstant: 1),
             bigStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             bigStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),

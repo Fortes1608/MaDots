@@ -7,6 +7,8 @@
 import UIKit
 
 class FlowViewController: UIViewController {
+    var year = "2025"
+    var month = "May"
     
     lazy var yearFlowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
@@ -60,35 +62,13 @@ class FlowViewController: UIViewController {
     }()
     
     
-    // MARK: Properties
-//    var flowList = Persistence.getFlowList() {
-//        didSet {
-//            rows = buildContent()
-//            tableView.reloadData()
-//        }
-//    }
-    
-    var flowList: [Day] = [
-        Day(
-            days: [
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date())
-            ],
-            date: Date()
-        ),
-        Day(
-            days: [
-                Flow(category: .Code, color: .color1, date: Date()),
-                Flow(category: .Exercise, color: .color2, date: Date()),
-                Flow(category: .Meditation, color: .color3, date: Date()),
-                Flow(category: .Code, color: .color1, date: Date())
-            ],
-            date: Date()
-        )
-    ]
-
+    //MARK: Properties
+    lazy var flowList = Persistence.DaysWithFlow(year: year, month: month) {
+        didSet {
+            rows = buildContent()
+            tableView.reloadData()
+        }
+    }
 
     var rows: [Day] = []
 
@@ -96,42 +76,13 @@ class FlowViewController: UIViewController {
     // MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "May"
-        view.backgroundColor = .white
-        tableView.backgroundColor = .background
-        navigationItem.leftBarButtonItem = yearFlowButtonItem
-        navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
-        navigationController?.navigationBar.prefersLargeTitles = true
-        detailsFlowButtonItem.tintColor = .black
-        monthlyViewButtonItem.tintColor = .black
         
+        setYearAndMonth()
+        setNavaigationBar()
         
-//        self.flowList = Persistence.getFlowList()
+        self.flowList =  Persistence.DaysWithFlow(year: year, month: month)
         
-        self.flowList = [Day(
-            days: [
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date()),
-                Flow(category: .Work, color: .color1, date: Date())
-            ],
-            date: Date()
-        ),
-        Day(
-            days: [
-                Flow(category: .Code, color: .color1, date: Date()),
-                Flow(category: .Exercise, color: .color2, date: Date()),
-                Flow(category: .Meditation, color: .color3, date: Date()),
-                Flow(category: .Code, color: .color1, date: Date()),
-                Flow(category: .Code, color: .color1, date: Date()),
-                Flow(category: .Exercise, color: .color2, date: Date()),
-                Flow(category: .Meditation, color: .color3, date: Date()),
-                Flow(category: .Code, color: .color1, date: Date()),
-                Flow(category: .Code, color: .color1, date: Date())
-            ],
-            date: Date()
-        )
-    ]
+        print(flowList)
         
         self.rows = buildContent()
         print("Rows:", rows)
@@ -140,6 +91,38 @@ class FlowViewController: UIViewController {
 
         
         setup()
+    }
+    func setYearAndMonth() {
+        let now = Date()
+            let calendar = Calendar.current
+
+        year = String(calendar.component(.year, from: now))
+
+        let dateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "en_US")
+            dateFormatter.dateFormat = "MMMM"
+        month = dateFormatter.string(from: now)
+    }
+    
+    func setNavaigationBar() {
+        title = month
+        
+        view.backgroundColor = .background
+
+        tableView.backgroundColor = .background
+        
+        navigationItem.leftBarButtonItem = yearFlowButtonItem
+        navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
+        navigationController?.navigationBar.prefersLargeTitles = true
+        detailsFlowButtonItem.tintColor = .black
+        monthlyViewButtonItem.tintColor = .black
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     @objc func yearButtonTapped() {
@@ -159,9 +142,7 @@ class FlowViewController: UIViewController {
     }
 
     func buildContent() -> [Day] {
-//        guard let flowList = flowList else { return [] }
-//            return [flowList]
-        return flowList
+            return flowList
     }
 
     
