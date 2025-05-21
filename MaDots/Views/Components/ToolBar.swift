@@ -12,18 +12,44 @@ class ToolBarComponent: UIView {
         let toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         
-        let flow1Button = UIBarButtonItem(title: "Meditação", style: .done, target: self, action: #selector(flow1Tapped))
-        let flow2Button = UIBarButtonItem(title: "Trabalho", style: .done, target: self, action: #selector(flow2Tapped))
-        let flow3Button = UIBarButtonItem(title: "Estudo", style: .done, target: self, action: #selector(flow3Tapped))
+        guard let listCategory =  UserDefaults.standard.value(forKey: "selectedItens") as? [String] else { return toolBar}
+        
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        toolBar.items = [
-            flexibleSpace, flow1Button,
-            flexibleSpace, flow2Button,
-            flexibleSpace, flow3Button,
-            flexibleSpace
-        ]
+        switch listCategory.count {
+        case 1:
+            let flow1Title =  listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace
+            ]
+        case 2:
+            let flow1Title = listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            let flow2Title = listCategory[1]
+            let flow2Button = UIBarButtonItem(title: flow2Title, style: .done, target: self, action: #selector(flow1Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace, flow2Button,
+                flexibleSpace
+            ]
+        default :
+            let flow1Title = listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            let flow2Title = listCategory[1]
+            let flow2Button = UIBarButtonItem(title: flow2Title, style: .done, target: self, action: #selector(flow1Tapped))
+            let flow3Title = listCategory[2]
+            let flow3Button = UIBarButtonItem(title: flow3Title, style: .done, target: self, action: #selector(flow1Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace, flow2Button,
+                flexibleSpace, flow3Button,
+                flexibleSpace
+            ]
+        }
+
         
         toolBar.items?.forEach { $0.tintColor = .black }
         
