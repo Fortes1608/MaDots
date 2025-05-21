@@ -37,7 +37,7 @@ class CategorySelectViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.buttonTitle = "Continuar"
         button.onTap = buttonAction
-        
+
         return button
         
     }()
@@ -58,16 +58,33 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
+    private func updateButtonFooterState() {
+        let isAnySelected = ButtonsCollectionViewCell.howManySelected > 0
+
+        buttonFooter.layer.cornerRadius = 20
+
+        if isAnySelected {
+            buttonFooter.backgroundColor = UIColor.buttonClicked
+        } else {
+            buttonFooter.backgroundColor = UIColor.buttonStill
+        }
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         view.endEditing(true)
+    
         
     }
+
     
- 
 }
-
-
+extension CategorySelectViewController: ButtonsCollectionViewCellDelegate {
+    func didTapCategoryButton(in cell: ButtonsCollectionViewCell, isSelected: Bool) {
+        updateButtonFooterState()
+        print("teste svc")
+    }
+}

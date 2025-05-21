@@ -69,7 +69,7 @@ class TimerViewController: UIViewController {
              
              if self.elapsedTime == self.interval {
                  self.elapsedTime = 0
-                 self.dotsStackView.addDot(color: .color1) 
+                 self.dotsStackView.addDot(color: UIColor.orange)
              }
          }
      }
@@ -106,7 +106,7 @@ extension TimerViewController: ViewSetupProtocol {
 
 extension TimerViewController: TimerViewDelegate {
     func timerDidUpdateDots(minuteCount: Int) {
-        dotStack.updateDots(count: minuteCount, activeColor: .color1)
+        dotStack.updateDots(count: minuteCount, activeColor: UIColor.orange)
     }
     
     func timerDidFinish() {

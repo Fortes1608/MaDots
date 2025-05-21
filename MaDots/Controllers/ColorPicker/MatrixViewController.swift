@@ -24,7 +24,7 @@ class MatrixViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Continuar", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = UIColor.buttonStill
         button.layer.cornerRadius = 12
         return button
     }()
@@ -57,7 +57,7 @@ class MatrixViewController: UIViewController {
         return stack
     }()
     
-    var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
+    var colors: [UIColor] = [.teal, .orange, .indigo]
     
     var categories: [String] = ["Study",
                                 "Work",

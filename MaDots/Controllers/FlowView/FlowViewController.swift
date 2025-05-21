@@ -107,9 +107,9 @@ class FlowViewController: UIViewController {
     func setNavaigationBar() {
         title = month
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
 
-        tableView.backgroundColor = .background
+        tableView.backgroundColor = .backgroundGray6
         
         navigationItem.leftBarButtonItem = yearFlowButtonItem
         navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]

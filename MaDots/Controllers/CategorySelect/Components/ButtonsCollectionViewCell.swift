@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ButtonsCollectionViewCell: UICollectionViewCell {
+protocol ButtonsCollectionViewCellDelegate: AnyObject{
+    func didTapCategoryButton(in cell: ButtonsCollectionViewCell, isSelected: Bool)
+}
+
+class ButtonsCollectionViewCell: UICollectionViewCell{
     
     static let identifier: String = "CustomCollectionViewCell"
     
@@ -33,6 +37,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
     }()
     
+    weak var delegate: ButtonsCollectionViewCellDelegate?
+    
     func configureButton(title: String, isSelected: Bool) {
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -56,6 +62,9 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
         
+        
+
+        
         if !isButtonSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
             
             return
@@ -77,6 +86,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
             print(ButtonsCollectionViewCell.howManySelected)
             
         }
+        
+        delegate?.didTapCategoryButton(in: self, isSelected: isButtonSelected)
     }
     
     //MARK: INITS

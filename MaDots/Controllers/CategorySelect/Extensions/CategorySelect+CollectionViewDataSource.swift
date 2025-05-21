@@ -39,6 +39,7 @@ extension CategorySelectViewController: UICollectionViewDataSource {
             let title = titles[index]
             
             buttonCell.configureButton(title: title, isSelected: false)
+            buttonCell.delegate = self
             
             return buttonCell
             

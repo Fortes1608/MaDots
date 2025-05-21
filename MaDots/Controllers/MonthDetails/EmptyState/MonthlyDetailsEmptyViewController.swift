@@ -30,7 +30,7 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Monthly Details"
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

@@ -39,7 +39,7 @@ extension CategorySelectViewController:ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         // add gesture recognizer in view...

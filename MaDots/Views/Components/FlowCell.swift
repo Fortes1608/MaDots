@@ -32,7 +32,7 @@ class FlowCell: UITableViewCell {
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.layer.borderColor = UIColor.orange.cgColor
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
         button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
@@ -47,7 +47,7 @@ class FlowCell: UITableViewCell {
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.layer.borderColor = UIColor.orange.cgColor
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
         button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 12, bottom: 6, right: 12)
@@ -61,7 +61,7 @@ class FlowCell: UITableViewCell {
         button.setTitleColor(.black, for: .normal)
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.color1.cgColor
+        button.layer.borderColor = UIColor.orange.cgColor
         button.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
         button.titleLabel?.adjustsFontSizeToFitWidth = false
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -196,7 +196,7 @@ class FlowCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .background
+        contentView.backgroundColor = .backgroundGray6
         setup()
     }
     

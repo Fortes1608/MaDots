@@ -58,7 +58,7 @@ extension MonthDetailsViewController: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         
     }
     
