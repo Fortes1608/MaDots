@@ -172,7 +172,9 @@ struct Persistence {
     }
     
     static func loadCategoriesWithColor() -> [String: UIColor]? {
+        
         guard let dataDict = UserDefaults.standard.dictionary(forKey: "categoriesSelectedWithColor") as? [String: Data] else {
+            
             return nil
         }
         

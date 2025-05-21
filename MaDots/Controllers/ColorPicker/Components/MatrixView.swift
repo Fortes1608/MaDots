@@ -120,16 +120,19 @@ class MatrixView: UIView {
         ])
         
         if dimension == 1{
-            matrixStackView.widthAnchor.constraint(equalToConstant: 190).isActive = true
-            matrixStackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            matrixStackView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
         else if dimension == 2{
-            matrixStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-            matrixStackView.heightAnchor.constraint(equalToConstant: 130).isActive = true
+            matrixStackView.widthAnchor.constraint(equalToConstant: 170).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 116).isActive = true
+            
+            matrixStackView.spacing = 12
         }
         else if dimension == 3{
-            matrixStackView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-            matrixStackView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            matrixStackView.widthAnchor.constraint(equalToConstant: 160).isActive = true
+            matrixStackView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+            matrixStackView.spacing = 18
         }
     }
     

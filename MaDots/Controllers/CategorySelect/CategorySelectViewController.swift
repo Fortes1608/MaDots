@@ -9,6 +9,7 @@ import UIKit
 
 class CategorySelectViewController: UIViewController, BackButtonDelegate {
     func reloadData() {
+        
         self.collection.reloadData()
     }
     

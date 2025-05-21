@@ -40,12 +40,24 @@ class MatrixViewController: UIViewController {
     
     lazy var categoriesStack: UIStackView = {
         var stack = UIStackView()
+        
         stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.distribution = .fillProportionally
+        stack.spacing = 24
+        
         categories?.forEach { category in
-            var label = UILabel()
-            label.text = category
+            
+            var label = BackgroundShrinkLabel(text: category)
+            
+            label.backgroundColor = .fillColorSecondary
+            label.layer.cornerRadius = 16
+            label.clipsToBounds = true
+            label.setContentHuggingPriority(.required, for: .vertical)
+            label.setContentCompressionResistancePriority(.required, for: .vertical)
+
             stack.addArrangedSubview(label)
+            
         }
         return stack
     }()
@@ -54,17 +66,14 @@ class MatrixViewController: UIViewController {
         var matrixView = MatrixView()
         matrixView.translatesAutoresizingMaskIntoConstraints = false
         matrixView.spacing = 8
+
+
         matrixView.dataSource = self
         matrixView.delegate = self
         return matrixView
     }()
     
-    lazy var mainStack: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [categoriesStack, matrixView])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.spacing = 20
-        return stack
-    }()
+
     
     var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
         
@@ -99,11 +108,8 @@ class MatrixViewController: UIViewController {
             let yearVC = YearViewController()
             let navController = UINavigationController(rootViewController: yearVC)
             
-            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                sceneDelegate.window?.rootViewController = navController
-                sceneDelegate.window?.makeKeyAndVisible()
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(yearVC)
             
-            }
         } else {
             
             let alertController = UIAlertController(title: "Select your colors", message: "Please, select a color for each category.", preferredStyle: .alert)
@@ -144,12 +150,44 @@ class MatrixViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(customBackAction))
         
-        
     }
-    
-    
 }
 
+class BackgroundShrinkLabel: UIView {
+    let label = UILabel()
+
+    init(text: String) {
+        super.init(frame: .zero)
+
+        backgroundColor = .systemGray5
+        layer.cornerRadius = 10
+        clipsToBounds = true
+
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(label)
+
+        NSLayoutConstraint.activate([
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 2),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+        ])
+        
+        self.heightAnchor.constraint(equalToConstant: 42).isActive = true
+        self.widthAnchor.constraint(equalToConstant: 101).isActive = true
 
 
+        setContentHuggingPriority(.required, for: .vertical)
+        setContentCompressionResistancePriority(.required, for: .vertical)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
 

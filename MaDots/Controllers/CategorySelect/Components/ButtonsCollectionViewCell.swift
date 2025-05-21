@@ -46,6 +46,8 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
 
         titleOfItem = title
         isButtonSelected = isSelected
+        self.categoryButton.backgroundColor = isSelected ? .labelSecondary : .fillColorSecondary
+
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
         self.categoryButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         self.categoryButton.layer.cornerRadius = 16
