@@ -160,7 +160,10 @@ class FlowCell: UITableViewCell {
         ])
         stack.axis = .horizontal
         stack.spacing = 8
-        stack.distribution = .fillProportionally
+        stack.distribution = .equalSpacing
+        stack.alignment = .center
+
+        stack.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return stack
     }()
 
@@ -174,7 +177,7 @@ class FlowCell: UITableViewCell {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.backgroundColor = .white
         stack.isLayoutMarginsRelativeArrangement = true
-        stack.layoutMargins = .init(top: 12, left: 16, bottom: 12, right: 16)
+        stack.layoutMargins = .init(top: 12, left: 22, bottom: 12, right: 22)
 
         return stack
     }()
@@ -244,8 +247,10 @@ extension FlowCell: ViewSetupProtocol {
     }
 
     func setupConstraints() {
+        
         NSLayoutConstraint.activate([
             tagStack.heightAnchor.constraint(equalToConstant: 26),
+       
             separatorView.heightAnchor.constraint(equalToConstant: 1),
             bigStackView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
