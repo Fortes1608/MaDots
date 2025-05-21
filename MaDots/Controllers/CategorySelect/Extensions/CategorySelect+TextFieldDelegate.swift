@@ -12,7 +12,7 @@ extension CategorySelectViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if let newCategory = textField.text, !newCategory.isEmpty {
-            titles.append(newCategory)
+            Persistence.saveCategory(category: newCategory)
             collection.reloadData()
             ButtonsCollectionViewCell.howManySelected = 0
             textField.text = ""
