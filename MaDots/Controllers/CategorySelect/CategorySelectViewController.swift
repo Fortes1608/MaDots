@@ -7,7 +7,11 @@
 
 import UIKit
 
-class CategorySelectViewController: UIViewController {
+class CategorySelectViewController: UIViewController, BackButtonDelegate {
+    func reloadData() {
+        self.collection.reloadData()
+    }
+    
     
     
     lazy var mainTitle: UILabel = {
@@ -25,10 +29,7 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
-    var titles: [String] = ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
-    
-    
-    
+        
     //MARK: FOOTER BUTTON
     lazy var buttonFooter: ButtonFooterView = {
         

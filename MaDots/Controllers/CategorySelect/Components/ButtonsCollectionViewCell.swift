@@ -25,7 +25,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 16
         button.titleLabel?.textColor = .black
-        button.backgroundColor = .white
+        button.backgroundColor = .fillColorSecondary
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(buttonSelectedAction), for: .touchUpInside)
         
@@ -47,7 +47,6 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         titleOfItem = title
         isButtonSelected = isSelected
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
-        self.categoryButton.backgroundColor = isSelected ? UIColor.gray : UIColor.white
         self.categoryButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         self.categoryButton.layer.cornerRadius = 16
         
@@ -66,13 +65,13 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
         if isButtonSelected {
             
-            categoryButton.backgroundColor = .gray
+            categoryButton.backgroundColor = .labelSecondary
             ButtonsCollectionViewCell.howManySelected += 1
             print(ButtonsCollectionViewCell.howManySelected)
 
         } else {
             
-            categoryButton.backgroundColor = .white
+            categoryButton.backgroundColor = .fillColorSecondary
             ButtonsCollectionViewCell.howManySelected -= 1
             print(ButtonsCollectionViewCell.howManySelected)
             

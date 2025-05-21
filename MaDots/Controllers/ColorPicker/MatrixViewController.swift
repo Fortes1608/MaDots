@@ -7,34 +7,42 @@
 
 import UIKit
 
+protocol BackButtonDelegate: AnyObject {
+    func reloadData()
+}
+
 class MatrixViewController: UIViewController {
+    
+    weak var delegate: BackButtonDelegate?
     
     private lazy var pickLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Selecione três cores"
+        label.text = "Select your colors"
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.textAlignment = .center
         label.textColor = UIColor.black
         return label
     }()
     
-    private lazy var continueButton: UIButton = {
-        let button = UIButton()
+    private lazy var continueButton: ButtonFooterView = {
+        
+        let button = ButtonFooterView()
+        
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Continuar", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.layer.cornerRadius = 12
-        button.addTarget(self, action: #selector(continueAction), for: .touchUpInside)
+        button.buttonTitle = "Continue"
+        button.onTap = continueButtonAction
+        
+        
         return button
+        
     }()
     
     lazy var categoriesStack: UIStackView = {
         var stack = UIStackView()
         stack.axis = .vertical
         stack.distribution = .fillProportionally
-        categories.forEach { category in
+        categories?.forEach { category in
             var label = UILabel()
             label.text = category
             stack.addArrangedSubview(label)
@@ -59,11 +67,9 @@ class MatrixViewController: UIViewController {
     }()
     
     var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
-    
-    var categories: [String] = ["Study",
-                                "Work",
-                                "Lunch",]
-    
+        
+    var categories: [String]?
+
     var selection: [UIColor?] = [nil,
                                  nil,
                                  nil] {
@@ -74,6 +80,50 @@ class MatrixViewController: UIViewController {
     @objc func continueAction() {
         let mdeViewController = UINavigationController(rootViewController: FlowViewController())
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
+    }
+
+    func savingPickedColors() {
+        guard let cats = categories else { return }
+        var dict: [String: UIColor] = [:]
+
+        for i in 0..<cats.count {
+            if let color = selection[i] {
+                dict[cats[i]] = color
+            }
+        }
+        
+        Persistence.savingCategoriesWithColorDict(dict)
+    }
+    
+    func continueButtonAction() {
+        savingPickedColors()
+        
+        if categories?.count == Persistence.loadCategoriesWithColor()?.count {
+            
+            let yearVC = YearViewController()
+            let navController = UINavigationController(rootViewController: yearVC)
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.window?.rootViewController = navController
+                sceneDelegate.window?.makeKeyAndVisible()
+            
+            }
+        } else {
+            
+            let alertController = UIAlertController(title: "Select your colors", message: "Please, select a color for each category.", preferredStyle: .alert)
+            
+            let alertAction = UIAlertAction(title: "Ok", style: .default)
+            alertController.addAction(alertAction)
+            
+            present(alertController, animated: true)
+            
+        }
+       
+
+//        if let savedColor = Persistence.loadCategoriesWithColor(),
+//           let color = savedColor["Exercise"] {
+//            view.backgroundColor = color
+//        }
     }
 
     override func viewDidLoad() {
@@ -95,77 +145,15 @@ class MatrixViewController: UIViewController {
         ])
         
         
-    }
-
-}
-
-extension MatrixViewController: MatrixViewDataSource {
-    
-    //Numero de colunas
-    func dimension(of matrixView: MatrixView) -> Int {
-        //Define quantas linhas baseadas em quantas categorias
-        return categories.count
-    }
-    
-    func matrix(_ matrixView: MatrixView, itemFor coordinate: Coordinate) -> MatrixItem {
-        let currentColor = colors[coordinate.column]
-        let item = MatrixImageView(image: UIImage(systemName: "circle.fill"))
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(customBackAction))
         
-        // Cor padrão para itens não selecionados
-        item.tintColor = .gray
-
-        if let selectedColor = selection[coordinate.row] {
-            // A cor dessa linha foi selecionada e corresponde à cor atual da coluna
-            if selectedColor == currentColor {
-                item.tintColor = currentColor
-            }
-        } else {
-            // Essa linha ainda não selecionou nenhuma cor — mostrar a cor disponível
-            item.tintColor = currentColor
-        }
-
-        return item
-    }
-    
-}
-
-extension MatrixViewController: MatrixViewDelegate {
-    
-    func matrix(_ matrixView: MatrixView, didSelectItemAt coordinate: Coordinate) {
-        let selectedColor = colors[coordinate.column]
-
-        // A cor já foi selecionada por outra categoria?
-        if let existingIndex = selection.firstIndex(of: selectedColor), existingIndex != coordinate.row {
-            
-            // Eu já tenho uma cor atribuída?
-            if let currentColor = selection[coordinate.row] {
-                // Troca as cores entre as categorias
-                selection[existingIndex] = currentColor
-            } else {
-                // Procurar uma cor não utilizada para realocar a categoria anterior
-                if let replacementColor = colors.first(where: { !selection.contains($0) && $0 != selectedColor }) {
-                    selection[existingIndex] = replacementColor
-                }
-            }
-        }
-        
-        // A cor está disponível ou já era minha
-        selection[coordinate.row] = selectedColor
         
     }
-}
-
-extension MatrixViewController: ViewSetupProtocol {
-
-    func addSubViews() {
-        view.addSubview(mainStack)
-    }
     
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
-            mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
     
 }
+
+
+
+

@@ -6,16 +6,21 @@
 //
 
 import Foundation
+import UIKit
 
 struct Persistence {
     
     private static let userKey = "user_flows"
     private static let tempFlowKey = "tempFlow"
+    private static let categoriesKey = "allcategories"
+    private static let categoriesSelectedWithColor = "categoriesWithColor"
     
     static func getFlowList() -> [Flow] {
+        
         guard let data = UserDefaults.standard.data(forKey: userKey),
               let flows = try? JSONDecoder().decode([Flow].self, from: data) else {
             return []
+            
         }
         return flows
     }
@@ -123,6 +128,64 @@ struct Persistence {
 
         return days
     }
+    //-----
+    static func saveCategory(category: String) {
+        
+        var title: [String] = []
+        
+        returnCategories().forEach { category in
+            title.append(category)
+        }
+        
+        title.append(category)
+        
+        UserDefaults.standard.set(title, forKey: categoriesKey)
+        
+    }
+    
+    static func returnCategories() -> [String] {
+        
+        let allCategories = UserDefaults.standard.value(forKey: categoriesKey) as? [String] ??  ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
+        
+        return allCategories
+        
+    }
+    
+    static func removeCategory(categoryToRemove: String) {
+        
+        var allCategories = returnCategories() 
+        allCategories.removeAll { category in
+            category == categoryToRemove
+        }
+        
+        UserDefaults.standard.set(allCategories, forKey: categoriesKey)
+
+    }
+    
+    static func savingCategoriesWithColorDict(_ dict: [String: UIColor]) {
+        //obs: o NSKeyedArchiver funciona com tipos que conformam NSCoding, ou seja, classes de objective-C/Foundation, enquanto o JSONencoder() é usado para estruturas personalizadas (structs). Ambos fazem o mesmo papel para tipos diferentes.
+        let dataDict = dict.mapValues { color -> Data in
+            return try! NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false)
+        }
+        
+        UserDefaults.standard.set(dataDict, forKey: "categoriesSelectedWithColor")
+    }
+    
+    static func loadCategoriesWithColor() -> [String: UIColor]? {
+        guard let dataDict = UserDefaults.standard.dictionary(forKey: "categoriesSelectedWithColor") as? [String: Data] else {
+            return nil
+        }
+        
+        var result: [String: UIColor] = [:]
+        for (key, data) in dataDict {
+            if let color = try? NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data) {
+                result[key] = color
+            }
+        }
+        return result
+    }
+
+
 
 }
 

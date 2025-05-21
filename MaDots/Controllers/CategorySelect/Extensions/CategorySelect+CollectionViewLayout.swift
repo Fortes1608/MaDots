@@ -90,6 +90,7 @@ class CenteredFlowLayout: UICollectionViewFlowLayout {
 }
 
 extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
+<<<<<<< HEAD
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -99,6 +100,14 @@ extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.row < titles.count {
 
             let category = titles[indexPath.row]
+=======
+    //func que configura o tamanho de cada item
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.row < Persistence.returnCategories().count {
+            
+            let category = Persistence.returnCategories()[indexPath.row]
+>>>>>>> gustavo-inicialView
             let font = UIFont.systemFont(ofSize: 17, weight: .regular)
             let width =
                 category.size(withAttributes: [
