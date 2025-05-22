@@ -21,15 +21,17 @@ class EightDotsStack: UIStackView{
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupStack()
-        dot1.dotColor = UIColor.fillColorSecondary
-        dot2.dotColor = UIColor.fillColorSecondary
-        dot3.dotColor = UIColor.fillColorSecondary
-        dot4.dotColor = UIColor.fillColorSecondary
-        dot5.dotColor = UIColor.fillColorSecondary
-        dot6.dotColor = UIColor.fillColorSecondary
-        dot7.dotColor = UIColor.fillColorSecondary
-        dot8.dotColor = UIColor.fillColorSecondary
-   }
+
+        dot1.dotColor = UIColor.fillsSecondary
+        dot2.dotColor = UIColor.fillsSecondary
+        dot3.dotColor = UIColor.fillsSecondary
+        dot4.dotColor = UIColor.fillsSecondary
+        dot5.dotColor = UIColor.fillsSecondary
+        dot6.dotColor = UIColor.fillsSecondary
+        dot7.dotColor = UIColor.fillsSecondary
+        dot8.dotColor = UIColor.fillsSecondary
+
+    }
 
     required init(coder: NSCoder) {
          super.init(coder: coder)

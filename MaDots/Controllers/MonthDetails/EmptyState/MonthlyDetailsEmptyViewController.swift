@@ -30,7 +30,9 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Monthly Details"
-        view.backgroundColor = .background
+
+        view.backgroundColor = .backgroundGray6
+
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -63,7 +65,8 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 114),            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 114),
+            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateView.widthAnchor.constraint(equalToConstant: 361),
             emptyStateView.heightAnchor.constraint(equalToConstant: 268),
             

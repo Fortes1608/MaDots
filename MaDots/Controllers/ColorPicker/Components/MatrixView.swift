@@ -120,6 +120,7 @@ class MatrixView: UIView {
         ])
         
         if dimension == 1{
+
             matrixStackView.widthAnchor.constraint(equalToConstant: 160).isActive = true
             matrixStackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         }
@@ -133,6 +134,7 @@ class MatrixView: UIView {
             matrixStackView.widthAnchor.constraint(equalToConstant: 160).isActive = true
             matrixStackView.heightAnchor.constraint(equalToConstant: 180).isActive = true
             matrixStackView.spacing = 18
+
         }
     }
     

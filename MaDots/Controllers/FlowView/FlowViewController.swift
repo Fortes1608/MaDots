@@ -39,6 +39,7 @@ class FlowViewController: UIViewController {
     }()
 
     lazy var tableView: UITableView = {
+        
         var table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
@@ -107,9 +108,10 @@ class FlowViewController: UIViewController {
     func setNavaigationBar() {
         title = month
         
-        view.backgroundColor = .background
 
-        tableView.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
+
+        tableView.backgroundColor = .backgroundGray6
         
         navigationItem.leftBarButtonItem = yearFlowButtonItem
         navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]

@@ -39,6 +39,7 @@ extension CategorySelectViewController: UICollectionViewDataSource {
             let title = Persistence.returnCategories()[index]
             
             buttonCell.configureButton(title: title, isSelected: false)
+            buttonCell.delegate = self
             
             return buttonCell
             

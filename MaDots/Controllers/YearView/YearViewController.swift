@@ -17,7 +17,8 @@ class YearViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.delegate = self
         table.dataSource = self
-        table.tintColor = .background
+
+        table.tintColor = .backgroundGray6
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         return table
     }()
@@ -28,8 +29,8 @@ class YearViewController: UIViewController {
         title = "Year"
             navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .white
-        tableView.backgroundColor = .background
-        addSubViews()
-        setupConstraints()
+
+        tableView.backgroundColor = .backgroundGray6
+
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 struct Persistence {
     
     private static let userKey = "user_flows"
@@ -18,11 +19,9 @@ struct Persistence {
     static func getFlowList() -> [Flow] {
         
         guard let data = UserDefaults.standard.data(forKey: userKey),
-              let flows = try? JSONDecoder().decode([Flow].self, from: data) else {
-            return []
-            
-        }
+              let flows = try? JSONDecoder().decode([Flow].self, from: data) else { return [] }
         return flows
+        
     }
     
     static func setFlow(_ flow: Flow) {
@@ -128,7 +127,7 @@ struct Persistence {
 
         return days
     }
-    //-----
+    //----- gustavo
     static func saveCategory(category: String) {
         
         var title: [String] = []
@@ -163,7 +162,7 @@ struct Persistence {
     }
     
     static func savingCategoriesWithColorDict(_ dict: [String: UIColor]) {
-        //obs: o NSKeyedArchiver funciona com tipos que conformam NSCoding, ou seja, classes de objective-C/Foundation, enquanto o JSONencoder() é usado para estruturas personalizadas (structs). Ambos fazem o mesmo papel para tipos diferentes.
+        //obs: o NSKeyedArchiver funciona com tipos que conformam NSCoding, ou seja, classes de objective-C/Foundation, enquanto o JSONencoder() é usado para estruturas personalizadas (structs). Ambos fazem o mesmo papel de transformar algum tipo em tipo de dados.
         let dataDict = dict.mapValues { color -> Data in
             return try! NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: false)
         }
@@ -186,6 +185,7 @@ struct Persistence {
         }
         return result
     }
+
 
 
 

@@ -33,6 +33,7 @@ extension CategorySelectViewController {
             UserDefaults.standard.set(takeSelectedItens(), forKey: "selectedItens")
             
             matrixVC.categories = UserDefaults.standard.value(forKey: "selectedItens") as? [String]
+
             
         } else {
             

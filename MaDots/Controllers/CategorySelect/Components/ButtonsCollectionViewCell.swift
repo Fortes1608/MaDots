@@ -7,7 +7,12 @@
 
 import UIKit
 
-class ButtonsCollectionViewCell: UICollectionViewCell {
+
+protocol ButtonsCollectionViewCellDelegate: AnyObject{
+    func didTapCategoryButton(in cell: ButtonsCollectionViewCell, isSelected: Bool)
+}
+
+class ButtonsCollectionViewCell: UICollectionViewCell{
     
     static let identifier: String = "CustomCollectionViewCell"
     
@@ -25,13 +30,17 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.layer.cornerRadius = 16
         button.titleLabel?.textColor = .black
-        button.backgroundColor = .fillColorSecondary
+        button.backgroundColor = .fillsSecondary
+
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(buttonSelectedAction), for: .touchUpInside)
         
         return button
         
     }()
+    
+
+    weak var delegate: ButtonsCollectionViewCellDelegate?
     
     func configureButton(title: String, isSelected: Bool) {
         
@@ -46,9 +55,9 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
 
         titleOfItem = title
         isButtonSelected = isSelected
-        self.categoryButton.backgroundColor = isSelected ? .labelSecondary : .fillColorSecondary
 
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
+        self.categoryButton.backgroundColor = isSelected ? UIColor.labelSecondary : UIColor.fillsSecondary
         self.categoryButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         self.categoryButton.layer.cornerRadius = 16
         
@@ -56,6 +65,10 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
+        
+
+        
+
         
         if !isButtonSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
             
@@ -73,11 +86,15 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
 
         } else {
             
-            categoryButton.backgroundColor = .fillColorSecondary
+            categoryButton.backgroundColor = .fillsSecondary
+
             ButtonsCollectionViewCell.howManySelected -= 1
             print(ButtonsCollectionViewCell.howManySelected)
             
         }
+
+        
+        delegate?.didTapCategoryButton(in: self, isSelected: isButtonSelected)
     }
     
     //MARK: INITS

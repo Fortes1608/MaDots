@@ -19,9 +19,10 @@ class MatrixViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Select your colors"
+
         label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         label.textAlignment = .center
-        label.textColor = UIColor.black
+        label.textColor = UIColor.labelPrimary
         return label
     }()
     
@@ -32,10 +33,13 @@ class MatrixViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.buttonTitle = "Continue"
         button.onTap = continueButtonAction
+        button.layer.cornerRadius =  16
+        button.backgroundColor = UIColor.buttonsStill
         
         
         return button
         
+
     }()
     
     lazy var categoriesStack: UIStackView = {
@@ -50,7 +54,7 @@ class MatrixViewController: UIViewController {
             
             var label = BackgroundShrinkLabel(text: category)
             
-            label.backgroundColor = .fillColorSecondary
+            label.backgroundColor = .fillsSecondary
             label.layer.cornerRadius = 16
             label.clipsToBounds = true
             label.setContentHuggingPriority(.required, for: .vertical)
@@ -58,6 +62,7 @@ class MatrixViewController: UIViewController {
 
             stack.addArrangedSubview(label)
             
+
         }
         return stack
     }()
@@ -66,16 +71,12 @@ class MatrixViewController: UIViewController {
         var matrixView = MatrixView()
         matrixView.translatesAutoresizingMaskIntoConstraints = false
         matrixView.spacing = 8
-
-
         matrixView.dataSource = self
         matrixView.delegate = self
         return matrixView
     }()
     
-
-    
-    var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
+    var colors: [UIColor] = [UIColor.teal, UIColor.indigo, UIColor.orange]
         
     var categories: [String]?
 
@@ -84,9 +85,18 @@ class MatrixViewController: UIViewController {
                                  nil] {
         didSet {
             matrixView.reloadData()
+            let allColorsSelected = selection.compactMap { $0 }.count == categories?.count
+            changeContinueButtonColor(allColorsSelected: allColorsSelected)
+            continueButton.layer.cornerRadius = 20
         }
     }
 
+    func changeContinueButtonColor(allColorsSelected: Bool) {
+        
+        continueButton.backgroundColor = allColorsSelected ? UIColor.buttonsClicked : UIColor.buttonsStill
+      
+    }
+    
     func savingPickedColors() {
         guard let cats = categories else { return }
         var dict: [String: UIColor] = [:]
@@ -105,10 +115,9 @@ class MatrixViewController: UIViewController {
         
         if categories?.count == Persistence.loadCategoriesWithColor()?.count {
             
-            let yearVC = YearViewController()
-            let navController = UINavigationController(rootViewController: yearVC)
+            let flowVC = FlowViewController()
             
-            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(yearVC)
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(flowVC)
             
         } else {
             
@@ -121,11 +130,6 @@ class MatrixViewController: UIViewController {
             
         }
        
-
-//        if let savedColor = Persistence.loadCategoriesWithColor(),
-//           let color = savedColor["Exercise"] {
-//            view.backgroundColor = color
-//        }
     }
 
     override func viewDidLoad() {
@@ -149,7 +153,7 @@ class MatrixViewController: UIViewController {
         
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(customBackAction))
-        
+
     }
 }
 
@@ -190,4 +194,5 @@ class BackgroundShrinkLabel: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 

@@ -16,7 +16,8 @@ class TimerView: UIView {
     private lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 48, weight: .bold)
-        label.textColor = .color1
+
+        label.textColor = UIColor.orange
         label.text = "15:00"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
