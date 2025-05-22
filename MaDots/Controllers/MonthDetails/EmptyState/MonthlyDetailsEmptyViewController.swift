@@ -30,7 +30,8 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        addSubViews()
+        setupConstraints()
     }
     
     @objc func flowButtonTapped() {
@@ -65,7 +66,8 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
     }
     func setupAdditionalConfiguration() {
         title = "Monthly Details"
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
+        view.backgroundColor = .backgroundGray6
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

@@ -24,14 +24,14 @@ class OnBoardingViewController2: UIViewController {
         var descriptionComponent = DescriptionComponent()
         descriptionComponent.boldText = "Start with a tap"
         descriptionComponent.normalText = "Launch a 15-minute timer. When it ends, one dot is added to your timeline."
-        descriptionComponent.dotImage.dotColor = .color3
+        descriptionComponent.dotImage.dotColor = .orange
         return descriptionComponent
     }()
     lazy var description3: DescriptionComponent = {
         var descriptionComponent = DescriptionComponent()
         descriptionComponent.boldText = "Notice your patterns"
         descriptionComponent.normalText = "Subtle insights help you see when — and how — you focus best. No charts. No noise."
-        descriptionComponent.dotImage.dotColor = .color1
+        descriptionComponent.dotImage.dotColor = .teal
         return descriptionComponent
     }()
     
@@ -49,7 +49,7 @@ class OnBoardingViewController2: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Get Started", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.fillsWhite, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(getStartedAction), for: .touchUpInside)

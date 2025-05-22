@@ -52,7 +52,7 @@ class ToolBarComponent: UIView {
         }
 
         
-        toolBar.items?.forEach { $0.tintColor = .black }
+        toolBar.items?.forEach { $0.tintColor = .labelPrimary }
         
         return toolBar
     }()
@@ -60,7 +60,7 @@ class ToolBarComponent: UIView {
     private lazy var bottomPaddingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .fillsWhite
         return view
     }()
     

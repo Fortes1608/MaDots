@@ -64,7 +64,7 @@ class OnBoardingViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Continuar", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.fillsWhite, for: .normal)
         button.backgroundColor = .black
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(continueAction), for: .touchUpInside)

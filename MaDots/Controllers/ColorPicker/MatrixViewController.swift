@@ -66,7 +66,7 @@ class MatrixViewController: UIViewController {
         return stack
     }()
     
-    var colors: [UIColor] = [UIColor.color2, UIColor.color1, UIColor.color3]
+    var colors: [UIColor] = [UIColor.teal, UIColor.indigo, UIColor.orange]
         
     var categories: [String]?
 

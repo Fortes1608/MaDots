@@ -35,18 +35,18 @@ extension FlowViewController: ViewSetupProtocol {
     func setupAdditionalConfiguration() {
         title = month
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
 
-        tableView.backgroundColor = .background
+        tableView.backgroundColor = .backgroundGray6
         
         navigationItem.leftBarButtonItem = yearFlowButtonItem
         navigationItem.rightBarButtonItems = [monthlyViewButtonItem, detailsFlowButtonItem]
         navigationController?.navigationBar.prefersLargeTitles = true
-        detailsFlowButtonItem.tintColor = .black
-        monthlyViewButtonItem.tintColor = .black
+        detailsFlowButtonItem.tintColor = .labelPrimary
+        monthlyViewButtonItem.tintColor = .labelPrimary
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = .fillsWhite
         appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
 
         navigationController?.navigationBar.standardAppearance = appearance

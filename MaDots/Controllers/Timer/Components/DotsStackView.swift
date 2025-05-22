@@ -86,7 +86,7 @@ extension DotsStackView: ViewSetupProtocol{
         addSubview(stack)
         self.layer.cornerRadius = 16
         self.layer.borderWidth = 16
-        self.layer.borderColor = UIColor.fillColorSecondary.cgColor
+        self.layer.borderColor = UIColor.fillsSecondary.cgColor
     }
     
     func setupConstraints() {

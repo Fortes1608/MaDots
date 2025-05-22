@@ -88,13 +88,13 @@ extension MonthDetailsViewController: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         title = "Monthly Details"
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = .fillsWhite
         appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
 
         navigationController?.navigationBar.standardAppearance = appearance

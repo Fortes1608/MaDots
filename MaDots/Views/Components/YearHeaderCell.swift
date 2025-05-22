@@ -34,7 +34,7 @@ class YearHeaderView: UIView {
         stack.distribution = .fill
         stack.alignment = .center
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.backgroundColor = .fillColorSecondary
+        stack.backgroundColor = .fillsSecondary
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 0, left: 16, bottom: 8, right: 16)
         return stack

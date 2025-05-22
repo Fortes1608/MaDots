@@ -20,7 +20,7 @@ class TextFieldCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 16
         textField.delegate = self
-        textField.backgroundColor = .white
+        textField.backgroundColor = .fillsWhite
         textField.textAlignment = .center
         textField.attributedPlaceholder = NSAttributedString(
             string: "Write here your category",

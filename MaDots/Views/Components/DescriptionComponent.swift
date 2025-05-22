@@ -29,7 +29,7 @@ class DescriptionComponent: UIView {
     
     lazy var dotImage: DotButtonView = {
         var dotButtonView = DotButtonView()
-        dotButtonView.dotColor = .color2
+        dotButtonView.dotColor = .indigo
         dotButtonView.setContentHuggingPriority(.required, for: .horizontal)
         dotButtonView.setContentCompressionResistancePriority(.required, for: .horizontal)
         return dotButtonView

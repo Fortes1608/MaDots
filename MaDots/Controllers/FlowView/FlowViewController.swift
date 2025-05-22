@@ -15,7 +15,7 @@ class FlowViewController: UIViewController {
         button.setTitle("2025", for: .normal)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.tintColor = .black
+        button.tintColor = .labelPrimary
         button.semanticContentAttribute = .forceLeftToRight
         button.addTarget(self, action: #selector(yearButtonTapped), for: .touchUpInside)
         button.isHidden = Persistence.getFlowList().isEmpty

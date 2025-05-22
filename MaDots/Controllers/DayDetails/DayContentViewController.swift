@@ -87,7 +87,7 @@ extension DayDetailViewController: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        view.backgroundColor = .background
+        view.backgroundColor = .backgroundGray6
         title = "Daily Details"
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()

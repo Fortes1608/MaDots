@@ -1,5 +1,5 @@
 import UIKit
-
+import AudioToolbox
 
 protocol TimerViewDelegate: AnyObject {
     func timerDidUpdateDots(minuteCount: Int)
@@ -53,7 +53,7 @@ class TimerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .fillsWhite
         setup()
         dotStack.timerDelegate = self
         dotStack.startCountdown()
@@ -120,7 +120,7 @@ extension TimerViewController: TimerViewDelegate {
     
     func timerDidFinish() {
             dotStack.startCountdown()
-        
             self.elapsedTime = 0
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
 }
