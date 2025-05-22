@@ -53,7 +53,8 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 114),            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 114),
+            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyStateView.widthAnchor.constraint(equalToConstant: 361),
             emptyStateView.heightAnchor.constraint(equalToConstant: 268),
             

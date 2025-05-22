@@ -97,6 +97,7 @@ extension DayDetailViewController: ViewSetupProtocol {
 
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
     }
 }
 

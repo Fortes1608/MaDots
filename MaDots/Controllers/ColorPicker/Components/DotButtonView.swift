@@ -36,7 +36,6 @@ class DotButtonView: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: 31.13).isActive = true
         heightAnchor.constraint(equalTo: widthAnchor).isActive = true
-        //backgroundColor = UIColor.labelSecondary
     }
 
     override func layoutSubviews() {

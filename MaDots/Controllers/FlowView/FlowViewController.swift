@@ -40,6 +40,7 @@ class FlowViewController: UIViewController {
     }()
 
     lazy var tableView: UITableView = {
+        
         var table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self

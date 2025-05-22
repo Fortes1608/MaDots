@@ -7,7 +7,12 @@
 
 import UIKit
 
-class ButtonsCollectionViewCell: UICollectionViewCell {
+
+protocol ButtonsCollectionViewCellDelegate: AnyObject{
+    func didTapCategoryButton(in cell: ButtonsCollectionViewCell, isSelected: Bool)
+}
+
+class ButtonsCollectionViewCell: UICollectionViewCell{
     
     static let identifier: String = "CustomCollectionViewCell"
     
@@ -33,6 +38,9 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
         
     }()
     
+
+    weak var delegate: ButtonsCollectionViewCellDelegate?
+    
     func configureButton(title: String, isSelected: Bool) {
         
         let attributes: [NSAttributedString.Key: Any] = [
@@ -46,7 +54,9 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
 
         titleOfItem = title
         isButtonSelected = isSelected
+
         self.categoryButton.setAttributedTitle(NSAttributedString(attributTitle), for: .normal)
+        self.categoryButton.backgroundColor = isSelected ? UIColor.labelSecondary : UIColor.fillsSecondary
         self.categoryButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         self.categoryButton.layer.cornerRadius = 16
         
@@ -54,6 +64,10 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
     
     // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
+        
+
+        
+
         
         if !isButtonSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
             
@@ -76,6 +90,9 @@ class ButtonsCollectionViewCell: UICollectionViewCell {
             print(ButtonsCollectionViewCell.howManySelected)
             
         }
+
+        
+        delegate?.didTapCategoryButton(in: self, isSelected: isButtonSelected)
     }
     
     //MARK: INITS

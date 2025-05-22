@@ -82,6 +82,7 @@ extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.row < Persistence.returnCategories().count {
             
             let category = Persistence.returnCategories()[indexPath.row]
+
             let font = UIFont.systemFont(ofSize: 17, weight: .regular)
             let width = category.size(withAttributes: [NSAttributedString.Key.font: font]).width + 32
             let height: CGFloat = 42

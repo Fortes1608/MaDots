@@ -63,6 +63,7 @@ extension CategorySelectViewController:ViewSetupProtocol {
             let point = gesture.location(in: collection)
             // finding the indexPath by the location
             if let indexPath = collection.indexPathForItem(at: point), indexPath.row < Persistence.returnCategories().count {
+
                 
                 let alert = UIAlertController(title: "Delete", message: "Do you want to delete this category?", preferredStyle: .alert)
                 
@@ -77,6 +78,7 @@ extension CategorySelectViewController:ViewSetupProtocol {
                         Persistence.removeCategory(categoryToRemove: categorieToRemove)
                     self.collection.reloadData()
                         
+
 
                 })
 

@@ -10,14 +10,22 @@ import UIKit
 extension MatrixViewController: ViewSetupProtocol {
 
     func addSubViews() {
-        view.addSubview(mainStack)
+        
+        view.addSubview(categoriesStack)
+        view.addSubview(matrixView)
+        
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 250),
-            mainStack.centerXAnchor.constraint(equalTo: view.centerXAnchor)
             
+            categoriesStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
+            categoriesStack.topAnchor.constraint(equalTo: view.topAnchor , constant: 286),
+            categoriesStack.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -219.5),
+            
+            matrixView.topAnchor.constraint(equalTo: view.topAnchor, constant: 282),
+            matrixView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+      
             
         ])
     }

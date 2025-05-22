@@ -87,8 +87,6 @@ extension MonthDetailsViewController: ViewSetupProtocol {
     }
     
     func setupAdditionalConfiguration() {
-        
-        view.backgroundColor = .backgroundGray6
         title = "Monthly Details"
         view.backgroundColor = .backgroundGray6
         navigationItem.leftBarButtonItem = flowButtonItem
