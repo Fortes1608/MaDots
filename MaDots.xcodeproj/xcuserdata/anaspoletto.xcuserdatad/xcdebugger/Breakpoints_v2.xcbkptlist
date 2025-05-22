@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A0FD8945-2E15-4CB0-89D6-C72757E9BCE2"
+            uuid = "9595002A-A781-4BBD-B5F6-E4DBC5124868"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MaDots/Controllers/Timer/TimerViewController.swift"
+            filePath = "MaDots/Controllers/DayDetails/Extensions/DayDetail+CollectionViewLayout.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "startRepeatingDotTimer()"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "sectionZeroLayout()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
