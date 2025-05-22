@@ -2,6 +2,8 @@ import Foundation
 
 protocol TimerManagerDelegate: AnyObject {
     func timerDidUpdate(timeLeft: Int)
+    
+    
     func timerDidFinish()
 }
 

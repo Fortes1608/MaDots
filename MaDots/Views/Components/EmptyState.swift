@@ -37,10 +37,10 @@ class EmptyState: UIView {
     lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "Nenhum foco registrado hoje."
-        label.textColor = .black
+        label.text = "No focus      recorded today."
+        label.numberOfLines = 2
+        label.textColor = .labelPrimary
         return label
     }()
     
@@ -48,16 +48,16 @@ class EmptyState: UIView {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "Toque em uma das categorias abaixo"
-        label.textColor = .black
+        label.text = "Tap one of the categories below"
+        label.textColor = .labelPrimary
         return label
     }()
     private lazy var descriptionLabel2: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "para começar seu primeiro foco."
-        label.textColor = .black
+        label.text = "to start your first focus."
+        label.textColor = .labelPrimary
         return label
     }()
     lazy var descriptiontack: UIStackView = {
@@ -74,7 +74,7 @@ class EmptyState: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 16
-        stack.backgroundColor = .white
+        stack.backgroundColor = .fillsWhite
         stack.layer.cornerRadius = 16
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 16, left: 16, bottom: 16, right: 16)

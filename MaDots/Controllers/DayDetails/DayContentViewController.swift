@@ -9,6 +9,22 @@ import UIKit
 
 class DayDetailViewController: UIViewController {
     
+    lazy var flowButtonItem: UIBarButtonItem = {
+        let button = UIButton(type: .system)
+        button.setTitle("Flow", for: .normal)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.tintColor = .labelPrimary
+        button.semanticContentAttribute = .forceLeftToRight
+        button.addTarget(self, action: #selector(flowButtonTapped), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
+    
+    lazy var toolBar: ToolBarComponent = {
+        var myToolBar = ToolBarComponent()
+        myToolBar.translatesAutoresizingMaskIntoConstraints = false
+        return myToolBar
+    }()
     
     lazy var collectionView: UICollectionView = {
         
@@ -33,36 +49,25 @@ class DayDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
         title = "Day Details"
-        setupBackButton()
+        
     }
     
-//    func setupBackButton() {
-//        let backButton = UIButton(type: .system)
-//        var config = UIButton.Configuration.plain()
-//        
-//        config.image = UIImage(systemName: "chevron.left")
-//        config.imagePadding = 4
-//        config.baseForegroundColor = .labelPrimary
-//        config.title = "Flow"
-//
-//        backButton.configuration = config
-//        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-//
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-//    }
-//    
-//    @objc func backButtonTapped() {
-//        navigationController?.popViewController(animated: true)
-//    }
+
+    
+    @objc func flowButtonTapped() {
+        let flowViewController = UINavigationController(rootViewController: FlowViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(flowViewController)
+    }
+
 }
 
 extension DayDetailViewController: ViewSetupProtocol {
     func addSubViews() {
         
         view.addSubview(collectionView)
+        view.addSubview(toolBar)
         
     }
     
@@ -74,6 +79,11 @@ extension DayDetailViewController: ViewSetupProtocol {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolBar.heightAnchor.constraint(equalToConstant: 78),
+                        
                         
         ])
     }
@@ -81,7 +91,16 @@ extension DayDetailViewController: ViewSetupProtocol {
     func setupAdditionalConfiguration() {
         
         view.backgroundColor = .backgroundGray6
-        
+        title = "Daily Details"
+        navigationItem.leftBarButtonItem = flowButtonItem
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .fillsWhite
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.labelPrimary]
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+
     }
 }
 

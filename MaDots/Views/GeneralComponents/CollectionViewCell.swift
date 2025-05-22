@@ -42,7 +42,7 @@ class CollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = .labelPrimary
-        label.attributedText = NSAttributedString(string: "", attributes: [ .font: UIFont.systemFont(ofSize: 20, weight: .semibold)])
+        label.attributedText = NSAttributedString(string: "", attributes: [ .font: UIFont.systemFont(ofSize: 28, weight: .bold)])
         
         return label
         
@@ -51,6 +51,7 @@ class CollectionViewCell: UICollectionViewCell {
     lazy var circleImage: UIImageView = {
        
         let image = UIImageView()
+
         
         image.translatesAutoresizingMaskIntoConstraints = false
         
@@ -59,7 +60,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     lazy var stackWithImage: UIStackView = {
         
-        var stack = UIStackView(arrangedSubviews: [circleImage,lowerLabel])
+        var stack = UIStackView(arrangedSubviews: [lowerLabel])
         
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
@@ -101,6 +102,7 @@ extension CollectionViewCell: ViewSetupProtocol {
         addSubview(upperLabel)
         addSubview(separatorLine)
         addSubview(stackWithImage)
+        addSubview(circleImage)
         
     }
     
@@ -116,6 +118,11 @@ extension CollectionViewCell: ViewSetupProtocol {
             stackWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             stackWithImage.topAnchor.constraint(equalTo: separatorLine.bottomAnchor, constant: 8),
             
+            circleImage.topAnchor.constraint(equalTo: separatorLine.topAnchor, constant: 8),
+            circleImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            circleImage.heightAnchor.constraint(equalToConstant: 30),
+            circleImage.widthAnchor.constraint(equalToConstant: 30),
+            
             separatorLine.topAnchor.constraint(equalTo: upperLabel.bottomAnchor, constant: 8),
             separatorLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             separatorLine.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
@@ -126,7 +133,7 @@ extension CollectionViewCell: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        self.backgroundColor = .white
+        self.backgroundColor = .fillTimer
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
         

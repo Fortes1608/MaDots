@@ -6,17 +6,17 @@ class TimerView: UIView {
     
     private var initialTime: Int = 15
     private var timerManager: TimerManager!
-    private var newFlow: Flow = .init(category: .Work, color: .color1, date: Date())
+    private var newFlow: Flow = .init(category: .Work, date: Date())
     private var timeLeft: Int = 15
     
     
     func configure(flow: Flow) {
             self.newFlow = flow
         }
-    private lazy var timeLabel: UILabel = {
+    lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 48, weight: .bold)
-        label.textColor = UIColor.orange
+        label.textColor = .teal
         label.text = "15:00"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,6 +36,14 @@ class TimerView: UIView {
         timeLeft = initialTime
         timerManager = TimerManager(duration: initialTime)
         timerManager.delegate = self
+        timerManager.start()
+    }
+    func pauseCountDown() {
+        timerManager.stop()
+        
+    }
+
+    func resumeCountDown() {
         timerManager.start()
     }
     
@@ -59,7 +67,9 @@ extension TimerView: TimerManagerDelegate {
     func timerDidFinish() {
         DispatchQueue.main.async {
             self.timeLabel.text = "00:00"
-            self.delegate?.timerDidFinish()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.delegate?.timerDidFinish()
+            }
         }
         if let finishedFlow = Persistence.getTemporaryFlow() {
                 Persistence.setFlow(finishedFlow)

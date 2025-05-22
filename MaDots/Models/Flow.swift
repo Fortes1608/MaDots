@@ -6,7 +6,8 @@
 //
 import UIKit
 struct Flow: Codable {
+    
     let category: CategoriesType
-    let color: ColorCategories
     let date: Date
+    
 }

@@ -36,6 +36,8 @@ class DotsStackView: UIView {
         stack.spacing = 8
         stack.layer.cornerRadius = 16
         stack.alignment = .center
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 26, left: 16, bottom: 16, right: 16)
         stack.distribution = .fill
         return stack
     }()
@@ -85,14 +87,20 @@ extension DotsStackView: ViewSetupProtocol{
         self.layer.cornerRadius = 16
         self.layer.borderWidth = 16
         self.layer.borderColor = UIColor.fillsSecondary.cgColor
+
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
             
-            dotButtonsStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16), dotButtonsStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -16), dotButtonsStack.bottomAnchor.constraint(equalTo: stack.bottomAnchor, constant: -16),
+            dotButtonsStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16),
+            dotButtonsStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -16),
+            dotButtonsStack.bottomAnchor.constraint(equalTo: stack.bottomAnchor, constant: -16),
             
-            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16), stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16), stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16), stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             
             separatorView.heightAnchor.constraint(equalToConstant: 1),
             separatorView.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16),

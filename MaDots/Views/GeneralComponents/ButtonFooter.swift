@@ -19,7 +19,13 @@ class ButtonFooterView: UIView {
         button.titleLabel?.textColor = .black
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+
         button.backgroundColor = UIColor.buttonsStill
+
+
+        button.backgroundColor = UIColor.buttonsStill
+
+
         return button
         
     }()

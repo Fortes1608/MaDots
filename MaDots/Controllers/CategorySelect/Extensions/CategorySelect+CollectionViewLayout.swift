@@ -79,9 +79,10 @@ extension CategorySelectViewController: UICollectionViewDelegateFlowLayout {
     //func que configura o tamanho de cada item
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if indexPath.row < titles.count {
+        if indexPath.row < Persistence.returnCategories().count {
             
-            let category = titles[indexPath.row]
+            let category = Persistence.returnCategories()[indexPath.row]
+
             let font = UIFont.systemFont(ofSize: 17, weight: .regular)
             let width = category.size(withAttributes: [NSAttributedString.Key.font: font]).width + 32
             let height: CGFloat = 42

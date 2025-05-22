@@ -25,9 +25,14 @@ extension CategorySelectViewController {
         
         if ButtonsCollectionViewCell.howManySelected >= 1 {
             
-            let colorPickerVC = MatrixViewController()
-            navigationController?.pushViewController(colorPickerVC, animated: true)
+            let matrixVC = MatrixViewController()
+            matrixVC.delegate = self
+
+            navigationController?.pushViewController(matrixVC, animated: true)
                     
+            UserDefaults.standard.set(takeSelectedItens(), forKey: "selectedItens")
+            
+            matrixVC.categories = UserDefaults.standard.value(forKey: "selectedItens") as? [String]
 
             
         } else {

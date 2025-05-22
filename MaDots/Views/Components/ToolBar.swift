@@ -7,25 +7,52 @@
 import UIKit
 
 class ToolBarComponent: UIView {
-    
+    var timerView = TimerView()
     private lazy var toolBar: UIToolbar = {
         let toolBar = UIToolbar()
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         
-        let flow1Button = UIBarButtonItem(title: "Meditação", style: .done, target: self, action: #selector(flow1Tapped))
-        let flow2Button = UIBarButtonItem(title: "Trabalho", style: .done, target: self, action: #selector(flow2Tapped))
-        let flow3Button = UIBarButtonItem(title: "Estudo", style: .done, target: self, action: #selector(flow3Tapped))
+        guard let listCategory =  UserDefaults.standard.value(forKey: "selectedItens") as? [String] else { return toolBar}
+        
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        toolBar.items = [
-            flexibleSpace, flow1Button,
-            flexibleSpace, flow2Button,
-            flexibleSpace, flow3Button,
-            flexibleSpace
-        ]
         
-        toolBar.items?.forEach { $0.tintColor = .black }
+        switch listCategory.count {
+        case 1:
+            let flow1Title =  listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace
+            ]
+        case 2:
+            let flow1Title = listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            let flow2Title = listCategory[1]
+            let flow2Button = UIBarButtonItem(title: flow2Title, style: .done, target: self, action: #selector(flow2Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace, flow2Button,
+                flexibleSpace
+            ]
+        default :
+            let flow1Title = listCategory[0]
+            let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
+            let flow2Title = listCategory[1]
+            let flow2Button = UIBarButtonItem(title: flow2Title, style: .done, target: self, action: #selector(flow2Tapped))
+            let flow3Title = listCategory[2]
+            let flow3Button = UIBarButtonItem(title: flow3Title, style: .done, target: self, action: #selector(flow3Tapped))
+            toolBar.items = [
+                flexibleSpace, flow1Button,
+                flexibleSpace, flow2Button,
+                flexibleSpace, flow3Button,
+                flexibleSpace
+            ]
+        }
+
+        
+        toolBar.items?.forEach { $0.tintColor = .labelPrimary }
         
         return toolBar
     }()
@@ -33,7 +60,7 @@ class ToolBarComponent: UIView {
     private lazy var bottomPaddingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .fillsWhite
         return view
     }()
     
@@ -50,28 +77,29 @@ class ToolBarComponent: UIView {
     private func openTimerViewController(with category: String) {
         guard let categorySelector = CategoriesType(from: category) else { return }
 
-        let flow = Flow(category: categorySelector, color: .color2, date: Date())
+        let flow = Flow(category: categorySelector,  date: Date())
         
         Persistence.setTemporaryFlow(flow)
 
-        let timerVC = TimerViewController()
-        let navVC = UINavigationController(rootViewController: timerVC)
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
-               .changeRootViewController(navVC)
+        let timerVC = TimerViewController(category: categorySelector)
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(timerVC)
     }
 
     
     // MARK: Actions
     @objc private func flow1Tapped() {
-        openTimerViewController(with: "Meditação")
+        guard let listCategory =  UserDefaults.standard.value(forKey: "selectedItens") as? [String] else { return }
+        openTimerViewController(with: listCategory[0])
     }
 
     @objc private func flow2Tapped() {
-        openTimerViewController(with: "Trabalho")
+        guard let listCategory =  UserDefaults.standard.value(forKey: "selectedItens") as? [String] else { return }
+        openTimerViewController(with: listCategory[1])
     }
 
     @objc private func flow3Tapped() {
-        openTimerViewController(with: "Estudo")
+        guard let listCategory =  UserDefaults.standard.value(forKey: "selectedItens") as? [String] else { return }
+        openTimerViewController(with: listCategory[2])
     }
     
 }

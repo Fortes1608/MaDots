@@ -14,9 +14,9 @@ enum ColorCategories: String, Codable {
 
     var uiColor: UIColor {
             switch self {
-            case .color1: return UIColor.orange
-            case .color2: return UIColor.teal
-            case .color3: return UIColor.indigo
+            case .color1: return UIColor.teal
+            case .color2: return UIColor.indigo
+            case .color3: return UIColor.orange
             }
     }
 }

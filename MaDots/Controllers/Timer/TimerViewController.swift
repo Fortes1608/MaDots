@@ -1,5 +1,5 @@
 import UIKit
-
+import AudioToolbox
 
 protocol TimerViewDelegate: AnyObject {
     func timerDidUpdateDots(minuteCount: Int)
@@ -7,9 +7,18 @@ protocol TimerViewDelegate: AnyObject {
 }
 
 class TimerViewController: UIViewController {
+    private let category: CategoriesType
+    
+    init(category: CategoriesType) {
+        self.category = category
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) { fatalError() }
     
     private lazy var dotStack: DotsStackTimerView = {
-        let view = DotsStackTimerView()
+        let view = DotsStackTimerView(category: category)
+        guard let dicColor = Persistence.loadCategoriesWithColor() else { return view }
+        view.timer.timeLabel.textColor = dicColor[category.rawValue]
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -20,13 +29,12 @@ class TimerViewController: UIViewController {
         return view
     }()
     
-    private lazy var buttonSair: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sair", for: .normal)
-        button.backgroundColor = .clear
-        button.setTitleColor(UIColor.systemRed, for: .normal)
+    lazy var buttonBack: UIButton = {
+        var button = UIButton()
+        button.setTitle("Back", for: .normal)
+        button.setTitleColor(.red, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonSairTapped), for: .touchUpInside)
         return button
     }()
@@ -45,7 +53,7 @@ class TimerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .fillsWhite
         setup()
         dotStack.timerDelegate = self
         dotStack.startCountdown()
@@ -66,21 +74,21 @@ class TimerViewController: UIViewController {
          dotTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
              guard let self = self else { return }
              self.elapsedTime += 1
-             
-             if self.elapsedTime == self.interval {
+             if self.elapsedTime == self.interval, let dicColor = Persistence.loadCategoriesWithColor(){
                  self.elapsedTime = 0
-                 self.dotsStackView.addDot(color: UIColor.orange)
+                 self.dotsStackView.addDot(color: dicColor[category.rawValue] ?? .systemBlue)
              }
          }
      }
+    
 }
 
 extension TimerViewController: ViewSetupProtocol {
     func addSubViews() {
         view.addSubview(dotStack)
-        view.addSubview(buttonSair)
         view.addSubview(dotsStackView)
         view.addSubview(fullStack)
+        view.addSubview(buttonBack)
     }
     
     func setupConstraints() {
@@ -95,9 +103,9 @@ extension TimerViewController: ViewSetupProtocol {
             dotStack.leadingAnchor.constraint(equalTo: fullStack.leadingAnchor, constant: 24.07),
             dotStack.trailingAnchor.constraint(equalTo: fullStack.trailingAnchor, constant: -24.07),
             
-            buttonSair.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
-            buttonSair.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            buttonSair.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 309),
+            buttonBack.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
+            buttonBack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            buttonBack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 309),
             
             dotsStackView.topAnchor.constraint(equalTo: dotStack.bottomAnchor, constant: 40), dotsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16), dotsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), dotsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 147)
         ])
@@ -106,11 +114,13 @@ extension TimerViewController: ViewSetupProtocol {
 
 extension TimerViewController: TimerViewDelegate {
     func timerDidUpdateDots(minuteCount: Int) {
-        dotStack.updateDots(count: minuteCount, activeColor: UIColor.orange)
+        guard let dicColor = Persistence.loadCategoriesWithColor() else { return }
+        dotStack.updateDots(count: minuteCount, activeColor: dicColor[category.rawValue] ?? .systemBlue)
     }
     
     func timerDidFinish() {
             dotStack.startCountdown()
             self.elapsedTime = 0
+            AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
 }

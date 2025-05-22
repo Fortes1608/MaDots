@@ -21,30 +21,37 @@ extension DayDetailViewController: UICollectionViewDataSource {
         
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.collectionCellIdentifier, for: indexPath) as? CollectionViewCell else { fatalError("erro") }
+        
+        let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
         
         let allFlows = Persistence.getFlowList()
         
         let today = Date()
         let calendar = Calendar.current
-
+        
+        
         let todayFlows = allFlows.filter { flow in
             calendar.isDate(flow.date, inSameDayAs: today)
         }
         
+        let uniqueCategories: [CategoriesType] = categories.compactMap { CategoriesType(rawValue: $0) }
+        
+        func getFlows(for section: Int) -> [Flow] {
+            if section == 0 {
+                return todayFlows // seção geral
+            } else {
+                let category = uniqueCategories[section - 1]
+                return todayFlows.filter { $0.category == category }
+            }
+        }
+        
         let totalSessions = todayFlows.count
         let totalTimeMinutes = totalSessions * 15 // Cada sessão é 15 minutos
-        
-        //Individual
-        let meditationFlows = todayFlows.filter { $0.category == .Meditation }
-        let workFlows = todayFlows.filter { $0.category == .Work }
-        let studyFlows = todayFlows.filter { $0.category == .Study }
-
-        // Por exemplo:
-//        let workSessions = workFlows.count
-//        let workTime = workSessions * 15
         
         //Revisao geral do dia em si
         if indexPath.section == 0 {
@@ -62,52 +69,109 @@ extension DayDetailViewController: UICollectionViewDataSource {
             case "Sections":
                 lowerLabel = "\(totalSessions)"
             case "Largest Single Focus":
-                let largest = max(meditationFlows.count, workFlows.count, studyFlows.count)
+                let grouped = Dictionary(grouping: todayFlows, by: { $0.category })
+                let largest = grouped.values.map { $0.count }.max() ?? 0
                 lowerLabel = "\(largest * 15) min"
             default:
                 lowerLabel = "-"
             }
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil)
+            let dot = DotButtonView()
+            dot.dotColor = .blue
+            
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
             
             return cell
             
         //Revisao geral do categ1
         } else if  indexPath.section == 1 {
-            
-            let upperLabels = ["Total Time","Sections","Dots"]
+            let upperLabels = ["Total Time", "Sections", "Dots"]
             let labelForCell = upperLabels[indexPath.item]
             
-            //func recebe dados de tempo, foco etc
+            let flowsForThisSection = getFlows(for: indexPath.section)
+            let totalCategorySessions = flowsForThisSection.count
+            let totalCategoryTime = totalCategorySessions * 15
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            var lowerLabel = ""
+            
+            switch labelForCell {
+            case "Total Time":
+                lowerLabel = "\(totalCategoryTime) min"
+            case "Sections":
+                lowerLabel = "\(totalCategorySessions)"
+            case "Dots":
+                lowerLabel = "\(totalCategorySessions)" // ou qualquer outra lógica
+            default:
+                lowerLabel = "-"
+            }
+            
+            let dot = DotButtonView()
+            dot.dotColor = .blue
+                        
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil)
             
             return cell
         
         //Revisao geral do categ2
         } else if indexPath.section == 2 {
-            
-            let upperLabels = ["Total Time","Sections","Dots"]
+            let upperLabels = ["Total Time", "Sections", "Dots"]
             let labelForCell = upperLabels[indexPath.item]
             
-            //func recebe dados de tempo, foco etc
+            let flowsForThisSection = getFlows(for: indexPath.section)
+            let totalCategorySessions = flowsForThisSection.count
+            let totalCategoryTime = totalCategorySessions * 15
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            var lowerLabel = ""
+            
+            switch labelForCell {
+            case "Total Time":
+                lowerLabel = "\(totalCategoryTime) min"
+                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
+            case "Sections":
+                lowerLabel = "\(totalCategorySessions)"
+                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
+            case "Dots":
+                lowerLabel = "\(totalCategorySessions)"
+                
+                let image = UIImage(named: "bolaazul")
+                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image )
+                
+            default:
+                lowerLabel = "-"
+            }
+            
+
             
             return cell
         
         //Revisao geral do categ3 (xyz)
         } else {
+            let upperLabels = ["Total Time", "Sections", "Dots"]
+                let labelForCell = upperLabels[indexPath.item]
+                
+                let flowsForThisSection = getFlows(for: indexPath.section)
+                let totalCategorySessions = flowsForThisSection.count
+                let totalCategoryTime = totalCategorySessions * 15
+                
+                var lowerLabel = ""
+                
+                switch labelForCell {
+                case "Total Time":
+                    lowerLabel = "\(totalCategoryTime) min"
+                case "Sections":
+                    lowerLabel = "\(totalCategorySessions)"
+                case "Dots":
+                    lowerLabel = "\(totalCategorySessions)"
+                default:
+                    lowerLabel = "-"
+                }
+                
+            let dot = DotButtonView()
+            dot.dotColor = .blue
             
-            let upperLabels = ["Total Time","Sections","Dots"]
-            let labelForCell = upperLabels[indexPath.item]
-            
-            //func recebe dados de tempo, foco etc
-            
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
-            
-            return cell
-            
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
+                
+                return cell
         }
     }
     
@@ -120,16 +184,19 @@ extension DayDetailViewController: UICollectionViewDataSource {
                 let header = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
                     withReuseIdentifier: HeaderCollectionView.reuseIdentifier, for: indexPath ) as! HeaderCollectionView
+
+                let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
                 
                 switch indexPath.section {
                     
+                    
                 case 0: header.configure(with: "08 de Maio de 2025")
                     return header
-                case 1: header.configure(with: "Meditation")
+                case 1: header.configure(with: categories[0])
                     return header
-                case 2: header.configure(with: "Work")
+                case 2: header.configure(with: categories[1])
                     return header
-                default:header.configure(with: "Study")
+                default:header.configure(with: categories[2])
                     return header
                     
                 }

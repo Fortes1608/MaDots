@@ -8,20 +8,20 @@
 
 enum CategoriesType: String, Codable{
     
-    case Meditation = "Meditação"
-    case Work = "Trabalho"
-    case Study = "Estudo"
-    case writing = "Escrita"
-    case reading = "Leitura"
-    case creation = "Criação"
-    case planning = "Planejamento"
-    case art = "Art"
-    case Exercise = "Exercício"
-    case Search = "Pesquisa"
-    case Organization = "Organização"
+    case Meditation = "Meditation"
+    case Work = "Work"
+    case Study = "Study"
+    case Writing = "Writing"
+    case Reading = "Reading"
+    case Creation = "Creation"
+    case Planning = "Planning"
+    case Art = "Art"
+    case Exercise = "Exercise"
+    case Search = "Search"
+    case Organization = "Organization"
     case Design = "Design"
     case Code = "Code"
-    case other = "Outro"
+    case other = "other"
     
 }
 extension CategoriesType {

@@ -7,9 +7,15 @@
 
 import UIKit
 
-class CategorySelectViewController: UIViewController {
+class CategorySelectViewController: UIViewController, BackButtonDelegate {
+    func reloadData() {
+        buttonFooter.backgroundColor = UIColor.buttonsStill
+        self.collection.reloadData()
+    }
     
+
     
+    //MARK: MAIN TITLE LABEL
     lazy var mainTitle: UILabel = {
         
         var label = UILabel()
@@ -17,7 +23,7 @@ class CategorySelectViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Select up to three categories"
         label.font = .systemFont(ofSize: 28, weight: .bold)
-        label.textColor = .black
+        label.textColor = .labelPrimary
         label.textAlignment = .center
         label.numberOfLines = 0
         
@@ -25,23 +31,22 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
-    var titles: [String] = ["Meditation","Work","Study","Writing","Reading","Creation","Planning","Art","Exercise","Search","Organization","Design","Code"]
-    
-    
-    
+        
+
     //MARK: FOOTER BUTTON
     lazy var buttonFooter: ButtonFooterView = {
         
         var button = ButtonFooterView()
         
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.buttonTitle = "Continuar"
+        button.buttonTitle = "Continue"
         button.onTap = buttonAction
 
         return button
         
     }()
     
+    //MARK: COLLECTION VIEW
     lazy var collection: UICollectionView = {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createAllLayout())
@@ -58,30 +63,34 @@ class CategorySelectViewController: UIViewController {
         
     }()
     
+    //MARK: UPDATE BUTTON FOOTER COLLOR 
     private func updateButtonFooterState() {
         let isAnySelected = ButtonsCollectionViewCell.howManySelected > 0
 
         buttonFooter.layer.cornerRadius = 20
+
 
         if isAnySelected {
             buttonFooter.backgroundColor = UIColor.buttonsClicked
         } else {
             buttonFooter.backgroundColor = UIColor.buttonsStill
         }
+
+        buttonFooter.backgroundColor = isAnySelected ? UIColor.buttonsClicked : UIColor.buttonsStill
+
+
+        
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         view.endEditing(true)
-    
         
     }
-
-    
 }
+
 extension CategorySelectViewController: ButtonsCollectionViewCellDelegate {
     func didTapCategoryButton(in cell: ButtonsCollectionViewCell, isSelected: Bool) {
         updateButtonFooterState()
