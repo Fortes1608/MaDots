@@ -100,8 +100,8 @@ class MatrixViewController: UIViewController {
         
         if categories?.count == Persistence.loadCategoriesWithColor()?.count {
             
-            let yearVC = YearViewController()
-            let navController = UINavigationController(rootViewController: yearVC)
+            let flowVC = FlowViewController()
+            let navController = UINavigationController(rootViewController: flowVC)
             
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 sceneDelegate.window?.rootViewController = navController

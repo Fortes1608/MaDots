@@ -109,9 +109,29 @@ class FlowViewController: UIViewController {
     }
     
     @objc func detailsButtonTapped() {
-        let categoryViewController = UINavigationController(rootViewController: CategorySelectViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(categoryViewController)
-        ButtonsCollectionViewCell.howManySelected = 0
+        let alertController = UIAlertController(
+            title: "Change Categories",
+            message: "When editing the categories, your data will be deleted.",
+            preferredStyle: .alert
+        )
+
+        let alertAction = UIAlertAction(title: "Change", style: .destructive) { _ in
+            let categoryViewController = UINavigationController(rootViewController: CategorySelectViewController())
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+                .changeRootViewController(categoryViewController)
+            
+
+            Persistence.clearFlowList()
+            ButtonsCollectionViewCell.howManySelected = 0
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+
+        alertController.addAction(alertAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
+
         
     }
     
@@ -120,9 +140,10 @@ class FlowViewController: UIViewController {
         if Persistence.DaysWithFlow(year: year, month: month).isEmpty {
             let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
+        } else{
+            let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController())
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdViewController)
         }
-        let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController())
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdViewController)
     }
 
     func buildContent() -> [Day] {

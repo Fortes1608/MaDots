@@ -36,6 +36,8 @@ class DotsStackView: UIView {
         stack.spacing = 8
         stack.layer.cornerRadius = 16
         stack.alignment = .center
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 26, left: 16, bottom: 16, right: 16)
         stack.distribution = .fill
         return stack
     }()

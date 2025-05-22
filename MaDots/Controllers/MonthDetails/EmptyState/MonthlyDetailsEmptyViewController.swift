@@ -30,8 +30,7 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
-        setupConstraints()
+        setup()
     }
     
     @objc func flowButtonTapped() {

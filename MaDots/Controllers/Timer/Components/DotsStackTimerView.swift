@@ -1,21 +1,24 @@
 import UIKit
 
 class DotsStackTimerView: UIView {
+    var category: CategoriesType
+    lazy var timer = TimerView()
+    var isTimerRunning = false
     
-    private lazy var timer = TimerView()
-    private lazy var categoryLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.labelPrimary
-        label.font = UIFont.systemFont(ofSize: 20, weight: .light)
-        label.textAlignment = .center
-        label.text = "Categoria1"
-        label.numberOfLines = 1
-        label.lineBreakMode = .byTruncatingTail
-        return label
+    private lazy var categoryButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(category.rawValue, for: .normal)
+        button.setTitleColor(UIColor.labelPrimary, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .light)
+        button.titleLabel?.textAlignment = .center
+        button.addTarget(self, action: #selector(handleCategoryButtonTapped), for: .touchUpInside)
+        return button
     }()
+
+    
     private lazy var stackTimer: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [timer,categoryLabel])
+        var stack = UIStackView(arrangedSubviews: [timer, categoryButton])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 8
@@ -31,17 +34,15 @@ class DotsStackTimerView: UIView {
         
     }
 
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupDots()
+    init(category: CategoriesType) {
+        self.category = category
+        super.init(frame: .zero)
+        self.setupDots()
         setup()
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupDots()
-        setup()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupDots() {
@@ -78,7 +79,19 @@ class DotsStackTimerView: UIView {
     
     func startCountdown() {
         timer.startCountDown()
+        isTimerRunning = true
     }
+    
+    
+    @objc func handleCategoryButtonTapped() {
+           if isTimerRunning {
+               timer.pauseCountDown()
+               
+           } else {
+               timer.resumeCountDown()
+           }
+           isTimerRunning.toggle()
+       }
 }
 
 extension DotsStackTimerView: ViewSetupProtocol {

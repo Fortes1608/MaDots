@@ -37,9 +37,9 @@ class EmptyState: UIView {
     lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "Nenhum foco registrado hoje."
+        label.text = "No focus      recorded today."
+        label.numberOfLines = 2
         label.textColor = .black
         return label
     }()
@@ -48,7 +48,7 @@ class EmptyState: UIView {
         var label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "Toque em uma das categorias abaixo"
+        label.text = "Tap one of the categories below"
         label.textColor = .black
         return label
     }()
@@ -56,7 +56,7 @@ class EmptyState: UIView {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "para começar seu primeiro foco."
+        label.text = "to start your first focus."
         label.textColor = .black
         return label
     }()

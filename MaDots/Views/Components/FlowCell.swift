@@ -183,6 +183,7 @@ class FlowCell: UITableViewCell {
     }()
 
     func config(flows: Day) {
+        guard let dicCategory = Persistence.loadCategoriesWithColor() else { return }
         let formatter = DateFormatter()
         formatter.dateFormat = "MM'.'dd"
         formatter.locale = Locale(identifier: "pt_BR")
@@ -194,7 +195,9 @@ class FlowCell: UITableViewCell {
         for i in 0..<count {
             let flow = flows.flows[i]
             let dot = dots[i]
-            dot.dotColor = flow.color.uiColor
+            let key = flow.category.rawValue
+            let color = dicCategory[key] ?? .systemBlue
+            dot.dotColor = color
         }
 
         let buttons = [tag1, tag2, tag3]
@@ -202,11 +205,10 @@ class FlowCell: UITableViewCell {
             button.isHidden = true
         }
         var categories: [CategoriesType] = []
-        var color: [UIColor] = []
+
         for flow in flows.flows {
             if !categories.contains(flow.category) {
                 categories.append(flow.category)
-                color.append(flow.color.uiColor)
             }
         }
 
@@ -214,8 +216,11 @@ class FlowCell: UITableViewCell {
             let button = buttons[i]
             let tagName = String(categories[i].rawValue.prefix(3))
             button.setTitle(tagName, for: .normal)
-            button.setTitleColor(color[i], for: .normal)
-            button.layer.borderColor = color[i].cgColor
+            let key = categories[i].rawValue
+            let color = dicCategory[key] ?? .systemBlue
+            button.tintColor = .white
+            button.setTitleColor(color, for: .normal)
+            button.layer.borderColor = color.cgColor
             button.isHidden = false
         }
     }

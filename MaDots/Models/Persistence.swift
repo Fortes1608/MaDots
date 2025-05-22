@@ -24,6 +24,9 @@ struct Persistence {
         }
         return flows
     }
+    static func clearFlowList() {
+        UserDefaults.standard.removeObject(forKey: userKey)
+        }
     
     static func setFlow(_ flow: Flow) {
         var flowList = getFlowList()

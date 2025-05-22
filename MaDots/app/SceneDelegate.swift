@@ -21,7 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = OnBoardingViewController()
+        if UserDefaults.standard.array(forKey: "selectedItens") != nil {
+            let navigationController = UINavigationController()
+            navigationController.viewControllers = [FlowViewController()]
+            window?.rootViewController = navigationController
+        } else{
+            window?.rootViewController = OnBoardingViewController()
+        }
         window?.makeKeyAndVisible()
 
     }
