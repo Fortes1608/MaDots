@@ -1,0 +1,124 @@
+//
+//  DotsStackView.swift
+//  MaDots
+//
+//  Created by Lorenzo Fortes on 18/05/25.
+//
+
+import UIKit
+
+class DotsStackView: UIView {
+    
+    private lazy var dotsLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Dots"
+        label.textColor = UIColor.labelPrimary
+        label.font = .systemFont(ofSize: 20, weight: .medium)
+        return label
+    }()
+    
+    private lazy var separatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .separatorNonOpaque
+        return view
+    }()
+    
+    private let maxDotsPerRow = 7
+    private var currentRow: UIStackView?
+    
+    
+    
+    private lazy var stack: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [dotsLabel, separatorView, dotButtonsStack])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.backgroundColor = .fillTimer2
+        stack.layer.cornerRadius = 8
+        stack.alignment = .center
+        stack.isLayoutMarginsRelativeArrangement = true
+        stack.layoutMargins = .init(top: 26, left: 16, bottom: 16, right: 16)
+        stack.distribution = .fill
+        return stack
+    }()
+    private lazy var viewBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fillTimer
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var dotButtonsStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+    
+    func addDot(color: UIColor) {
+        if currentRow == nil || currentRow!.arrangedSubviews.count >= maxDotsPerRow {
+            let newRow = UIStackView()
+            newRow.axis = .horizontal
+            newRow.spacing = 8
+            newRow.alignment = .center
+            newRow.distribution = .equalSpacing
+            newRow.translatesAutoresizingMaskIntoConstraints = false
+            dotButtonsStack.addArrangedSubview(newRow)
+            currentRow = newRow
+        }
+        
+        let dot = DotButtonView()
+        dot.dotColor = color
+        currentRow?.addArrangedSubview(dot)
+    }
+    
+    
+}
+extension DotsStackView: ViewSetupProtocol{
+    func addSubViews() {
+        addSubview(viewBackground)
+        addSubview(stack)
+        self.layer.borderWidth = 16
+        self.layer.borderColor = UIColor.fillTimer.cgColor
+
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            
+            dotButtonsStack.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16),
+            dotButtonsStack.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -16),
+            dotButtonsStack.bottomAnchor.constraint(equalTo: stack.bottomAnchor, constant: -16),
+            
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            
+            viewBackground.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            viewBackground.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            viewBackground.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+            viewBackground.topAnchor.constraint(equalTo: stack.topAnchor),
+            
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
+            separatorView.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16),
+            separatorView.trailingAnchor.constraint(equalTo: stack.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    
+}
