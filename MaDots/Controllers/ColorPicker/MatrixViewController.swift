@@ -29,7 +29,7 @@ class MatrixViewController: UIViewController {
     private lazy var continueButton: ButtonFooterView = {
         
         let button = ButtonFooterView()
-        
+                
         button.translatesAutoresizingMaskIntoConstraints = false
         button.buttonTitle = "Continue"
         button.onTap = continueButtonAction
@@ -38,7 +38,6 @@ class MatrixViewController: UIViewController {
         
         
         return button
-        
 
     }()
     

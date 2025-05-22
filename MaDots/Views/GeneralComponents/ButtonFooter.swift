@@ -22,6 +22,10 @@ class ButtonFooterView: UIView {
 
         button.backgroundColor = UIColor.buttonsStill
 
+
+        button.backgroundColor = UIColor.buttonsStill
+
+
         return button
         
     }()

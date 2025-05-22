@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MonthDetailsViewController: UIViewController {
+class DayDetailViewController: UIViewController {
     
     lazy var flowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
@@ -26,14 +26,12 @@ class MonthDetailsViewController: UIViewController {
         return myToolBar
     }()
     
-    var emptyStateView = EmptyState()
-    
-    
     lazy var collectionView: UICollectionView = {
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .none
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -51,18 +49,21 @@ class MonthDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
-
+        title = "Day Details"
+        
     }
+    
+
     
     @objc func flowButtonTapped() {
         let flowViewController = UINavigationController(rootViewController: FlowViewController())
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(flowViewController)
     }
+
 }
 
-extension MonthDetailsViewController: ViewSetupProtocol {
+extension DayDetailViewController: ViewSetupProtocol {
     func addSubViews() {
         
         view.addSubview(collectionView)
@@ -83,23 +84,24 @@ extension MonthDetailsViewController: ViewSetupProtocol {
             toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             toolBar.heightAnchor.constraint(equalToConstant: 78),
                         
+                        
         ])
     }
     
     func setupAdditionalConfiguration() {
-        title = "Monthly Details"
+        
         view.backgroundColor = .backgroundGray6
+        title = "Daily Details"
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .fillsWhite
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.labelPrimary]
 
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
+
     }
-    
 }
 
 
