@@ -35,7 +35,27 @@ class DayDetailViewController: UIViewController {
         super.viewDidLoad()
         
         setup()
+        title = "Day Details"
+        setupBackButton()
+    }
+    
+    func setupBackButton() {
+        let backButton = UIButton(type: .system)
+        var config = UIButton.Configuration.plain()
+        
+        config.image = UIImage(systemName: "chevron.left")
+        config.imagePadding = 4
+        config.baseForegroundColor = .labelPrimary
+        config.title = "Flow"
 
+        backButton.configuration = config
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

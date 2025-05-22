@@ -64,9 +64,9 @@ class CategorySelectViewController: UIViewController {
         buttonFooter.layer.cornerRadius = 20
 
         if isAnySelected {
-            buttonFooter.backgroundColor = UIColor.buttonClicked
+            buttonFooter.backgroundColor = UIColor.buttonsClicked
         } else {
-            buttonFooter.backgroundColor = UIColor.buttonStill
+            buttonFooter.backgroundColor = UIColor.buttonsStill
         }
     }
 

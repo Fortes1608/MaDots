@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: CategorySelectViewController())
+        let navigationController = UINavigationController(rootViewController: DayDetailViewController())
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
 
