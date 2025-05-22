@@ -49,8 +49,8 @@ class OnBoardingViewController2: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Get Started", for: .normal)
-        button.setTitleColor(.fillsWhite, for: .normal)
-        button.backgroundColor = .black
+        button.setTitleColor(.backgroundGray6, for: .normal)
+        button.backgroundColor = .buttonsClicked
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(getStartedAction), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

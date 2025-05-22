@@ -20,7 +20,7 @@ class DotsStackView: UIView {
     private lazy var separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .opaqueSeparator
+        view.backgroundColor = .separatorNonOpaque
         return view
     }()
     
@@ -34,12 +34,19 @@ class DotsStackView: UIView {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 8
-        stack.layer.cornerRadius = 16
+        stack.backgroundColor = .fillTimer2
+        stack.layer.cornerRadius = 8
         stack.alignment = .center
         stack.isLayoutMarginsRelativeArrangement = true
         stack.layoutMargins = .init(top: 26, left: 16, bottom: 16, right: 16)
         stack.distribution = .fill
         return stack
+    }()
+    private lazy var viewBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fillTimer
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var dotButtonsStack: UIStackView = {
@@ -83,10 +90,10 @@ class DotsStackView: UIView {
 }
 extension DotsStackView: ViewSetupProtocol{
     func addSubViews() {
+        addSubview(viewBackground)
         addSubview(stack)
-        self.layer.cornerRadius = 16
         self.layer.borderWidth = 16
-        self.layer.borderColor = UIColor.fillsSecondary.cgColor
+        self.layer.borderColor = UIColor.fillTimer.cgColor
 
     }
     
@@ -101,6 +108,11 @@ extension DotsStackView: ViewSetupProtocol{
             stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
             stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            
+            viewBackground.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
+            viewBackground.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            viewBackground.bottomAnchor.constraint(equalTo: stack.bottomAnchor),
+            viewBackground.topAnchor.constraint(equalTo: stack.topAnchor),
             
             separatorView.heightAnchor.constraint(equalToConstant: 1),
             separatorView.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 16),

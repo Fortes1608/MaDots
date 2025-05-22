@@ -19,7 +19,7 @@ class FlowCell: UITableViewCell {
 
     private lazy var button: UIButton = {
         let button = UIButton()
-        button.tintColor = .black
+        button.tintColor = .labelPrimary
         button.setImage(
             UIImage(systemName: "chevron.right")?.withConfiguration(
                 UIImage.SymbolConfiguration(weight: .bold)

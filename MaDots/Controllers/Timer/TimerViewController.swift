@@ -26,6 +26,7 @@ class TimerViewController: UIViewController {
     private lazy var dotsStackView: DotsStackView = {
         let view = DotsStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -41,7 +42,7 @@ class TimerViewController: UIViewController {
     
     private var dotTimer: Timer?
     private var elapsedTime = 0
-    private let interval = 15
+    private let interval = 15 * 60
     
     private lazy var fullStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dotStack, dotsStackView ])
@@ -115,7 +116,7 @@ extension TimerViewController: ViewSetupProtocol {
 extension TimerViewController: TimerViewDelegate {
     func timerDidUpdateDots(minuteCount: Int) {
         guard let dicColor = Persistence.loadCategoriesWithColor() else { return }
-        dotStack.updateDots(count: minuteCount, activeColor: dicColor[category.rawValue] ?? .systemBlue)
+        dotStack.updateDots(count: minuteCount / 60, activeColor: dicColor[category.rawValue] ?? .systemBlue)
     }
     
     func timerDidFinish() {

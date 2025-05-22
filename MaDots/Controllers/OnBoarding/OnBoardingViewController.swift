@@ -64,8 +64,8 @@ class OnBoardingViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Continuar", for: .normal)
-        button.setTitleColor(.fillsWhite, for: .normal)
-        button.backgroundColor = .black
+        button.setTitleColor(.backgroundGray6, for: .normal)
+        button.backgroundColor = .buttonsClicked
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(continueAction), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +78,7 @@ class OnBoardingViewController: UIViewController {
     }
     
     @objc func continueAction() {
-        let secondPageVC = OnBoardingViewController2()
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(secondPageVC)
+        let onBoardViewController = UINavigationController(rootViewController: OnBoardingViewController2())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(onBoardViewController)
     }
 }
