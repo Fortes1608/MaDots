@@ -1,0 +1,33 @@
+# Xcode
+*.xcuserstate
+*.xcuserdata
+*.xcscmblueprint
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
+# Build
+build/
+DerivedData/
+
+# macOS
+.DS_Store
+
+# Swift Package Manager
+/.build/
+/Packages/
+/Package.resolved
+
+# Cocoapods
+Pods/
+
+# Carthage
+Carthage/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+
+# Firebase / GoogleService
+GoogleService-Info.plist
+*.xcuserstate

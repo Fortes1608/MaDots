@@ -14,7 +14,7 @@ class MonthlyDetailsEmptyViewController: UIViewController {
         button.setTitle("Flow", for: .normal)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.tintColor = .black
+        button.tintColor = .labelPrimary
         button.semanticContentAttribute = .forceLeftToRight
         button.addTarget(self, action: #selector(flowButtonTapped), for: .touchUpInside)
         return UIBarButtonItem(customView: button)
@@ -30,8 +30,7 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
-        setupConstraints()
+        setup()
     }
     
     @objc func flowButtonTapped() {
@@ -72,8 +71,8 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black]
+        appearance.backgroundColor = .fillsWhite
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.labelPrimary]
 
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance

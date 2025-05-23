@@ -103,7 +103,3 @@ extension DayDetailViewController: ViewSetupProtocol {
 
     }
 }
-
-
-
-

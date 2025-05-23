@@ -142,7 +142,3 @@ extension DayDetailViewController {
         return layout
     }
 }
-
-
-
-
