@@ -9,6 +9,9 @@ import UIKit
 
 class MonthlyDetailsEmptyViewController: UIViewController {
     
+    var year = ""
+    var month = ""
+    
     lazy var flowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
         button.setTitle("Flow", for: .normal)
@@ -20,12 +23,10 @@ class MonthlyDetailsEmptyViewController: UIViewController {
         return UIBarButtonItem(customView: button)
     }()
     
-    var emptyStateView = EmptyState()
-    
-    lazy var toolBar: ToolBarComponent = {
-        var myToolBar = ToolBarComponent()
-        myToolBar.translatesAutoresizingMaskIntoConstraints = false
-        return myToolBar
+    private lazy var monthlyEmptyState: MonthlyEmptyState = {
+        let view = MonthlyEmptyState()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -34,39 +35,30 @@ class MonthlyDetailsEmptyViewController: UIViewController {
     }
     
     @objc func flowButtonTapped() {
-        let flowViewController = UINavigationController(rootViewController: FlowViewController())
+        let flowVC = FlowViewController()
+        flowVC.year = self.year
+        flowVC.month = self.month
+        let flowViewController = UINavigationController(rootViewController: flowVC)
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(flowViewController)
     }
-    
-    
-    
-    
-    
 }
+
 extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
     func addSubViews() {
-        view.addSubview(emptyStateView)
-        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(toolBar)
+        view.addSubview(monthlyEmptyState)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            emptyStateView.topAnchor.constraint(equalTo: view.topAnchor, constant: 114),
-            emptyStateView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyStateView.widthAnchor.constraint(equalToConstant: 361),
-            emptyStateView.heightAnchor.constraint(equalToConstant: 268),
-            
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: 78),
-
+            monthlyEmptyState.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            monthlyEmptyState.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            monthlyEmptyState.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            monthlyEmptyState.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
     func setupAdditionalConfiguration() {
         title = "Monthly Details"
-        view.backgroundColor = .backgroundGray6
         view.backgroundColor = .backgroundGray6
         navigationItem.leftBarButtonItem = flowButtonItem
         let appearance = UINavigationBarAppearance()
@@ -77,8 +69,4 @@ extension MonthlyDetailsEmptyViewController: ViewSetupProtocol {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
-    
 }
-
-
-

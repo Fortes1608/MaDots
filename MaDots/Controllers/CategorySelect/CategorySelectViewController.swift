@@ -68,18 +68,7 @@ class CategorySelectViewController: UIViewController, BackButtonDelegate {
         let isAnySelected = ButtonsCollectionViewCell.howManySelected > 0
 
         buttonFooter.layer.cornerRadius = 20
-
-
-        if isAnySelected {
-            buttonFooter.backgroundColor = UIColor.buttonsClicked
-        } else {
-            buttonFooter.backgroundColor = UIColor.buttonsStill
-        }
-
         buttonFooter.backgroundColor = isAnySelected ? UIColor.buttonsClicked : UIColor.buttonsStill
-
-
-        
     }
 
     override func viewDidLoad() {

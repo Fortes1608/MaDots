@@ -9,6 +9,9 @@ import UIKit
 
 class MonthDetailsViewController: UIViewController {
     
+    var year = ""
+    var month = ""
+    
     lazy var flowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
         button.setTitle("Flow", for: .normal)

@@ -24,7 +24,8 @@ extension FlowViewController: ViewSetupProtocol {
             
             emptyView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             emptyView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            emptyView.topAnchor.constraint(equalTo: view.topAnchor, constant: 166),
+            emptyView.topAnchor.constraint(equalTo: view.topAnchor, constant: 182),
+            emptyView.bottomAnchor.constraint(lessThanOrEqualTo: toolBar.topAnchor, constant: -16),
             
             toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),

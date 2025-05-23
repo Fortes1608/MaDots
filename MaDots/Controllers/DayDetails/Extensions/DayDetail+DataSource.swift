@@ -11,13 +11,14 @@ extension DayDetailViewController: UICollectionViewDataSource {
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        4
+        let categories = UserDefaults.standard.value(forKey: "selectedItens") as? [String] ?? []
+        return 1 + categories.count
     }
     
     //Nu
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-    3
+        return 3
         
     }
     
@@ -27,7 +28,7 @@ extension DayDetailViewController: UICollectionViewDataSource {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.collectionCellIdentifier, for: indexPath) as? CollectionViewCell else { fatalError("erro") }
         
-        let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
+        let categories = UserDefaults.standard.value(forKey: "selectedItens") as? [String] ?? []
         let dicColor = Persistence.loadCategoriesWithColor() ?? [:]
         
         let allFlows = Persistence.getFlowList()
@@ -46,6 +47,7 @@ extension DayDetailViewController: UICollectionViewDataSource {
             if section == 0 {
                 return todayFlows // seção geral
             } else {
+                guard (section - 1) < uniqueCategories.count else { return [] }
                 let category = uniqueCategories[section - 1]
                 return todayFlows.filter { $0.category == category }
             }
@@ -128,22 +130,23 @@ extension DayDetailViewController: UICollectionViewDataSource {
                     ofKind: kind,
                     withReuseIdentifier: HeaderCollectionView.reuseIdentifier, for: indexPath ) as! HeaderCollectionView
 
-                let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
+                let categories = UserDefaults.standard.value(forKey: "selectedItens") as? [String] ?? []
                 
-                switch indexPath.section {
-                    
-                    
-                case 0: header.configure(with: "08 de Maio de 2025")
-                    return header
-                case 1: header.configure(with: categories[0])
-                    return header
-                case 2: header.configure(with: categories[1])
-                    return header
-                default:header.configure(with: categories[2])
-                    return header
-                    
+                if indexPath.section == 0 {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "dd 'de' MMMM 'de' yyyy"
+                    formatter.locale = Locale(identifier: "pt_BR")
+                    header.configure(with: formatter.string(from: Date()))
+                } else {
+                    let categoryIndex = indexPath.section - 1
+                    if categoryIndex < categories.count {
+                        header.configure(with: categories[categoryIndex])
+                    } else {
+                        header.configure(with: "-")
+                    }
                 }
                 
+                return header
             }
             
             fatalError("Unexpected element kind")

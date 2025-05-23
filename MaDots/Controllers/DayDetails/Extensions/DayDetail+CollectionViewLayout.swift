@@ -123,7 +123,7 @@ extension DayDetailViewController {
 
             switch sectionIndex {
             case 0:
-                section = self.sectionOneLayout()
+                section = self.sectionZeroLayout()
             default:
                 section = self.sectionOneLayout()
             }

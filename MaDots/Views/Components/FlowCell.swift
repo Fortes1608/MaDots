@@ -211,7 +211,7 @@ class FlowCell: UITableViewCell {
             }
         }
 
-        for i in 0..<categories.count {
+        for i in 0..<min(categories.count, buttons.count) {
             let button = buttons[i]
             let tagName = String(categories[i].rawValue.prefix(3))
             button.setTitle(tagName, for: .normal)

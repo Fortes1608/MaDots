@@ -86,9 +86,7 @@ class MatrixViewController: UIViewController {
         
     var categories: [String]?
 
-    var selection: [UIColor?] = [nil,
-                                 nil,
-                                 nil] {
+    var selection: [UIColor?] = [] {
         didSet {
             matrixView.reloadData()
             let allColorsSelected = selection.compactMap { $0 }.count == categories?.count
@@ -147,6 +145,12 @@ class MatrixViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
+        // Initialize selection array based on actual category count
+        if selection.isEmpty {
+            selection = Array(repeating: nil, count: categories?.count ?? 0)
+        }
+        
         setup()
         view.addSubview(pickLabel)
         view.addSubview(continueButton)

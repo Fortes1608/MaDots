@@ -28,8 +28,18 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
         
         let allFlows = Persistence.getFlowList()
         let calendar = Calendar.current
-        let today = Date()
-        let monthFlows = allFlows.filter { calendar.isDate($0.date, equalTo: today, toGranularity: .month) }
+        
+        // Use the year/month from the view controller; fall back to current if empty
+        let filterYear = year.isEmpty ? String(calendar.component(.year, from: Date())) : year
+        let filterMonthNumber = month.isEmpty
+            ? String(format: "%02d", calendar.component(.month, from: Date()))
+            : (Persistence.monthNumber(from: month) ?? String(format: "%02d", calendar.component(.month, from: Date())))
+        
+        let monthFlows = allFlows.filter { flow in
+            let flowYear = String(calendar.component(.year, from: flow.date))
+            let flowMonth = String(format: "%02d", calendar.component(.month, from: flow.date))
+            return flowYear == filterYear && flowMonth == filterMonthNumber
+        }
         
         // Math helpers
         let totalSessions = monthFlows.count

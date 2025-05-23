@@ -36,7 +36,7 @@ class ToolBarComponent: UIView {
                 flexibleSpace, flow2Button,
                 flexibleSpace
             ]
-        default :
+        case 3:
             let flow1Title = listCategory[0]
             let flow1Button = UIBarButtonItem(title: flow1Title, style: .done, target: self, action: #selector(flow1Tapped))
             let flow2Title = listCategory[1]
@@ -49,6 +49,8 @@ class ToolBarComponent: UIView {
                 flexibleSpace, flow3Button,
                 flexibleSpace
             ]
+        default:
+            break
         }
 
         

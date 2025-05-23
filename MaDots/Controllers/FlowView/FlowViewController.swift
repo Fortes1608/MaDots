@@ -53,6 +53,7 @@ class FlowViewController: UIViewController {
     lazy var emptyView: EmptyState = {
         var empty = EmptyState()
         empty.translatesAutoresizingMaskIntoConstraints = false
+        empty.isHidden = true
         return empty
     }()
     
@@ -141,10 +142,16 @@ class FlowViewController: UIViewController {
     
     @objc func monthlyViewButtonTapped() {
         if Persistence.DaysWithFlow(year: year, month: month).isEmpty {
-            let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
+            let emptyVC = MonthlyDetailsEmptyViewController()
+            emptyVC.year = self.year
+            emptyVC.month = self.month
+            let mdeViewController = UINavigationController(rootViewController: emptyVC)
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
         } else{
-            let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController())
+            let monthVC = MonthDetailsViewController()
+            monthVC.year = self.year
+            monthVC.month = self.month
+            let mdViewController = UINavigationController(rootViewController: monthVC)
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdViewController)
         }
     }
