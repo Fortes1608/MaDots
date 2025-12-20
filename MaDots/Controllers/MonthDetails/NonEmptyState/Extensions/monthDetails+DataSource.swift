@@ -29,11 +29,13 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
         if indexPath.section == 0 {
             
             let upperLabels = ["Category","Time","Total", "Focus Day","Maximum Sessions"]
-            let labelForCell = upperLabels[indexPath.item]
+            let lowerLabel = ["Code","15 min","15 min", "May 22"," 15 min"]
             
+            let labelForCell = upperLabels[indexPath.item]
+            let lowerlabelForCell = lowerLabel[indexPath.item]
             //func recebe dados de tempo, foco etc
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerlabelForCell, image: nil)
             
             return cell
             
@@ -43,20 +45,25 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             let upperLabels = ["Sections","total Time","active days"]
             let labelForCell = upperLabels[indexPath.item]
             
+            let lowerLabel = ["Code","15 min","1"]
+            
+            let lowerlabelForCell = lowerLabel[indexPath.item]
             //func recebe dados de tempo, foco etc
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerlabelForCell, image: nil)
             
             return cell
             
         } else if indexPath.section == 2 {
             
-            let upperLabels = ["First Section","active Media","sequence of days","Hours per week"]
+            let upperLabels = ["First Section","Active Mean","Sequence of Days","Hours per week"]
             let labelForCell = upperLabels[indexPath.item]
+            let lowerLabels = ["May 22", "15 min","1", "15 min"]
+            let lowelabelForCell = lowerLabels[indexPath.item]
             
             //func recebe dados de tempo, foco etc
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowelabelForCell, image: nil)
             
             return cell
             
@@ -64,10 +71,11 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             
             let upperLabels = ["Best Week","schedule with more focus ","day of week","more continuous focus"]
             let labelForCell = upperLabels[indexPath.item]
-            
+            let lowerLabels = ["15 min", "15 min","Thursday", "15 min"]
+            let lowelabelForCell = lowerLabels[indexPath.item]
             //func recebe dados de tempo, foco etc
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: "vou receber", image: nil)
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowelabelForCell, image: nil)
             
             return cell
             

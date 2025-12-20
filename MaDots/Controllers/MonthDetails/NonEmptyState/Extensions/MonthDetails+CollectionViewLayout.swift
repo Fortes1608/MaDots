@@ -260,6 +260,7 @@ extension MonthDetailsViewController {
         
         return layout
     }
+    
 }
 
 
