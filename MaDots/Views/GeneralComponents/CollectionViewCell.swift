@@ -86,12 +86,14 @@ class CollectionViewCell: UICollectionViewCell {
         self.lowerLabel.text = lowerLabel
         self.circleImage.isHidden = true
         self.dotsStackView.isHidden = true
+        self.lowerLabel.isHidden = false
         
         if let image {
             self.circleImage.image = image
             self.circleImage.isHidden = false
         } else if dotCount > 0, let color = dotColor {
             self.dotsStackView.isHidden = false
+            self.lowerLabel.isHidden = true
             
             // Clear existing
             self.dotsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
