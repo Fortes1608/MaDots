@@ -43,17 +43,22 @@ class YearHeaderView: UIView {
     init() {
         super.init(frame: .zero)
         setup()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(buttonTapped))
+        self.addGestureRecognizer(tapGesture)
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(buttonTapped))
+        self.addGestureRecognizer(tapGesture)
     }
 
     func config(year: String, isExpanded: Bool,section: Int, action: @escaping () -> Void) {
         label.text = year
         let imageName = isExpanded ? "chevron.down" : "chevron.right"
         button.setImage(UIImage(systemName: imageName), for: .normal)
+        button.isUserInteractionEnabled = false // Let tap gesture handle it
         self.toggleAction = action
         self.section = section
         

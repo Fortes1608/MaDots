@@ -7,12 +7,12 @@
 import UIKit
 
 class FlowViewController: UIViewController {
-    var year = "2025"
-    var month = "May"
+    var year = ""
+    var month = ""
     
     lazy var yearFlowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
-        button.setTitle("2025", for: .normal)
+        button.setTitle(self.year.isEmpty ? "Year" : self.year, for: .normal)
         button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         button.tintColor = .labelPrimary
@@ -79,7 +79,9 @@ class FlowViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setYearAndMonth()
+        if year.isEmpty || month.isEmpty {
+            setYearAndMonth()
+        }
         
         self.flowList =  Persistence.DaysWithFlow(year: year, month: month)
         

@@ -25,7 +25,11 @@ extension YearViewController: UITableViewDataSource {
         let month = monthsByYear[year]?[indexPath.row] ?? ""
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = month
+        cell.textLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        cell.textLabel?.textColor = .labelPrimary
         cell.backgroundColor = .backgroundGray6
+        cell.accessoryType = .disclosureIndicator
+        cell.tintColor = .secondaryLabel
         return cell
     }
 }
