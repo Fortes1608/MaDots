@@ -4,10 +4,12 @@ class TimerView: UIView {
     
     weak var delegate: TimerViewDelegate?
     
-    private var initialTime: Int = 15 * 60
+    private var initialTime: Int = 10
+//    private var initialTime: Int = 15 * 60
     private var timerManager: TimerManager!
     private var newFlow: Flow = .init(category: .Work, date: Date())
-    private var timeLeft: Int = 15 * 60
+    private var timeLeft: Int = 10
+//    private var timeLeft: Int = 15 * 60
     
     
     func configure(flow: Flow) {
@@ -17,7 +19,7 @@ class TimerView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 48, weight: .bold)
         label.textColor = .teal
-        label.text = "15:00"
+        label.text = "00:10"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

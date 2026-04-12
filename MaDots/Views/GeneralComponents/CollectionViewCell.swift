@@ -58,6 +58,17 @@ class CollectionViewCell: UICollectionViewCell {
         return image
     }()
     
+    lazy var dotsStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 6
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        stack.isHidden = true
+        return stack
+    }()
+    
     lazy var stackWithImage: UIStackView = {
         
         var stack = UIStackView(arrangedSubviews: [lowerLabel])
@@ -69,14 +80,28 @@ class CollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage? ) {
+    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage?, dotCount: Int = 0, dotColor: UIColor? = nil ) {
         
         self.upperLabel.text = upperLabel
         self.lowerLabel.text = lowerLabel
+        self.circleImage.isHidden = true
+        self.dotsStackView.isHidden = true
+        
         if let image {
             self.circleImage.image = image
+            self.circleImage.isHidden = false
+        } else if dotCount > 0, let color = dotColor {
+            self.dotsStackView.isHidden = false
+            
+            // Clear existing
+            self.dotsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            
+            for _ in 0..<dotCount {
+                let dot = DotButtonView()
+                dot.dotColor = color
+                self.dotsStackView.addArrangedSubview(dot)
+            }
         }
-        
     }
     
     
@@ -103,6 +128,7 @@ extension CollectionViewCell: ViewSetupProtocol {
         addSubview(separatorLine)
         addSubview(stackWithImage)
         addSubview(circleImage)
+        addSubview(dotsStackView)
         
     }
     
@@ -122,6 +148,10 @@ extension CollectionViewCell: ViewSetupProtocol {
             circleImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             circleImage.heightAnchor.constraint(equalToConstant: 30),
             circleImage.widthAnchor.constraint(equalToConstant: 30),
+            
+            dotsStackView.topAnchor.constraint(equalTo: separatorLine.topAnchor, constant: 8),
+            dotsStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            dotsStackView.heightAnchor.constraint(equalToConstant: 31),
             
             separatorLine.topAnchor.constraint(equalTo: upperLabel.bottomAnchor, constant: 8),
             separatorLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),

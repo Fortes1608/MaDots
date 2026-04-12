@@ -42,7 +42,8 @@ class TimerViewController: UIViewController {
     
     private var dotTimer: Timer?
     private var elapsedTime = 0
-    private let interval = 15 * 60
+    private let interval = 10
+    //private let interval = 15 * 60
     
     private lazy var fullStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dotStack, dotsStackView ])

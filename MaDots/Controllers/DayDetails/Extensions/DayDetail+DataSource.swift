@@ -28,6 +28,7 @@ extension DayDetailViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.collectionCellIdentifier, for: indexPath) as? CollectionViewCell else { fatalError("erro") }
         
         let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
+        let dicColor = Persistence.loadCategoriesWithColor() ?? [:]
         
         let allFlows = Persistence.getFlowList()
         
@@ -83,95 +84,37 @@ extension DayDetailViewController: UICollectionViewDataSource {
             
             return cell
             
-        //Revisao geral do categ1
-        } else if  indexPath.section == 1 {
-            let upperLabels = ["Total Time", "Sections", "Dots"]
-            let labelForCell = upperLabels[indexPath.item]
-            
-            let flowsForThisSection = getFlows(for: indexPath.section)
-            let totalCategorySessions = flowsForThisSection.count
-            let totalCategoryTime = totalCategorySessions * 15
-            
-            var lowerLabel = ""
-            
-            switch labelForCell {
-            case "Total Time":
-                lowerLabel = "\(totalCategoryTime) min"
-            case "Sections":
-                lowerLabel = "\(totalCategorySessions)"
-            case "Dots":
-                lowerLabel = "\(totalCategorySessions)" // ou qualquer outra lógica
-            default:
-                lowerLabel = "-"
-            }
-            
-            let dot = DotButtonView()
-            dot.dotColor = .blue
-                        
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil)
-            
-            return cell
-        
-        //Revisao geral do categ2
-        } else if indexPath.section == 2 {
-            let upperLabels = ["Total Time", "Sections", "Dots"]
-            let labelForCell = upperLabels[indexPath.item]
-            
-            let flowsForThisSection = getFlows(for: indexPath.section)
-            let totalCategorySessions = flowsForThisSection.count
-            let totalCategoryTime = totalCategorySessions * 15
-            
-            var lowerLabel = ""
-            
-            switch labelForCell {
-            case "Total Time":
-                lowerLabel = "\(totalCategoryTime) min"
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-            case "Sections":
-                lowerLabel = "\(totalCategorySessions)"
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-            case "Dots":
-                lowerLabel = "\(totalCategorySessions)"
-                
-                let image = UIImage(named: "bolaazul")
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image )
-                
-            default:
-                lowerLabel = "-"
-            }
-            
-
-            
-            return cell
-        
-        //Revisao geral do categ3 (xyz)
+        //Revisao geral das categorias (1, 2, 3...)
         } else {
             let upperLabels = ["Total Time", "Sections", "Dots"]
-                let labelForCell = upperLabels[indexPath.item]
-                
-                let flowsForThisSection = getFlows(for: indexPath.section)
-                let totalCategorySessions = flowsForThisSection.count
-                let totalCategoryTime = totalCategorySessions * 15
-                
-                var lowerLabel = ""
-                
-                switch labelForCell {
-                case "Total Time":
-                    lowerLabel = "\(totalCategoryTime) min"
-                case "Sections":
-                    lowerLabel = "\(totalCategorySessions)"
-                case "Dots":
-                    lowerLabel = "\(totalCategorySessions)"
-                default:
-                    lowerLabel = "-"
-                }
-                
-            let dot = DotButtonView()
-            dot.dotColor = .blue
+            let labelForCell = upperLabels[indexPath.item]
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-                
-                return cell
+            let flowsForThisSection = getFlows(for: indexPath.section)
+            let totalCategorySessions = flowsForThisSection.count
+            let totalCategoryTime = totalCategorySessions * 15
+            
+            var lowerLabel = ""
+            var dotCount = 0
+            var dotColor: UIColor? = nil
+            
+            switch labelForCell {
+            case "Total Time":
+                lowerLabel = "\(totalCategoryTime) min"
+            case "Sections":
+                lowerLabel = "\(totalCategorySessions)"
+            case "Dots":
+                lowerLabel = "\(totalCategorySessions)"
+                dotCount = totalCategorySessions
+                if (indexPath.section - 1) < categories.count {
+                    let catString = categories[indexPath.section - 1]
+                    dotColor = dicColor[catString] ?? .systemBlue
+                }
+            default:
+                lowerLabel = "-"
+            }
+            
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil, dotCount: dotCount, dotColor: dotColor)
+            return cell
         }
     }
     
