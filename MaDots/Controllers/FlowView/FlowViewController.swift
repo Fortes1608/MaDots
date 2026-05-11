@@ -18,7 +18,6 @@ class FlowViewController: UIViewController {
         button.tintColor = .labelPrimary
         button.semanticContentAttribute = .forceLeftToRight
         button.addTarget(self, action: #selector(yearButtonTapped), for: .touchUpInside)
-        button.isHidden = Persistence.getFlowList().isEmpty
 
         return UIBarButtonItem(customView: button)
     }()

@@ -20,11 +20,7 @@ class DayDetailViewController: UIViewController {
         return UIBarButtonItem(customView: button)
     }()
     
-    lazy var toolBar: ToolBarComponent = {
-        var myToolBar = ToolBarComponent()
-        myToolBar.translatesAutoresizingMaskIntoConstraints = false
-        return myToolBar
-    }()
+    
     
     lazy var collectionView: UICollectionView = {
         
@@ -67,7 +63,6 @@ extension DayDetailViewController: ViewSetupProtocol {
     func addSubViews() {
         
         view.addSubview(collectionView)
-        view.addSubview(toolBar)
         
     }
     
@@ -78,11 +73,7 @@ extension DayDetailViewController: ViewSetupProtocol {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            toolBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            toolBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            toolBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            toolBar.heightAnchor.constraint(equalToConstant: 78),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
                         
                         
         ])
