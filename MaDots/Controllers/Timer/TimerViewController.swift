@@ -40,9 +40,6 @@ class TimerViewController: UIViewController {
         return button
     }()
     
-    private var dotTimer: Timer?
-    private var elapsedTime = 0
-    private let interval = 15 * 60
     
     private lazy var fullStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dotStack, dotsStackView ])
@@ -58,7 +55,6 @@ class TimerViewController: UIViewController {
         setup()
         dotStack.timerDelegate = self
         dotStack.startCountdown()
-        startRepeatingDotTimer()
     }
     
     @objc func buttonSairTapped() {
@@ -68,19 +64,8 @@ class TimerViewController: UIViewController {
     }
 
     deinit {
-            dotTimer?.invalidate()
-        }
-    
-    private func startRepeatingDotTimer() {
-         dotTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-             guard let self = self else { return }
-             self.elapsedTime += 1
-             if self.elapsedTime == self.interval, let dicColor = Persistence.loadCategoriesWithColor(){
-                 self.elapsedTime = 0
-                 self.dotsStackView.addDot(color: dicColor[category.rawValue] ?? .systemBlue)
-             }
-         }
-     }
+        // ...
+    }
     
 }
 
@@ -123,7 +108,10 @@ extension TimerViewController: TimerViewDelegate {
             // Reset all 15 circular dots to inactive
             dotStack.updateDots(count: 0, activeColor: .clear)
             dotStack.startCountdown()
-            self.elapsedTime = 0
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
+            
+            if let dicColor = Persistence.loadCategoriesWithColor() {
+                dotsStackView.addDot(color: dicColor[category.rawValue] ?? .systemBlue)
+            }
         }
 }

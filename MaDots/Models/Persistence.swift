@@ -57,12 +57,16 @@ struct Persistence {
     static func yearsWithFlow() -> [String]{
         let flowList = getFlowList()
         let calendar = Calendar.current
-        let years = flowList.map { flow in
+        var years = flowList.map { flow in
             String(calendar.component(.year, from: flow.date))
         }
+        
+        let currentYear = String(calendar.component(.year, from: Date()))
+        years.append(currentYear)
+        
         let yearsSet = Array(Set(years)).sorted()
             
-            return yearsSet
+        return yearsSet
     }
     
 
@@ -73,12 +77,17 @@ struct Persistence {
         formatter.locale = Locale(identifier: "en_US")
         formatter.dateFormat = "MMMM"
         
-        let filteredMonths = flowList.compactMap { flow -> String? in
+        var filteredMonths = flowList.compactMap { flow -> String? in
             let flowYear = String(calendar.component(.year, from: flow.date))
             if flowYear == year {
                 return formatter.string(from: flow.date)
             }
             return nil
+        }
+        
+        let currentYear = String(calendar.component(.year, from: Date()))
+        if year == currentYear {
+            filteredMonths.append(formatter.string(from: Date()))
         }
         
         var seen = Set<String>()
