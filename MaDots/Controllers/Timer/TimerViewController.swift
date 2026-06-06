@@ -4,6 +4,8 @@ import AudioToolbox
 protocol TimerViewDelegate: AnyObject {
     func timerDidUpdateDots(minuteCount: Int)
     func timerDidFinish()
+    func timerDidPause()
+    func timerDidResume()
 }
 
 class TimerViewController: UIViewController {
@@ -116,7 +118,7 @@ extension TimerViewController: ViewSetupProtocol {
 extension TimerViewController: TimerViewDelegate {
     func timerDidUpdateDots(minuteCount: Int) {
         guard let dicColor = Persistence.loadCategoriesWithColor() else { return }
-        dotStack.updateDots(count: minuteCount / 60, activeColor: dicColor[category.rawValue] ?? .systemBlue)
+        dotStack.updateDots(count: minuteCount, activeColor: dicColor[category.rawValue] ?? .systemBlue)
     }
     
     func timerDidFinish() {
@@ -124,4 +126,13 @@ extension TimerViewController: TimerViewDelegate {
             self.elapsedTime = 0
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
+        
+    func timerDidPause() {
+        dotTimer?.invalidate()
+        dotTimer = nil
+    }
+    
+    func timerDidResume() {
+        startRepeatingDotTimer()
+    }
 }

@@ -16,12 +16,23 @@ class DotsStackTimerView: UIView {
         return button
     }()
 
-    
+    private lazy var playPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let config = UIImage.SymbolConfiguration(pointSize: 36)
+        button.setImage(UIImage(systemName: "pause.circle.fill", withConfiguration: config), for: .normal)
+        button.tintColor = UIColor.labelPrimary
+        button.addTarget(self, action: #selector(handlePlayPauseTapped), for: .touchUpInside)
+        return button
+    }()
+
     private lazy var stackTimer: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [timer, categoryButton])
+        var stack = UIStackView(arrangedSubviews: [timer, categoryButton, playPauseButton])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 8
+        stack.setCustomSpacing(24, after: timer)
+        stack.alignment = .center
         return stack
     }()
     private var dots: [DotButtonView] = []
@@ -82,16 +93,24 @@ class DotsStackTimerView: UIView {
         isTimerRunning = true
     }
     
+    @objc func handlePlayPauseTapped() {
+        if isTimerRunning {
+            timer.pauseCountDown()
+            timerDelegate?.timerDidPause()
+            let config = UIImage.SymbolConfiguration(pointSize: 36)
+            playPauseButton.setImage(UIImage(systemName: "play.circle.fill", withConfiguration: config), for: .normal)
+        } else {
+            timer.resumeCountDown()
+            timerDelegate?.timerDidResume()
+            let config = UIImage.SymbolConfiguration(pointSize: 36)
+            playPauseButton.setImage(UIImage(systemName: "pause.circle.fill", withConfiguration: config), for: .normal)
+        }
+        isTimerRunning.toggle()
+    }
     
     @objc func handleCategoryButtonTapped() {
-           if isTimerRunning {
-               timer.pauseCountDown()
-               
-           } else {
-               timer.resumeCountDown()
-           }
-           isTimerRunning.toggle()
-       }
+        handlePlayPauseTapped()
+    }
 }
 
 extension DotsStackTimerView: ViewSetupProtocol {
@@ -101,9 +120,38 @@ extension DotsStackTimerView: ViewSetupProtocol {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            stackTimer.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 89), stackTimer.topAnchor.constraint(equalTo: self.topAnchor, constant: 119), stackTimer.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -89), stackTimer.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -119)
+            stackTimer.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            stackTimer.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
     
     
 }
+
+#if DEBUG
+import SwiftUI
+
+struct DotsStackTimerView_Preview: PreviewProvider {
+    static var previews: some View {
+        UIViewPreview {
+            let view = DotsStackTimerView(category: .Work)
+            return view
+        }
+        .frame(width: 400, height: 400)
+    }
+}
+
+struct UIViewPreview<View: UIView>: UIViewRepresentable {
+    let view: View
+    init(_ builder: @escaping () -> View) {
+        view = builder()
+    }
+    func makeUIView(context: Context) -> UIView {
+        return view
+    }
+    func updateUIView(_ uiView: UIView, context: Context) {
+        uiView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+    }
+}
+#endif
