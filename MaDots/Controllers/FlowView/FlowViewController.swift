@@ -142,7 +142,7 @@ class FlowViewController: UIViewController {
             let mdeViewController = UINavigationController(rootViewController: MonthlyDetailsEmptyViewController())
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdeViewController)
         } else{
-            let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController())
+            let mdViewController = UINavigationController(rootViewController: MonthDetailsViewController(year: self.year, month: self.month))
             (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mdViewController)
         }
     }

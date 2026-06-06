@@ -9,6 +9,19 @@ import UIKit
 
 class MonthDetailsViewController: UIViewController {
     
+    var year: String?
+    var month: String?
+    
+    init(year: String? = nil, month: String? = nil) {
+        self.year = year
+        self.month = month
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     lazy var flowButtonItem: UIBarButtonItem = {
         let button = UIButton(type: .system)
         button.setTitle("Flow", for: .normal)

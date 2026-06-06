@@ -9,60 +9,51 @@ import UIKit
 
 extension DayDetailViewController: UICollectionViewDataSource {
     
+    private var uniqueCategories: [CategoriesType] {
+        guard let day = self.day else { return [] }
+        var categories: [CategoriesType] = []
+        for flow in day.flows {
+            if !categories.contains(flow.category) {
+                categories.append(flow.category)
+            }
+        }
+        return categories
+    }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        4
+        return 1 + uniqueCategories.count
     }
     
-    //Nu
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-    3
-        
+        return 3
     }
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.collectionCellIdentifier, for: indexPath) as? CollectionViewCell else { fatalError("erro") }
         
-        let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
-        
-        let allFlows = Persistence.getFlowList()
-        
-        let today = Date()
-        let calendar = Calendar.current
-        
-        
-        let todayFlows = allFlows.filter { flow in
-            calendar.isDate(flow.date, inSameDayAs: today)
-        }
-        
-        let uniqueCategories: [CategoriesType] = categories.compactMap { CategoriesType(rawValue: $0) }
+        let todayFlows = self.day?.flows ?? []
+        let categories = uniqueCategories
         
         func getFlows(for section: Int) -> [Flow] {
             if section == 0 {
-                return todayFlows // seção geral
+                return todayFlows // general section
             } else {
-                let category = uniqueCategories[section - 1]
+                let category = categories[section - 1]
                 return todayFlows.filter { $0.category == category }
             }
         }
         
-        let totalSessions = todayFlows.count
-        let totalTimeMinutes = totalSessions * 15 // Cada sessão é 15 minutos
+        let flowsForThisSection = getFlows(for: indexPath.section)
+        let totalSessions = flowsForThisSection.count
+        let totalTimeMinutes = totalSessions * 15 // Each session is 15 minutes
         
-        //Revisao geral do dia em si
+        // General day review
         if indexPath.section == 0 {
-            
-            let upperLabels = ["Time","Sections","Largest Single Focus"]
+            let upperLabels = ["Time", "Sections", "Largest Single Focus"]
             let labelForCell = upperLabels[indexPath.item]
             
-            //func recebe dados de tempo, foco etc
-            
             var lowerLabel = ""
-            
             switch labelForCell {
             case "Time":
                 lowerLabel = "\(totalTimeMinutes) min"
@@ -76,102 +67,32 @@ extension DayDetailViewController: UICollectionViewDataSource {
                 lowerLabel = "-"
             }
             
-            let dot = DotButtonView()
-            dot.dotColor = .blue
-            
             cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-            
             return cell
             
-        //Revisao geral do categ1
-        } else if  indexPath.section == 1 {
-            let upperLabels = ["Total Time", "Sections", "Dots"]
-            let labelForCell = upperLabels[indexPath.item]
-            
-            let flowsForThisSection = getFlows(for: indexPath.section)
-            let totalCategorySessions = flowsForThisSection.count
-            let totalCategoryTime = totalCategorySessions * 15
-            
-            var lowerLabel = ""
-            
-            switch labelForCell {
-            case "Total Time":
-                lowerLabel = "\(totalCategoryTime) min"
-            case "Sections":
-                lowerLabel = "\(totalCategorySessions)"
-            case "Dots":
-                lowerLabel = "\(totalCategorySessions)" // ou qualquer outra lógica
-            default:
-                lowerLabel = "-"
-            }
-            
-            let dot = DotButtonView()
-            dot.dotColor = .blue
-                        
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil)
-            
-            return cell
-        
-        //Revisao geral do categ2
-        } else if indexPath.section == 2 {
-            let upperLabels = ["Total Time", "Sections", "Dots"]
-            let labelForCell = upperLabels[indexPath.item]
-            
-            let flowsForThisSection = getFlows(for: indexPath.section)
-            let totalCategorySessions = flowsForThisSection.count
-            let totalCategoryTime = totalCategorySessions * 15
-            
-            var lowerLabel = ""
-            
-            switch labelForCell {
-            case "Total Time":
-                lowerLabel = "\(totalCategoryTime) min"
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-            case "Sections":
-                lowerLabel = "\(totalCategorySessions)"
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-            case "Dots":
-                lowerLabel = "\(totalCategorySessions)"
-                
-                let image = UIImage(named: "bolaazul")
-                cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image )
-                
-            default:
-                lowerLabel = "-"
-            }
-            
-
-            
-            return cell
-        
-        //Revisao geral do categ3 (xyz)
+        // Category review
         } else {
             let upperLabels = ["Total Time", "Sections", "Dots"]
-                let labelForCell = upperLabels[indexPath.item]
-                
-                let flowsForThisSection = getFlows(for: indexPath.section)
-                let totalCategorySessions = flowsForThisSection.count
-                let totalCategoryTime = totalCategorySessions * 15
-                
-                var lowerLabel = ""
-                
-                switch labelForCell {
-                case "Total Time":
-                    lowerLabel = "\(totalCategoryTime) min"
-                case "Sections":
-                    lowerLabel = "\(totalCategorySessions)"
-                case "Dots":
-                    lowerLabel = "\(totalCategorySessions)"
-                default:
-                    lowerLabel = "-"
-                }
-                
-            let dot = DotButtonView()
-            dot.dotColor = .blue
+            let labelForCell = upperLabels[indexPath.item]
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: nil )
-                
-                return cell
+            var lowerLabel = ""
+            var image: UIImage? = nil
+            
+            switch labelForCell {
+            case "Total Time":
+                lowerLabel = "\(totalTimeMinutes) min"
+            case "Sections":
+                lowerLabel = "\(totalSessions)"
+            case "Dots":
+                lowerLabel = "\(totalSessions)"
+                // Optionally map image dots appropriately, simulating UI:
+                // image = UIImage(named: "bolaazul") -> leaving nil to fallback or configuring dot color below?
+            default:
+                lowerLabel = "-"
+            }
+            
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image)
+            return cell
         }
     }
     
@@ -180,30 +101,25 @@ extension DayDetailViewController: UICollectionViewDataSource {
         viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath ) -> UICollectionReusableView {
             
             if kind == UICollectionView.elementKindSectionHeader {
-                
                 let header = collectionView.dequeueReusableSupplementaryView(
                     ofKind: kind,
                     withReuseIdentifier: HeaderCollectionView.reuseIdentifier, for: indexPath ) as! HeaderCollectionView
 
-                let categories = UserDefaults.standard.value(forKey: "selectedItens") as! [String]
+                let categories = uniqueCategories
                 
-                switch indexPath.section {
-                    
-                    
-                case 0: header.configure(with: "08 de Maio de 2025")
-                    return header
-                case 1: header.configure(with: categories[0])
-                    return header
-                case 2: header.configure(with: categories[1])
-                    return header
-                default:header.configure(with: categories[2])
-                    return header
-                    
+                if indexPath.section == 0 {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "dd 'de' MMMM 'de' yyyy"
+                    formatter.locale = Locale(identifier: "en_US") // Fallback
+                    let dateString = day != nil ? formatter.string(from: day!.date) : "Today"
+                    header.configure(with: dateString)
+                } else {
+                    header.configure(with: categories[indexPath.section - 1].rawValue)
                 }
                 
+                return header
             }
             
             fatalError("Unexpected element kind")
-            
         }
 }

@@ -10,6 +10,8 @@ class FlowCell: UITableViewCell {
 
     static let reuseIdentifier = "FlowCell-Identifies"
 
+    var currentDay: Day?
+
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20, weight: .medium)
@@ -182,6 +184,7 @@ class FlowCell: UITableViewCell {
     }()
 
     func config(flows: Day) {
+        self.currentDay = flows
         guard let dicCategory = Persistence.loadCategoriesWithColor() else { return }
         let formatter = DateFormatter()
         formatter.dateFormat = "MM'.'dd"
@@ -236,8 +239,9 @@ class FlowCell: UITableViewCell {
     }
 
     @objc private func buttonTapped() {
+        guard let day = currentDay else { return }
         let dailyViewController = UINavigationController(
-            rootViewController: DayDetailViewController()
+            rootViewController: DayDetailViewController(day: day)
         )
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
             .changeRootViewController(dailyViewController)

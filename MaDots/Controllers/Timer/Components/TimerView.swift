@@ -4,10 +4,10 @@ class TimerView: UIView {
     
     weak var delegate: TimerViewDelegate?
     
-    private var initialTime: Int = 15 * 60
+    private var initialTime: Int = 15 
     private var timerManager: TimerManager!
     private var newFlow: Flow = .init(category: .Work, date: Date())
-    private var timeLeft: Int = 15 * 60
+    private var timeLeft: Int = 15
     
     
     func configure(flow: Flow) {
