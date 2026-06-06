@@ -71,7 +71,14 @@ extension MonthDetailsViewController: UICollectionViewDataSource {
             let labelForCell = upperLabels[indexPath.item]
             let lowerlabelForCell = lowerLabel[indexPath.item]
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerlabelForCell, image: nil)
+            var singleDotColor: UIColor? = nil
+            if labelForCell == "Category" {
+                if let dicColor = Persistence.loadCategoriesWithColor() {
+                    singleDotColor = dicColor[bestCategory] ?? .systemBlue
+                }
+            }
+            
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerlabelForCell, image: nil, singleDotColor: singleDotColor)
             return cell
             
         } else if indexPath.section == 1 {

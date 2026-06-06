@@ -21,44 +21,41 @@ extension MonthDetailsViewController {
     func sectionZeroLayout() -> Section {
         
         //MARK: ITEMS OF FIRST GROUP
-        let itemSizeFirstGroup = Size(widthDimension: .fractionalWidth(1.0/3),
+        let itemSizeFirstGroup = Size(widthDimension: .estimated(160),
                                       heightDimension: .fractionalHeight(1.0))
         
         let itemFirstGroup = Item(layoutSize: itemSizeFirstGroup)
         
         //MARK: FIRST GROUP
-        let groupFirstSize = Size(widthDimension: .fractionalWidth(1.0),
+        let groupFirstSize = Size(widthDimension: .estimated(500),
                                   heightDimension: .absolute(105))
         
         let HorizontalFirstGroup = Group.horizontal(
             layoutSize: groupFirstSize,
-            repeatingSubitem: itemFirstGroup,
-            count: 3)
+            subitems: [itemFirstGroup, itemFirstGroup, itemFirstGroup])
         
         HorizontalFirstGroup.interItemSpacing = .fixed(16.0)
         //------------------
         
         // second Item
-        let itemSizeSecondGroup = Size(widthDimension: .fractionalWidth(1.0/2),
+        let itemSizeSecondGroup = Size(widthDimension: .estimated(160),
                                        heightDimension: .fractionalHeight(1.0))
         
         let itemSecondGroup = Item(layoutSize: itemSizeSecondGroup)
         // second Group
-        let groupSecondSize = Size(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100))
+        let groupSecondSize = Size(widthDimension: .estimated(500), heightDimension: .absolute(100))
         
         let HorizontalSecondGroup = Group.horizontal(
             layoutSize: groupSecondSize,
-            repeatingSubitem: itemSecondGroup,
-            count: 2)
+            subitems: [itemSecondGroup, itemSecondGroup])
         HorizontalSecondGroup.interItemSpacing = .fixed(16.0)
         
-        let groupVerticalSize = Size(widthDimension: .absolute(486), heightDimension: .absolute(221))
+        let groupVerticalSize = Size(widthDimension: .estimated(500), heightDimension: .estimated(250))
         
         
         let verticalGroup = Group.vertical(layoutSize: groupVerticalSize,
-                                                             subitems: [HorizontalFirstGroup,HorizontalSecondGroup])
+                                                              subitems: [HorizontalFirstGroup,HorizontalSecondGroup])
         verticalGroup.interItemSpacing = .fixed(16)
-        verticalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
         
         /// section
         let section = NSCollectionLayoutSection(group: verticalGroup)
@@ -73,7 +70,7 @@ extension MonthDetailsViewController {
                 
         section.boundarySupplementaryItems = [header]
         section.interGroupSpacing = 8.0
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         
         return section
@@ -87,16 +84,12 @@ extension MonthDetailsViewController {
         let itemGroup = NSCollectionLayoutItem(layoutSize: itemSize)
         
         //MARK: FIRST GROUP
-        let groupSize = Size(widthDimension: .absolute(513),
+        let groupSize = Size(widthDimension: .estimated(160),
                              heightDimension: .absolute(105))
         
         let horizontalFirstGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
-            repeatingSubitem: itemGroup,
-            count: 3)
-        
-        horizontalFirstGroup.interItemSpacing = .fixed(16.0)
-        horizontalFirstGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+            subitems: [itemGroup])
         
         /// section
         let section = Section(group: horizontalFirstGroup)
@@ -113,10 +106,9 @@ extension MonthDetailsViewController {
         )
         
         section.boundarySupplementaryItems = [header]
-        section.interGroupSpacing = 8.0
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16)
+        section.interGroupSpacing = 16.0
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        
         
         return section
     }
@@ -129,16 +121,12 @@ extension MonthDetailsViewController {
         let itemGroup = NSCollectionLayoutItem(layoutSize: itemSize)
         
         //MARK: FIRST GROUP
-        let groupSize = Size(widthDimension: .absolute(868),
+        let groupSize = Size(widthDimension: .estimated(160),
                              heightDimension: .absolute(105))
         
         let horizontalFirstGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
-            repeatingSubitem: itemGroup,
-            count: 4)
-        
-        horizontalFirstGroup.interItemSpacing = .fixed(16.0)
-        horizontalFirstGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+            subitems: [itemGroup])
         
         /// section
         let section = Section(group: horizontalFirstGroup)
@@ -155,10 +143,9 @@ extension MonthDetailsViewController {
         )
 
         section.boundarySupplementaryItems = [header]
-        section.interGroupSpacing = 8.0
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16)
+        section.interGroupSpacing = 16.0
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        
         
         return section
     }

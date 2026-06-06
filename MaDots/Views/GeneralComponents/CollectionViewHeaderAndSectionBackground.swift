@@ -45,7 +45,7 @@ final class SectionBackgroundView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .fillTimer
+        backgroundColor = .fillsSecondary
         layer.cornerRadius = 16
         layer.masksToBounds = true
         

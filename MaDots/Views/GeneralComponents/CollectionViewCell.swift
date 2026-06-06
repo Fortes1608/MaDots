@@ -65,8 +65,27 @@ class CollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
+    lazy var singleDotView: UIView = {
+        let dot = UIView()
+        dot.translatesAutoresizingMaskIntoConstraints = false
+        dot.layer.cornerRadius = 15
+        dot.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        dot.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dot.isHidden = true
+        return dot
+    }()
+    
+    lazy var labelStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [singleDotView, lowerLabel])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.alignment = .center
+        return stack
+    }()
+    
     lazy var stackWithImage: UIStackView = {
-        var stack = UIStackView(arrangedSubviews: [lowerLabel, dotsStackView])
+        var stack = UIStackView(arrangedSubviews: [labelStack, dotsStackView])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.spacing = 8
@@ -74,7 +93,7 @@ class CollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage?, dotsCount: Int? = nil, dotsColor: UIColor? = nil) {
+    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage?, dotsCount: Int? = nil, dotsColor: UIColor? = nil, singleDotColor: UIColor? = nil) {
         
         self.upperLabel.text = upperLabel
         if let image {
@@ -82,7 +101,7 @@ class CollectionViewCell: UICollectionViewCell {
         }
         
         if let dotsCount = dotsCount, dotsCount > 0, let color = dotsColor {
-            self.lowerLabel.isHidden = true
+            self.labelStack.isHidden = true
             self.dotsStackView.isHidden = false
             
             // clear old dots
@@ -100,8 +119,15 @@ class CollectionViewCell: UICollectionViewCell {
             }
         } else {
             self.lowerLabel.text = lowerLabel
-            self.lowerLabel.isHidden = false
+            self.labelStack.isHidden = false
             self.dotsStackView.isHidden = true
+            
+            if let singleColor = singleDotColor {
+                self.singleDotView.backgroundColor = singleColor
+                self.singleDotView.isHidden = false
+            } else {
+                self.singleDotView.isHidden = true
+            }
         }
         
     }
@@ -160,7 +186,7 @@ extension CollectionViewCell: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        self.backgroundColor = .fillTimer
+        self.backgroundColor = .fillTimer // container interior
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
         
