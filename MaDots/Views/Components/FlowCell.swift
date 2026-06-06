@@ -28,11 +28,7 @@ class FlowCell: UITableViewCell {
             ),
             for: .normal
         )
-        button.addTarget(
-            self,
-            action: #selector(buttonTapped),
-            for: .touchUpInside
-        )
+        button.isUserInteractionEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -238,15 +234,6 @@ class FlowCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func buttonTapped() {
-        guard let day = currentDay else { return }
-        let dailyViewController = UINavigationController(
-            rootViewController: DayDetailViewController(day: day)
-        )
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
-            .changeRootViewController(dailyViewController)
-
-    }
 }
 extension FlowCell: ViewSetupProtocol {
 

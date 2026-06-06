@@ -86,7 +86,6 @@ class FlowViewController: UIViewController {
         
         self.rows = buildContent()
         self.tableView.reloadData()
-        tableView.allowsSelection = false
 
         
         setup()
@@ -161,5 +160,13 @@ class FlowViewController: UIViewController {
 extension FlowViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 136
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let day = getFlowList(by: indexPath)
+        let dailyViewController = UINavigationController(rootViewController: DayDetailViewController(day: day))
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+            .changeRootViewController(dailyViewController)
     }
 }
