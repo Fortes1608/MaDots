@@ -18,7 +18,7 @@ class CollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = .secondaryLabel
-        label.attributedText = NSAttributedString(string: "", attributes: [ .font: UIFont.systemFont(ofSize: 20, weight: .regular)])
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
         return label
         
@@ -42,39 +42,66 @@ class CollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.textColor = .labelPrimary
-        label.attributedText = NSAttributedString(string: "", attributes: [ .font: UIFont.systemFont(ofSize: 28, weight: .bold)])
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         
         return label
         
     }()
     
     lazy var circleImage: UIImageView = {
-       
         let image = UIImageView()
-
-        
         image.translatesAutoresizingMaskIntoConstraints = false
-        
         return image
     }()
     
-    lazy var stackWithImage: UIStackView = {
-        
-        var stack = UIStackView(arrangedSubviews: [lowerLabel])
-        
+    lazy var dotsStackView: UIStackView = {
+        let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
+        stack.axis = .horizontal
         stack.spacing = 8
-        
+        stack.alignment = .center
+        stack.distribution = .fillEqually
+        stack.isHidden = true
         return stack
     }()
     
-    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage? ) {
+    lazy var stackWithImage: UIStackView = {
+        var stack = UIStackView(arrangedSubviews: [lowerLabel, dotsStackView])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.spacing = 8
+        stack.alignment = .center
+        return stack
+    }()
+    
+    func configureCell(upperLabel: String, lowerLabel:String, image: UIImage?, dotsCount: Int? = nil, dotsColor: UIColor? = nil) {
         
         self.upperLabel.text = upperLabel
-        self.lowerLabel.text = lowerLabel
         if let image {
             self.circleImage.image = image
+        }
+        
+        if let dotsCount = dotsCount, dotsCount > 0, let color = dotsColor {
+            self.lowerLabel.isHidden = true
+            self.dotsStackView.isHidden = false
+            
+            // clear old dots
+            self.dotsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+            
+            // add new dots
+            for _ in 0..<dotsCount {
+                let dot = UIView()
+                dot.backgroundColor = color
+                dot.layer.cornerRadius = 15
+                dot.translatesAutoresizingMaskIntoConstraints = false
+                dot.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                dot.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                self.dotsStackView.addArrangedSubview(dot)
+            }
+        } else {
+            self.lowerLabel.text = lowerLabel
+            self.lowerLabel.isHidden = false
+            self.dotsStackView.isHidden = true
         }
         
     }

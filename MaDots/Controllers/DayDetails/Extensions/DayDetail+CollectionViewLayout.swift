@@ -17,20 +17,16 @@ extension DayDetailViewController {
         let itemGroup = NSCollectionLayoutItem(layoutSize: itemSize)
         
         //MARK: FIRST GROUP
-        let groupSize = Size(widthDimension: .absolute(540),
+        let groupSize = Size(widthDimension: .estimated(160),
                              heightDimension: .absolute(110))
-
         
         let horizontalFirstGroup = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,
-            repeatingSubitem: itemGroup,
-            count: 3)
-        
-        horizontalFirstGroup.interItemSpacing = .fixed(16.0)
-        horizontalFirstGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0)
+            subitems: [itemGroup])
         
         /// section
         let section = Section(group: horizontalFirstGroup)
+        section.interGroupSpacing = 16.0
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -44,7 +40,7 @@ extension DayDetailViewController {
         )
         
         section.boundarySupplementaryItems = [header]
-        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
                 
         return section
@@ -77,7 +73,7 @@ extension DayDetailViewController {
         
         let itemSecondGroup = Item(layoutSize: itemSizeSecondGroup)
         // second Group
-        let groupSecondSize = Size(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(115))
+        let groupSecondSize = Size(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(90))
         
         let HorizontalSecondGroup = Group.horizontal(
             layoutSize: groupSecondSize,
@@ -85,7 +81,7 @@ extension DayDetailViewController {
             count: 1)
         HorizontalSecondGroup.interItemSpacing = .fixed(16.0)
         
-        let groupVerticalSize = Size(widthDimension: .absolute(361), heightDimension: .absolute(250))
+        let groupVerticalSize = Size(widthDimension: .absolute(361), heightDimension: .absolute(225))
         
         
         let verticalGroup = Group.vertical(layoutSize: groupVerticalSize,

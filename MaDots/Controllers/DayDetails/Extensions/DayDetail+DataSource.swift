@@ -20,6 +20,20 @@ extension DayDetailViewController: UICollectionViewDataSource {
         return categories
     }
     
+    private func formatTime(_ minutes: Int) -> String {
+        if minutes < 60 {
+            return "\(minutes) min"
+        } else {
+            let h = minutes / 60
+            let m = minutes % 60
+            if m == 0 {
+                return "\(h)h"
+            } else {
+                return String(format: "%dh%02d", h, m)
+            }
+        }
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1 + uniqueCategories.count
     }
@@ -56,13 +70,13 @@ extension DayDetailViewController: UICollectionViewDataSource {
             var lowerLabel = ""
             switch labelForCell {
             case "Time":
-                lowerLabel = "\(totalTimeMinutes) min"
+                lowerLabel = formatTime(totalTimeMinutes)
             case "Sections":
                 lowerLabel = "\(totalSessions)"
             case "Largest Single Focus":
                 let grouped = Dictionary(grouping: todayFlows, by: { $0.category })
                 let largest = grouped.values.map { $0.count }.max() ?? 0
-                lowerLabel = "\(largest * 15) min"
+                lowerLabel = formatTime(largest * 15)
             default:
                 lowerLabel = "-"
             }
@@ -77,21 +91,27 @@ extension DayDetailViewController: UICollectionViewDataSource {
             
             var lowerLabel = ""
             var image: UIImage? = nil
+            var dotsCount: Int? = nil
+            var dotsColor: UIColor? = nil
             
             switch labelForCell {
             case "Total Time":
-                lowerLabel = "\(totalTimeMinutes) min"
+                lowerLabel = formatTime(totalTimeMinutes)
             case "Sections":
                 lowerLabel = "\(totalSessions)"
             case "Dots":
-                lowerLabel = "\(totalSessions)"
-                // Optionally map image dots appropriately, simulating UI:
-                // image = UIImage(named: "bolaazul") -> leaving nil to fallback or configuring dot color below?
+                dotsCount = totalSessions
+                if let dicColor = Persistence.loadCategoriesWithColor() {
+                    let cat = categories[indexPath.section - 1]
+                    dotsColor = dicColor[cat.rawValue] ?? .systemBlue
+                } else {
+                    dotsColor = .systemBlue
+                }
             default:
                 lowerLabel = "-"
             }
             
-            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image)
+            cell.configureCell(upperLabel: labelForCell, lowerLabel: lowerLabel, image: image, dotsCount: dotsCount, dotsColor: dotsColor)
             return cell
         }
     }
