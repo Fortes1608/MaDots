@@ -43,6 +43,20 @@ class TimerManager {
         timer = nil
     }
 
+    func advanceTime(by seconds: Int) {
+        guard timer != nil else { return } // Only advance if it was running
+        timeLeft -= seconds
+        
+        if timeLeft <= 0 {
+            timeLeft = 0
+            stop()
+            delegate?.timerDidUpdate(timeLeft: timeLeft)
+            delegate?.timerDidFinish()
+        } else {
+            delegate?.timerDidUpdate(timeLeft: timeLeft)
+        }
+    }
+
     deinit {
         stop()
     }

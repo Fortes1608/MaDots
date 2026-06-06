@@ -45,6 +45,7 @@ class TimerViewController: UIViewController {
     private var dotTimer: Timer?
     private var elapsedTime = 0
     private let interval = 15 
+    private var backgroundDate: Date?
     
     private lazy var fullStack: UIStackView = {
         var stack = UIStackView(arrangedSubviews: [dotStack, dotsStackView ])
@@ -61,6 +62,33 @@ class TimerViewController: UIViewController {
         dotStack.timerDelegate = self
         dotStack.startCountdown()
         startRepeatingDotTimer()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc private func didEnterBackground() {
+        if dotStack.isTimerRunning {
+            backgroundDate = Date()
+        }
+    }
+    
+    @objc private func willEnterForeground() {
+        guard let bgDate = backgroundDate, dotStack.isTimerRunning else { return }
+        let timePassed = Int(Date().timeIntervalSince(bgDate))
+        backgroundDate = nil
+        
+        self.elapsedTime += timePassed
+        let newDots = self.elapsedTime / self.interval
+        self.elapsedTime = self.elapsedTime % self.interval
+        
+        if let dicColor = Persistence.loadCategoriesWithColor(), newDots > 0 {
+            for _ in 0..<newDots {
+                self.dotsStackView.addDot(color: dicColor[category.rawValue] ?? .systemBlue)
+            }
+        }
+        
+        dotStack.advanceTime(by: timePassed)
     }
     
     @objc func buttonSairTapped() {

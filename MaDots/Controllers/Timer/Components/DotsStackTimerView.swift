@@ -93,6 +93,10 @@ class DotsStackTimerView: UIView {
         isTimerRunning = true
     }
     
+    func advanceTime(by seconds: Int) {
+        timer.advanceTime(by: seconds)
+    }
+    
     @objc func handlePlayPauseTapped() {
         if isTimerRunning {
             timer.pauseCountDown()

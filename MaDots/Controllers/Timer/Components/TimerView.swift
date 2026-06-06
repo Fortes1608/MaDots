@@ -47,6 +47,10 @@ class TimerView: UIView {
         timerManager.start()
     }
     
+    func advanceTime(by seconds: Int) {
+        timerManager?.advanceTime(by: seconds)
+    }
+    
     private func updateLabel(with time: Int) {
         let minutes = time / 60
         let seconds = time % 60
