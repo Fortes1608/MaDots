@@ -46,7 +46,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell{
         let attributes: [NSAttributedString.Key: Any] = [
             
             .font: UIFont.systemFont(ofSize: 17, weight: .regular),
-            .foregroundColor: UIColor.black
+            .foregroundColor: UIColor.labelPrimary
             
         ]
         
@@ -64,11 +64,7 @@ class ButtonsCollectionViewCell: UICollectionViewCell{
     
     // Configuration to allow a maximum of three buttons to be selected.
     @objc func buttonSelectedAction() {
-        
-
-        
-
-        
+                
         if !isButtonSelected && ButtonsCollectionViewCell.howManySelected >= 3 {
             
             return

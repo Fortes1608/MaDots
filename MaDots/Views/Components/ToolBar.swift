@@ -52,7 +52,11 @@ class ToolBarComponent: UIView {
         }
 
         
-        toolBar.items?.forEach { $0.tintColor = .labelPrimary }
+        toolBar.items?.forEach {
+            $0.tintColor = .backgroundGray6
+            $0.setTitleTextAttributes([.foregroundColor: UIColor.labelPrimary], for: .normal)
+
+        }
         
         return toolBar
     }()
