@@ -12,7 +12,21 @@ class CategorySelectViewController: UIViewController, BackButtonDelegate {
         buttonFooter.backgroundColor = UIColor.buttonsStill
         self.collection.reloadData()
     }
-    
+    lazy var backButtonItem: UIBarButtonItem = {
+        let button = UIButton(type: .system)
+        button.setTitle("Back", for: .normal)
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.tintColor = .labelPrimary
+        button.semanticContentAttribute = .forceLeftToRight
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return UIBarButtonItem(customView: button)
+    }()
+
+    @objc func backButtonTapped() {
+        let flowViewController = UINavigationController(rootViewController: FlowViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(flowViewController)
+    }
 
     
     //MARK: MAIN TITLE LABEL

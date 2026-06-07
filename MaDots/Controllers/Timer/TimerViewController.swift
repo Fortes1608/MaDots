@@ -44,7 +44,7 @@ class TimerViewController: UIViewController {
     
     private var dotTimer: Timer?
     private var elapsedTime = 0
-    private let interval = 15 
+    private let interval = 60 // PARA TESTE RÁPIDO: mude para 1 para as bolinhas nascerem a cada segundo
     private var backgroundDate: Date?
     
     private lazy var fullStack: UIStackView = {

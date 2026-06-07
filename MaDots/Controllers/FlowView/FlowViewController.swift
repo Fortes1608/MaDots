@@ -109,30 +109,11 @@ class FlowViewController: UIViewController {
     }
     
     @objc func detailsButtonTapped() {
-        let alertController = UIAlertController(
-            title: "Change Categories",
-            message: "When editing the categories, your data will be deleted.",
-            preferredStyle: .alert
-        )
-
-        let alertAction = UIAlertAction(title: "Change", style: .destructive) { _ in
-            let categoryViewController = UINavigationController(rootViewController: CategorySelectViewController())
-            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
-                .changeRootViewController(categoryViewController)
-            
-
-            Persistence.clearFlowList()
-            ButtonsCollectionViewCell.howManySelected = 0
-        }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-
-        alertController.addAction(alertAction)
-        alertController.addAction(cancelAction)
-
-        present(alertController, animated: true)
-
+        let categoryViewController = UINavigationController(rootViewController: CategorySelectViewController())
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+            .changeRootViewController(categoryViewController)
         
+        ButtonsCollectionViewCell.howManySelected = 0
     }
     
     
