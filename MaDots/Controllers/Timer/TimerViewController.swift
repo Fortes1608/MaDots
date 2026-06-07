@@ -44,7 +44,7 @@ class TimerViewController: UIViewController {
     
     private var dotTimer: Timer?
     private var elapsedTime = 0
-    private let interval = 60 // PARA TESTE RÁPIDO: mude para 1 para as bolinhas nascerem a cada segundo
+    private let interval = 900 //TESTE: mude para 15 para as bolinhas nascerem a cada 15 segundos
     private var backgroundDate: Date?
     
     private lazy var fullStack: UIStackView = {
@@ -151,7 +151,6 @@ extension TimerViewController: TimerViewDelegate {
     
     func timerDidFinish() {
             dotStack.startCountdown()
-            self.elapsedTime = 0
             AudioServicesPlayAlertSound(kSystemSoundID_Vibrate)
         }
         

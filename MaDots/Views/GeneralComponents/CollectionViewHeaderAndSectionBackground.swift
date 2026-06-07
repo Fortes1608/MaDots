@@ -45,7 +45,7 @@ final class SectionBackgroundView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .fillsSecondary
+        backgroundColor = .biggerContainerDetail //TESTE: cor do background exterior das sections (container grande)
         layer.cornerRadius = 16
         layer.masksToBounds = true
         

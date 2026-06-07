@@ -4,10 +4,10 @@ class TimerView: UIView {
     
     weak var delegate: TimerViewDelegate?
     
-    private var initialTime: Int = 900 // PARA TESTE RÁPIDO: mude para 15 (segundos) para testar o fim do timer mais rápido
+    private var initialTime: Int = 900 //TESTE: mude para 15 (segundos) para testar o fim do timer mais rápido
     private var timerManager: TimerManager!
     private var newFlow: Flow = .init(category: .Work, date: Date())
-    private var timeLeft: Int = 900 // PARA TESTE RÁPIDO: deve ser o mesmo valor do initialTime acima
+    private var timeLeft: Int = 900 //TESTE: deve ser o mesmo valor do initialTime acima
     
     
     func configure(flow: Flow) {
@@ -63,7 +63,7 @@ extension TimerView: TimerManagerDelegate {
     func timerDidUpdate(timeLeft: Int) {
         DispatchQueue.main.async {
             self.updateLabel(with: timeLeft)
-            let minutesPassed = (self.initialTime - timeLeft) / 60 //tire o 60 para teste
+            let minutesPassed = (self.initialTime - timeLeft) / 60 //TESTE: tire o / 60 para testar o timer rápido
             self.delegate?.timerDidUpdateDots(minuteCount: minutesPassed)
         }
     }

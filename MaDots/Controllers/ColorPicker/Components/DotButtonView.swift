@@ -11,7 +11,7 @@ class DotButtonView: UIButton {
 
     var originalColor: UIColor = UIColor.secondaryLabel  //Cor padrão do botao (cinza)
     var groupID: Int = 0 //"Linha" do botao
-    var isSelectable: Bool = true //Teste?
+    var isSelectable: Bool = true
 
     
     var dotColor: UIColor {

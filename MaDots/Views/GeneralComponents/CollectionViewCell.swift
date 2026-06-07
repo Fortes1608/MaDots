@@ -186,7 +186,7 @@ extension CollectionViewCell: ViewSetupProtocol {
     
     func setupAdditionalConfiguration() {
         
-        self.backgroundColor = .fillTimer // container interior
+        self.backgroundColor = .smallContainerDetail //TESTE: cor do background interior das sections (container pequeno)
         self.layer.cornerRadius = 12
         self.layer.masksToBounds = true
         
