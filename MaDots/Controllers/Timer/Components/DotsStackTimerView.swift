@@ -59,7 +59,7 @@ class DotsStackTimerView: UIView {
     private func setupDots() {
         for _ in 0..<totalDots {
             let dot = DotButtonView()
-            dot.backgroundColor = UIColor.fillTimer //TESTE: cor das bolinhas vazias/sombreadas no entorno do timer
+            dot.backgroundColor = UIColor.fillTimer
             dots.append(dot)
             addSubview(dot)
         }
@@ -84,7 +84,7 @@ class DotsStackTimerView: UIView {
     
     func updateDots(count: Int, activeColor: UIColor) {
         for (index, dot) in dots.enumerated() {
-            dot.backgroundColor = index < count ? activeColor : UIColor.fillTimer //TESTE: cor das bolinhas vazias/sombreadas no entorno do timer
+            dot.backgroundColor = index < count ? activeColor : UIColor.fillTimer 
         }
     }
     
