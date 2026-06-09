@@ -6,27 +6,30 @@
 //
 
 
-enum CategoriesType: String, Codable{
+struct CategoriesType: Codable, RawRepresentable, Equatable, Hashable {
+    var rawValue: String
     
-    case Meditation = "Meditation"
-    case Work = "Work"
-    case Study = "Study"
-    case Writing = "Writing"
-    case Reading = "Reading"
-    case Creation = "Creation"
-    case Planning = "Planning"
-    case Art = "Art"
-    case Exercise = "Exercise"
-    case Search = "Search"
-    case Organization = "Organization"
-    case Design = "Design"
-    case Code = "Code"
-    case other = "other"
+    init(rawValue: String) {
+        self.rawValue = rawValue
+    }
     
-}
-extension CategoriesType {
     init?(from string: String) {
         self.init(rawValue: string)
     }
+    
+    static let Meditation = CategoriesType(rawValue: "Meditation")
+    static let Work = CategoriesType(rawValue: "Work")
+    static let Study = CategoriesType(rawValue: "Study")
+    static let Writing = CategoriesType(rawValue: "Writing")
+    static let Reading = CategoriesType(rawValue: "Reading")
+    static let Creation = CategoriesType(rawValue: "Creation")
+    static let Planning = CategoriesType(rawValue: "Planning")
+    static let Art = CategoriesType(rawValue: "Art")
+    static let Exercise = CategoriesType(rawValue: "Exercise")
+    static let Search = CategoriesType(rawValue: "Search")
+    static let Organization = CategoriesType(rawValue: "Organization")
+    static let Design = CategoriesType(rawValue: "Design")
+    static let Code = CategoriesType(rawValue: "Code")
+    static let other = CategoriesType(rawValue: "other")
 }
 
