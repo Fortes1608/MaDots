@@ -109,7 +109,8 @@ class MatrixViewController: UIViewController {
     
     func savingPickedColors() {
         guard let cats = categories else { return }
-        var dict: [String: UIColor] = [:]
+        
+        var dict: [String: UIColor] = Persistence.loadCategoriesWithColor() ?? [:]
 
         for i in 0..<cats.count {
             if let color = selection[i] {
@@ -123,7 +124,7 @@ class MatrixViewController: UIViewController {
     func continueButtonAction() {
         savingPickedColors()
         
-        if categories?.count == Persistence.loadCategoriesWithColor()?.count {
+        if selection.compactMap({ $0 }).count == categories?.count {
             
     
             let navigationController = UINavigationController()

@@ -35,7 +35,7 @@ class CategorySelectViewController: UIViewController, BackButtonDelegate {
         var label = UILabel()
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Select up to three categories"
+        label.text = "Select exactly three categories"
         label.font = .systemFont(ofSize: 28, weight: .bold)
         label.textColor = .labelPrimary
         label.textAlignment = .center
@@ -79,18 +79,18 @@ class CategorySelectViewController: UIViewController, BackButtonDelegate {
     
     //MARK: UPDATE BUTTON FOOTER COLLOR 
     private func updateButtonFooterState() {
-        let isAnySelected = ButtonsCollectionViewCell.howManySelected > 0
+        let isExactlyThreeSelected = ButtonsCollectionViewCell.howManySelected == 3
 
         buttonFooter.layer.cornerRadius = 20
 
 
-        if isAnySelected {
+        if isExactlyThreeSelected {
             buttonFooter.backgroundColor = UIColor.buttonsClicked
         } else {
             buttonFooter.backgroundColor = UIColor.buttonsStill
         }
 
-        buttonFooter.backgroundColor = isAnySelected ? UIColor.buttonsClicked : UIColor.buttonsStill
+        buttonFooter.backgroundColor = isExactlyThreeSelected ? UIColor.buttonsClicked : UIColor.buttonsStill
 
 
         

@@ -23,7 +23,7 @@ extension CategorySelectViewController {
     
     func buttonAction() {
         
-        if ButtonsCollectionViewCell.howManySelected >= 1 {
+        if ButtonsCollectionViewCell.howManySelected == 3 {
             
             let matrixVC = MatrixViewController()
             matrixVC.delegate = self
@@ -37,7 +37,7 @@ extension CategorySelectViewController {
             
         } else {
             
-            let alertController = UIAlertController(title: "No Categories", message: "Please, select at least one category", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Select 3 Categories", message: "Please, select exactly 3 categories to continue.", preferredStyle: .alert)
             
             let alertAction = UIAlertAction(title: "Ok", style: .default)
             alertController.addAction(alertAction)
